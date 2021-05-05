@@ -1,0 +1,8 @@
+.grid-view {
+  border: 3px solid red;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  background: #222831;
+}

@@ -1,0 +1,83 @@
+.card {
+  border: 1px solid #393e46;
+  border-radius: .3em;
+  margin: .5em;
+  width: 15em;
+  height: 15em;
+  display: flex;
+  flex-direction: column;
+  background: #393e46;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
+}
+
+.card:hover {
+  border: 1px solid #0092ca;
+}
+
+.top {
+  /* border: 3px solid red; */
+  /* border-bottom: 1px solid #00adb5; */
+  height: 2em;
+}
+
+.middle {
+  /* border: 3px solid var(--midblue); */
+  flex-grow: 1;
+  position: relative;
+}
+
+.bottom {
+  height: 2em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 5;
+}
+
+.image {
+  /* border: 3px solid red; */
+  border-top-left-radius: .3em;
+  border-top-right-radius: .3em;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.image:hover {
+  cursor: zoom-in;
+}
+
+/* background-image version*/
+/* .Bimage {
+  border: 3px solid red;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+} */
+
+.save-btn {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #393e46;
+  border: 1px solid #393e46;
+  /* border-top-left-radius: .3em; */
+  border-bottom-right-radius: .3em;
+  font-size: .9em;
+}
+
+.save-btn:hover {
+  border: 1px solid #0092ca;
+  /* border-top-left-radius: .3em; */
+  border-bottom-right-radius: .3em;
+  background: #0092ca;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.icon {
+  width: 1em;
+}
