@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export function authRedirect() {
   const state = uuidv4()
   window.localStorage.setItem('redirect_state', state)
-  window.location.href = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.REACT_APP_REDDIT_CLIENTID}&response_type=code&state=${state}&redirect_uri=${process.env.REACT_APP_REDDIT_REDIRECT_URI}&duration=permanent&scope=identity history`
+  window.location.href = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.REACT_APP_REDDIT_CLIENTID}&response_type=code&state=${state}&redirect_uri=${process.env.REACT_APP_REDDIT_REDIRECT_URI}&duration=permanent&scope=identity history save`
 }
 
 export async function authorize() {
@@ -41,14 +41,9 @@ export function refreshAccessToken() {
   })
 }
 
-async function apiRequest(path, access_token) {
+async function apiRequest(path, options) {
   try {
-    const res = await fetch(path, {
-      headers: {
-        // 'User-Agent': process.env.REACT_APP_REDDIT_USERAGENT,
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
+    const res = await fetch(path, options)
     // console.log('x-ratelimit-remaining:', res.headers.get('x-ratelimit-remaining'))
     // console.log('x-ratelimit-reset:', res.headers.get('x-ratelimit-reset'))
     // console.log('x-ratelimit-used:', res.headers.get('x-ratelimit-used'))
@@ -74,12 +69,39 @@ async function apiRequest(path, access_token) {
 }
 
 export function getMe(access_token) {
-  return apiRequest('https://oauth.reddit.com/api/v1/me', access_token)
+  return apiRequest('https://oauth.reddit.com/api/v1/me', {
+    headers: { 'Authorization': `Bearer ${access_token}` }
+  })
 }
 
-export function getSavedContent(access_token, username, options) {
-  const { type, before, after, count, limit = 3 } = options
-  return apiRequest(`https://oauth.reddit.com/user/${username}/saved?type=${type}&before=${before}&after=${after}&count=${count}&limit=${limit}`, access_token)
+export function getSavedContent(access_token, username, params) {
+  const { type, before, after, count, limit = 3 } = params
+  return apiRequest(`https://oauth.reddit.com/user/${username}/saved?type=${type}&before=${before}&after=${after}&count=${count}&limit=${limit}`,
+    {
+      headers: { 'Authorization': `Bearer ${access_token}` }
+    })
+}
+
+export function unsaveContent(id, access_token) {
+  return apiRequest('https://oauth.reddit.com/api/unsave', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${access_token}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `id=${id}`
+  })
+}
+
+export function saveContent(id, access_token) {
+  return apiRequest('https://oauth.reddit.com/api/save', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${access_token}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `id=${id}`
+  })
 }
 
 export async function getFakeData() {

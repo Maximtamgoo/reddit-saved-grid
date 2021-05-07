@@ -12,7 +12,7 @@ import GridView from '../../components/GridView/GridView';
 function ViewSavedPage() {
   console.log('ViewSavedPage')
   const [data, getNext, loading, error] = useSavedContent()
-  console.log('data:', data)
+  // console.log('data:', data)
 
   if (error) {
     return (

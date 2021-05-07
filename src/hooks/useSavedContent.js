@@ -9,9 +9,9 @@ export default function useSavedContent() {
   // const [more, setMore] = useState(true)
   const [next, setNext] = useState(false)
 
-  // const [options, setOptions] = useState({ after: undefined, count: undefined })
-  // const optionsRef = useRef()
-  // optionsRef.current = options
+  const [options, setOptions] = useState({ after: undefined, count: undefined })
+  const optionsRef = useRef()
+  optionsRef.current = options
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -62,27 +62,28 @@ export default function useSavedContent() {
           try {
             setNext(false)
             console.log('useEffect getSavedContent: if username && more')
-            // const access_token = access_tokenRef.current
-            // const savedContent = await reddit.getSavedContent(access_token, username, optionsRef.current)
-            const fakeItems = await reddit.getFakeData()
+            const access_token = access_tokenRef.current
+            const savedContent = await reddit.getSavedContent(access_token, username, optionsRef.current)
+            // const fakeItems = await reddit.getFakeData()
+            console.log('savedContent:', savedContent)
             
-            // const { after, dist: count } = savedContent.data
-            // setOptions({ after, count })
+            const { after, dist: count } = savedContent.data
+            setOptions({ after, count })
 
-            // const newItems = savedContent.data.children.map(item => {
-            //   const parsedItem = {
-            //     id: null,
-            //     thumbnail: null
-            //   }
-            //   if (item?.kind === 't3') {
-            //     parsedItem.id = item.data.id
-            //     parsedItem.thumbnail = item.data.url
-            //   }
-            //   return parsedItem
-            // })
+            const newItems = savedContent.data.children.map(item => {
+              const parsedItem = {
+                id: null,
+                thumbnail: null
+              }
+              if (item?.kind === 't3') {
+                parsedItem.id = item.data.name
+                parsedItem.thumbnail = item.data.url
+              }
+              return parsedItem
+            })
 
             setData((oldData) => ([
-              ...oldData, ...fakeItems
+              ...oldData, ...newItems
             ]))
             // setLoading(false)
 

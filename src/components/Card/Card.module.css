@@ -27,11 +27,10 @@
 }
 
 .bottom {
-  height: 2em;
+  height: 1.5em;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  z-index: 5;
 }
 
 .image {
@@ -59,19 +58,16 @@
 } */
 
 .save-btn {
+  border: none;
   height: 100%;
   display: flex;
   align-items: center;
   background: #393e46;
-  border: 1px solid #393e46;
-  /* border-top-left-radius: .3em; */
   border-bottom-right-radius: .3em;
-  font-size: .9em;
 }
 
 .save-btn:hover {
   border: 1px solid #0092ca;
-  /* border-top-left-radius: .3em; */
   border-bottom-right-radius: .3em;
   background: #0092ca;
   color: #ffffff;
@@ -79,5 +75,5 @@
 }
 
 .icon {
-  width: 1em;
+  width: 1.5em;
 }
