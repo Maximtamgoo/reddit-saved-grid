@@ -1,9 +1,7 @@
 .card {
   border: 1px solid #393e46;
   border-radius: .3em;
-  margin: .5em;
-  width: 15em;
-  height: 15em;
+  height: 16em;
   display: flex;
   flex-direction: column;
   background: #393e46;
@@ -16,7 +14,6 @@
 
 .top {
   /* border: 3px solid red; */
-  /* border-bottom: 1px solid #00adb5; */
   height: 2em;
 }
 
@@ -35,11 +32,11 @@
 
 .image {
   /* border: 3px solid red; */
-  border-top-left-radius: .3em;
-  border-top-right-radius: .3em;
+  border-radius: .3em .3em 0 0;
   position: absolute;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   object-fit: cover;
 }
 
@@ -67,10 +64,8 @@
 }
 
 .save-btn:hover {
-  border: 1px solid #0092ca;
-  border-bottom-right-radius: .3em;
+  /* border: 1px solid #0092ca; */
   background: #0092ca;
-  color: #ffffff;
   cursor: pointer;
 }
 

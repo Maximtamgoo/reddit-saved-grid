@@ -9,7 +9,7 @@ function setTokenCookies() {
 
       const expires_at = Date.now() + (expires_in * 1000) - (60 * 1000)
 
-      const cookieOptions = { sameSite: 'strict', secure: true }
+      const cookieOptions = { sameSite: 'strict', secure: false }
       res.cookie('access_token', access_token, { ...cookieOptions, expires: new Date(expires_at) })
       res.cookie('refresh_token', refresh_token, { ...cookieOptions, httpOnly: true, signed: true })
       res.send()
@@ -21,3 +21,7 @@ function setTokenCookies() {
 }
 
 module.exports = setTokenCookies
+
+
+// todo set up dev & prod env
+// todo figure out starting nodemon with dev & prod env

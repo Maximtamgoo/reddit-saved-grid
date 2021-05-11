@@ -1,8 +1,18 @@
 .grid-view {
   /* border: 3px solid red; */
   /* padding: 1em; */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
+  /* align-items: center; */
   background: #222831;
+  padding: 1em;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12em, 16em));
+
+  gap: 1em;
+
+  justify-content: center;
+  /* align-items: center; */
 }

@@ -10,6 +10,14 @@ function Card({ id, imgSrc }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  if (error) {
+    return (
+      <div className={style.card}>
+        {`${error}`}
+      </div>
+    )
+  }
+
   async function handleClick() {
     try {
       setLoading(true)

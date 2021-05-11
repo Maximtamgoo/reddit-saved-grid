@@ -5,6 +5,7 @@ const pathname = window.location.pathname
 const urlParams = new URLSearchParams(window.location.search)
 const redirectParams = { state: urlParams.get('state'), code: urlParams.get('code') }
 const redirectState = window.localStorage.getItem('redirect_state')
+window.localStorage.clear()
 
 export default function useAuth() {
   const [isAuthed, setIsAuthed] = useState(false)
@@ -12,6 +13,9 @@ export default function useAuth() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    // console.log('pathname:', pathname)
+    // console.log('redirectState:', redirectState)
+    // console.log('redirectParams.state:', redirectParams.state)
     if (pathname === '/auth_callback' && redirectState === redirectParams.state) {
       console.log('useEffect redirect: if')
       window.history.replaceState({}, document.title, "/")
