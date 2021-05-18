@@ -7,7 +7,8 @@ function GridView({ list }) {
     <div className={style['grid-view']}>
       {list.map(item => {
         return (
-          <Card key={item.id} id={item.id} imgSrc={item.thumbnail} />
+          <Card key={item.id} id={item.id}
+            imgSrc={item.src} />
         )
       })}
     </div>

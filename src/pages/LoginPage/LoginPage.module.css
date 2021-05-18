@@ -1,0 +1,27 @@
+.login {
+  background: var(--bg);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5em;
+}
+
+.title {
+  font-size: 3em;
+}
+
+.btn {
+  background: var(--grey);
+  padding: .5em;
+  font-size: 1.5em;
+  border: 1px solid var(--blue);
+  border-radius: .3em;
+}
+
+.btn:hover {
+  background: var(--blue);
+  cursor: pointer;
+}

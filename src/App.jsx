@@ -1,6 +1,6 @@
 import './App.css';
 import useAuth from './hooks/useAuth';
-import { LoginPage, ViewSavedPage } from './pages';
+import { LoginPage, MainPage } from './pages';
 
 function App() {
   // console.log('App')
@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      {isAuthed ? <ViewSavedPage /> : <LoginPage />}
+      {isAuthed ? <MainPage /> : <LoginPage />}
     </div>
   );
 }

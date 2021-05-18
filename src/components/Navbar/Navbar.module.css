@@ -1,0 +1,27 @@
+.navbar {
+  /* border: 1px solid red; */
+  background: var(--bg);
+  display: flex;
+  padding: 1em;
+}
+
+.title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.btn {
+  background: var(--grey);
+  padding: .5em;
+  font-size: 1em;
+  border: none;
+  border-radius: .3em;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
+}
+
+.btn:hover {
+  background: var(--blue);
+  cursor: pointer;
+}

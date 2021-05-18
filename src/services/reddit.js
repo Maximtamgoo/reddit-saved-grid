@@ -76,7 +76,7 @@ export function getMe(access_token) {
 }
 
 export function getSavedContent(access_token, username, params) {
-  const { type, before, after, count, limit = 3 } = params
+  const { type, before, after, count, limit = 20 } = params
   return apiRequest(`https://oauth.reddit.com/user/${username}/saved?type=${type}&before=${before}&after=${after}&count=${count}&limit=${limit}&raw_json=1`,
     {
       headers: { 'Authorization': `Bearer ${access_token}` }

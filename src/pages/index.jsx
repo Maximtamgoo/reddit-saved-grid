@@ -1,4 +1,4 @@
 import LoginPage from './LoginPage/LoginPage'
-import ViewSavedPage from './ViewSavedPage/ViewSavedPage'
+import MainPage from './MainPage/MainPage'
 
-export { LoginPage, ViewSavedPage }
+export { LoginPage, MainPage }

@@ -1,15 +1,17 @@
 .card {
-  border: 1px solid #393e46;
+  border: 1px solid var(--grey);
   border-radius: .3em;
-  height: 16em;
+  margin: .5em;
+  width: 20em;
+  height: 20em;
   display: flex;
   flex-direction: column;
-  background: #393e46;
+  background: var(--grey);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
 }
 
 .card:hover {
-  border: 1px solid #0092ca;
+  border: 1px solid var(--blue);
 }
 
 .top {
@@ -37,7 +39,7 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .image:hover {
@@ -45,27 +47,26 @@
 }
 
 /* background-image version*/
-/* .Bimage {
-  border: 3px solid red;
+.Bimage {
+  /* border: 3px solid red; */
   height: 100%;
   width: 100%;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-} */
+}
 
 .save-btn {
   border: none;
   height: 100%;
   display: flex;
   align-items: center;
-  background: #393e46;
+  background: var(--grey);
   border-bottom-right-radius: .3em;
 }
 
 .save-btn:hover {
-  /* border: 1px solid #0092ca; */
-  background: #0092ca;
+  background: var(--blue);
   cursor: pointer;
 }
 

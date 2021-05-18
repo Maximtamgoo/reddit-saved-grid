@@ -1,6 +1,7 @@
-import style from './ViewSavedPage.module.css';
+import style from './MainPage.module.css';
 import useSavedContent from '../../hooks/useSavedContent';
 import GridView from '../../components/GridView/GridView';
+import Navbar from '../../components/Navbar/Navbar';
 
 // const fakeList = []
 // for (let i = 0; i < 10; i++) {
@@ -9,8 +10,8 @@ import GridView from '../../components/GridView/GridView';
 
 // console.log('fakeList:', fakeList)
 
-function ViewSavedPage() {
-  console.log('ViewSavedPage')
+function MainPage() {
+  console.log('MainPage')
   const [data, getNext, loading, error] = useSavedContent()
   // console.log('data:', data)
 
@@ -25,7 +26,7 @@ function ViewSavedPage() {
   if (loading) {
     return (
       <div>
-        ViewSavedPage Loading...
+        MainPage Loading...
       </div>
     )
   }
@@ -39,8 +40,8 @@ function ViewSavedPage() {
   }
 
   return (
-    <div className={style['view-saved-page']}>
-      View Saved Page
+    <div className={style.main}>
+      <Navbar/>
       <GridView list={data} />
       <button onClick={handle_nextSavedContent}>Next Saved Content</button>
       <button onClick={handle_SignOut}>Sign Out</button>
@@ -48,4 +49,4 @@ function ViewSavedPage() {
   )
 }
 
-export default ViewSavedPage;
+export default MainPage;

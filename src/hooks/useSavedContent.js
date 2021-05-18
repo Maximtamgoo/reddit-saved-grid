@@ -73,23 +73,25 @@ export default function useSavedContent() {
           }
           const savedContent = await reddit.getSavedContent(access_token, username, optionsRef.current)
           // const fakeItems = await reddit.getFakeData()
-          // console.log('savedContent:', savedContent)
+          console.log('savedContent:', savedContent)
 
           const { after, dist: count } = savedContent.data
           setOptions({ after, count })
 
           const newItems = savedContent.data.children.map(item => {
-            const parsedItem = {
-              id: null,
-              thumbnail: null
-            }
+            const { name, over_18, post_hint, preview } = item.data
+            const parsedItem = { id: name, over_18, post_hint, src: undefined }
+            console.log('parsedItem:', parsedItem)
             if (item?.kind === 't3') {
-              // console.log('name:', item?.data?.name)
-              // console.log('preview:', item?.data?.preview?.images[0]?.source?.url)
-              parsedItem.id = item.data.name
-              parsedItem.thumbnail = item.data.preview.images[0].source.url
-
+              // if (over_18 && (post_hint === 'image' || post_hint === 'link')) {
+              //   const { nfsw, obfuscated } = preview.images[0].variants
+              //   const variant = nfsw || obfuscated
+              //   parsedItem.src = variant.resolutions[variant.resolutions.length - 1].url
+              // } else if (post_hint === 'image' || post_hint === 'link') {
+                parsedItem.src = preview?.images[0].resolutions[preview.images[0].resolutions.length - 1].url
+              // }
             }
+
             return parsedItem
           })
 
@@ -99,6 +101,7 @@ export default function useSavedContent() {
           // setLoading(false)
 
         } catch (error) {
+          console.log('error:', error)
           setError(error)
           setLoading(false)
         }
