@@ -26,6 +26,7 @@
 }
 
 .bottom {
+  border: 1px solid green;
   height: 1.5em;
   display: flex;
   justify-content: flex-end;
@@ -71,5 +72,11 @@
 }
 
 .icon {
-  width: 1.5em;
+  border: 1px solid red;
+  /* width: 100%; */
+  /* fill: var(--blue); */
 }
+
+/* .icon:hover {
+  fill: var(--blue);
+} */

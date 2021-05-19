@@ -3,7 +3,10 @@ import { useState } from 'react';
 import * as reddit from '../../services/reddit'
 import getCookie from '../../utils/getCookie'
 import { ReactComponent as SaveIcon } from '../../svg/plus.svg';
-import { ReactComponent as UnsaveIcon } from '../../svg/x.svg';
+// import { ReactComponent as UnsaveIcon } from '../../svg/x.svg';
+// import { ReactComponent as UnsaveIcon } from '../../svg/star.svg';
+import { ReactComponent as UnsaveIcon } from '../../svg/heart.svg';
+
 
 function Card({ id, imgSrc }) {
   const [saved, setSaved] = useState(true)
@@ -50,14 +53,15 @@ function Card({ id, imgSrc }) {
         <img className={style.image} src={imgSrc} alt="thumbnail" />
       </div>
       <div className={style.bottom}>
-        {loading ? 'loading...': 
+      <UnsaveIcon className={style.icon} />
+        {/* {loading ? 'loading...': 
           <button className={style['save-btn']} onClick={handleClick}>
             {saved ?
-              <><UnsaveIcon className={style.icon} /><b>Unsave</b></>
+              <UnsaveIcon style={{}} className={style.icon} />
               :
               <><SaveIcon className={style.icon} /><b>Save</b></>}
           </button>
-        }
+        } */}
 
         {/* <button className={style['save-btn']}>
           <UnsaveIcon className={style.icon} />Unsave

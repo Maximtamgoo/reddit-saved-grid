@@ -35,16 +35,11 @@ function MainPage() {
     getNext()
   }
 
-  function handle_SignOut() {
-    console.log('handle_SignOut()')
-  }
-
   return (
     <div className={style.main}>
       <Navbar/>
       <GridView list={data} />
       <button onClick={handle_nextSavedContent}>Next Saved Content</button>
-      <button onClick={handle_SignOut}>Sign Out</button>
     </div>
   )
 }
