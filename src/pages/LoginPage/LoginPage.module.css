@@ -10,7 +10,9 @@
 }
 
 .title {
+  color: var(--blue);
   font-size: 3em;
+  text-align: center;
 }
 
 .btn {

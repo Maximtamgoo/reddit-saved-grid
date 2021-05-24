@@ -1,20 +1,28 @@
 .navbar {
-  /* border: 1px solid red; */
+  /* border: 1px solid green; */
   background: var(--bg);
   display: flex;
-  padding: 1em;
+  padding: .5em;
 }
 
 .title {
   color: var(--blue);
   flex-grow: 1;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   font-size: 1.5em;
 }
 
 .title:hover {
   cursor: pointer;
+}
+
+.wrapper {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15em;
 }
 
 .btn {

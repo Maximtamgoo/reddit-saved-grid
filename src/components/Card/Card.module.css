@@ -74,6 +74,7 @@
 .icon {
   border: 1px solid red;
   /* width: 100%; */
+  stroke: var(--blue);
   /* fill: var(--blue); */
 }
 

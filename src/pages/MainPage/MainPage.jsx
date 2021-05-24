@@ -37,7 +37,7 @@ function MainPage() {
 
   return (
     <div className={style.main}>
-      <Navbar/>
+      <Navbar />
       <GridView list={data} />
       <button onClick={handle_nextSavedContent}>Next Saved Content</button>
     </div>
