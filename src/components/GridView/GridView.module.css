@@ -1,15 +1,17 @@
 .grid-view {
-  display: flex;
+  /* border: 1px solid red; */
+  /* display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 
   background: var(--bg);
-  
-  /* padding: .5em; */
 
-  /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+  padding: .5em;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+  /* grid-template-columns: repeat(5, 1fr); */
   gap: 1em;
-  justify-content: center; */
+  justify-content: flex-end;
 }

@@ -1,50 +1,28 @@
 .card {
-  border: 1px solid var(--grey);
+  border: 2px solid var(--grey);
   border-radius: .3em;
-  margin: .5em;
-  width: 20em;
-  height: 20em;
-  display: flex;
-  flex-direction: column;
+  /* margin: .5em; */
+  /* max-width: 15em; */
+  height: 15em;
   background: var(--grey);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-  border: 1px solid var(--blue);
-}
-
-.top {
-  /* border: 3px solid red; */
-  height: 2em;
-}
-
-.middle {
-  /* border: 3px solid var(--midblue); */
-  flex-grow: 1;
-  position: relative;
-}
-
-.bottom {
-  border: 1px solid green;
-  height: 1.5em;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  border: 2px solid var(--blue);
 }
 
 .image {
-  /* border: 3px solid red; */
-  border-radius: .3em .3em 0 0;
-  position: absolute;
+  /* pointer-events:none; */
+  /* border: 2px solid var(--grey); */
+  border-radius: .3em;
+  /* filter: blur(1em); */
   height: 100%;
   width: 100%;
-  overflow: hidden;
-  object-fit: contain;
-}
 
-.image:hover {
-  cursor: zoom-in;
+  object-fit: contain;
 }
 
 /* background-image version*/
@@ -57,7 +35,82 @@
   background-repeat: no-repeat;
 }
 
-.save-btn {
+.actions {
+  /* border: 1px solid red; */
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.card:hover .actions {
+  display: block;
+}
+
+.btn {
+  /* box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%); */
+  /* border: 1px solid var(--blue); */
+  width: 2em;
+  height: 2em;
+  background: var(--grey);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.btn:hover {
+  background: var(--blue);
+}
+
+.btn:hover .icon {
+  stroke: black;
+}
+
+.maximize-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-right: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  border-radius: 0 0 .3em 0;
+}
+
+.maximize-btn:hover {
+  border-top-left-radius: 0;
+}
+
+.ext-link-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-left: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  border-radius: 0 0 0 .3em;
+}
+
+.eye-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+  border-radius: 0 .3em 0 0;
+}
+
+.heart-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-top: 2px solid var(--blue);
+  border-left: 2px solid var(--blue);
+  border-radius: .3em 0 0 0;
+}
+
+/* .save-btn {
   border: none;
   height: 100%;
   display: flex;
@@ -69,10 +122,10 @@
 .save-btn:hover {
   background: var(--blue);
   cursor: pointer;
-}
+} */
 
 .icon {
-  border: 1px solid red;
+  /* border: 1px solid green; */
   /* width: 100%; */
   stroke: var(--blue);
   /* fill: var(--blue); */

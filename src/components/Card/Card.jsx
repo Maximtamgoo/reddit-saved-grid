@@ -2,13 +2,13 @@ import style from './Card.module.css'
 // import { useState } from 'react';
 // import * as reddit from '../../services/reddit'
 // import getCookie from '../../utils/getCookie'
-// import { ReactComponent as SaveIcon } from '../../svg/plus.svg';
-// import { ReactComponent as UnsaveIcon } from '../../svg/x.svg';
-// import { ReactComponent as UnsaveIcon } from '../../svg/star.svg';
-import { ReactComponent as UnsaveIcon } from '../../svg/heart.svg';
+import { ReactComponent as HeartIcon } from '../../svg/heart.svg';
 import { ReactComponent as EyeIcon } from '../../svg/eye.svg';
+// import { ReactComponent as EyeOffIcon } from '../../svg/eye-off.svg';
+import { ReactComponent as ExtLinkIcon } from '../../svg/external-link.svg';
+import { ReactComponent as MaximizeIcon } from '../../svg/maximize-2.svg';
 
-function Card({ id, imgSrc }) {
+function Card({ id, imgSrc, over_18 }) {
   // const [saved, setSaved] = useState(true)
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState(null)
@@ -43,34 +43,27 @@ function Card({ id, imgSrc }) {
   // }
 
   // function handleNSFW() {
-    
+
   // }
 
   return (
     <div className={style.card}>
-      {/* <div className={style.top}>
-        top
-      </div> */}
-      <div className={style.middle}>
-        {/* <div className={style.Bimage} style={{ backgroundImage: `url(${imgSrc})` }}></div> */}
+      {/* <div className={style.Bimage} style={{ backgroundImage: `url(${imgSrc})` }}></div> */}
+      <img className={style.image} src={imgSrc} alt="thumbnail" />
 
-        <img className={style.image} src={imgSrc} alt="thumbnail" />
-      </div>
-      <div className={style.bottom}>
-      <EyeIcon className={style.icon} />
-      <UnsaveIcon className={style.icon} />
-        {/* {loading ? 'loading...': 
-          <button className={style['save-btn']} onClick={handleClick}>
-            {saved ?
-              <UnsaveIcon style={{}} className={style.icon} />
-              :
-              <><SaveIcon className={style.icon} /><b>Save</b></>}
-          </button>
-        } */}
-
-        {/* <button className={style['save-btn']}>
-          <UnsaveIcon className={style.icon} />Unsave
-        </button> */}
+      <div className={style.actions}>
+        <div className={`${style.btn} ${style['maximize-btn']}`}>
+          <MaximizeIcon className={style.icon} />
+        </div>
+        <div className={`${style.btn} ${style['ext-link-btn']}`}>
+          <ExtLinkIcon className={style.icon} />
+        </div>
+        <div className={`${style.btn} ${style['eye-btn']}`}>
+          <EyeIcon className={style.icon} />
+        </div>
+        <div className={`${style.btn} ${style['heart-btn']}`}>
+          <HeartIcon className={style.icon} />
+        </div>
       </div>
     </div>
   )

@@ -1,16 +1,18 @@
 .navbar {
-  /* border: 1px solid green; */
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  border-bottom: 2px solid var(--blue);
   background: var(--bg);
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: .5em;
 }
 
 .title {
   color: var(--blue);
-  flex-grow: 1;
-  display: flex;
-  /* align-items: center; */
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .title:hover {
@@ -18,7 +20,6 @@
 }
 
 .wrapper {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -81,15 +81,15 @@ export default function useSavedContent() {
           const newItems = savedContent.data.children.map(item => {
             const { name, over_18, post_hint, preview } = item.data
             const parsedItem = { id: name, over_18, post_hint, src: undefined }
-            console.log('parsedItem:', parsedItem)
+            // console.log('parsedItem:', parsedItem)
             if (item?.kind === 't3') {
-              if (over_18 && (post_hint === 'image' || post_hint === 'link')) {
-                const { nfsw, obfuscated } = preview.images[0].variants
-                const variant = nfsw || obfuscated
-                parsedItem.src = variant.resolutions[variant.resolutions.length - 1].url
-              } else if (post_hint === 'image' || post_hint === 'link') {
+              // if (over_18 && (post_hint === 'image' || post_hint === 'link')) {
+              //   const { nfsw, obfuscated } = preview.images[0].variants
+              //   const variant = nfsw || obfuscated
+              //   parsedItem.src = variant.resolutions[variant.resolutions.length - 1].url
+              // } else if (post_hint === 'image' || post_hint === 'link') {
                 parsedItem.src = preview?.images[0].resolutions[preview.images[0].resolutions.length - 1].url
-              }
+              // }
             }
 
             return parsedItem
