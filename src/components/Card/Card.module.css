@@ -2,8 +2,7 @@
   border: 2px solid var(--grey);
   border-radius: .3em;
   /* margin: .5em; */
-  /* max-width: 15em; */
-  height: 15em;
+  height: 18em;
   background: var(--grey);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   position: relative;
@@ -22,7 +21,7 @@
   height: 100%;
   width: 100%;
 
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* background-image version*/

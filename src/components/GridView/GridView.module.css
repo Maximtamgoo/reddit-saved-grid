@@ -7,11 +7,11 @@
 
   background: var(--bg);
 
-  padding: .5em;
+  padding: 1em .5em;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
-  /* grid-template-columns: repeat(5, 1fr); */
+  /* grid-template-columns: repeat(auto-fit, minmax(20em, 1fr)); */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18em), 1fr));
   gap: 1em;
-  justify-content: flex-end;
+  justify-content: center;
 }
