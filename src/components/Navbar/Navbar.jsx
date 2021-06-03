@@ -16,7 +16,6 @@ function Navbar() {
         <Toggle />
         <button className={style.btn} onClick={handleBtn}>Sign Out</button>
       </div>
-
     </div>
   )
 }
