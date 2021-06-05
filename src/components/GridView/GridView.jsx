@@ -8,8 +8,7 @@ function GridView({ list }) {
       {list.map(item => {
         // if (item.src === undefined) return null
         return (
-          <Card key={item.id} id={item.id} over_18={item.over_18}
-            imgSrc={item.src} />
+          <Card key={item.id} id={item.id} over_18={item.over_18} permalink={item.permalink} imgSrc={item.src} />
         )
       })}
     </div>

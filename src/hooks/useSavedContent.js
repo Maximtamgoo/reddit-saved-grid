@@ -79,8 +79,8 @@ export default function useSavedContent() {
           setOptions({ after, count })
 
           const newItems = savedContent.data.children.map(item => {
-            const { name, over_18, post_hint, preview } = item.data
-            const parsedItem = { id: name, over_18, post_hint, src: undefined }
+            const { name, over_18, post_hint, preview, permalink } = item.data
+            const parsedItem = { id: name, over_18, post_hint, src: undefined, permalink }
             // console.log('parsedItem:', parsedItem)
             if (item?.kind === 't3') {
               // if (over_18 && (post_hint === 'image' || post_hint === 'link')) {

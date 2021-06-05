@@ -61,11 +61,11 @@
   padding: 5px;
 }
 
-.btn:hover {
+/* .btn:hover {
   background: var(--blue);
-}
+} */
 
-.btn:hover .icon {
+.btn:active .icon {
   stroke: black;
 }
 
@@ -109,6 +109,10 @@
   border-radius: .3em 0 0 0;
 }
 
+.heart-btn .icon {
+  fill: var(--blue);
+}
+
 /* .save-btn {
   border: none;
   height: 100%;
@@ -124,12 +128,5 @@
 } */
 
 .icon {
-  /* border: 1px solid green; */
-  /* width: 100%; */
   stroke: var(--blue);
-  /* fill: var(--blue); */
 }
-
-/* .icon:hover {
-  fill: var(--blue);
-} */
