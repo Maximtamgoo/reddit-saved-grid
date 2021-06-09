@@ -6,7 +6,8 @@ import { ReactComponent as HeartIcon } from '../../svg/heart.svg';
 import { ReactComponent as EyeIcon } from '../../svg/eye.svg';
 // import { ReactComponent as EyeOffIcon } from '../../svg/eye-off.svg';
 import { ReactComponent as ExtLinkIcon } from '../../svg/external-link.svg';
-import { ReactComponent as MaximizeIcon } from '../../svg/maximize-2.svg';
+import { ReactComponent as FullMaximizeIcon } from '../../svg/maximize.svg';
+import { ReactComponent as SmallMaximizeIcon } from '../../svg/maximize-2.svg';
 
 function Card({ id, imgSrc, over_18, permalink }) {
   const [saved, setSaved] = useState(true)
@@ -22,6 +23,7 @@ function Card({ id, imgSrc, over_18, permalink }) {
   }
 
   async function handleHeartBtn() {
+    return console.log('Canceled handleHeartBtn!')
     try {
       setLoading(true)
       // await new Promise(r => setTimeout(r, 3000))
@@ -52,8 +54,11 @@ function Card({ id, imgSrc, over_18, permalink }) {
       <img className={style.image} src={imgSrc} alt="thumbnail" />
 
       <div className={style.actions}>
-        <div className={`${style.btn} ${style['maximize-btn']}`}>
-          <MaximizeIcon className={style.icon} />
+      <div className={`${style.btn} ${style['full-maximize-btn']}`}>
+          <FullMaximizeIcon className={style.icon} />
+        </div>
+        <div className={`${style.btn} ${style['small-maximize-btn']}`}>
+          <SmallMaximizeIcon className={style.icon} />
         </div>
         <div className={`${style.btn} ${style['ext-link-btn']}`} onClick={handleExtLink}>
           <ExtLinkIcon className={style.icon} />

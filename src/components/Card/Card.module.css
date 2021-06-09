@@ -16,11 +16,10 @@
 .image {
   /* pointer-events:none; */
   /* border: 2px solid var(--grey); */
-  border-radius: .3em;
+  /* border-radius: .3em; */
   /* filter: blur(1em); */
   height: 100%;
   width: 100%;
-
   object-fit: cover;
 }
 
@@ -37,6 +36,8 @@
 .actions {
   /* border: 1px solid red; */
   display: none;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -45,37 +46,34 @@
 }
 
 .card:hover .actions {
-  display: block;
+  display: flex;
 }
 
 .btn {
-  /* box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%); */
-  /* border: 1px solid var(--blue); */
+  border: 2px solid var(--blue);
+  border-radius: .3em;
+  margin: .2em;
   width: 2em;
   height: 2em;
   background: var(--grey);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
+  padding: 3px;
 }
-
-/* .btn:hover {
-  background: var(--blue);
-} */
 
 .btn:active .icon {
   stroke: black;
 }
 
-.maximize-btn {
+.full-maximize-btn {
+  border-radius: .7em;
+  width: 4em;
+  height: 4em;
+}
+
+.small-maximize-btn {
   position: absolute;
   top: 0;
   left: 0;
-  border-right: 2px solid var(--blue);
-  border-bottom: 2px solid var(--blue);
-  border-radius: 0 0 .3em 0;
 }
 
 .maximize-btn:hover {
@@ -86,47 +84,27 @@
   position: absolute;
   top: 0;
   right: 0;
-  border-left: 2px solid var(--blue);
-  border-bottom: 2px solid var(--blue);
-  border-radius: 0 0 0 .3em;
 }
 
 .eye-btn {
   position: absolute;
   bottom: 0;
   left: 0;
-  border-top: 2px solid var(--blue);
-  border-right: 2px solid var(--blue);
-  border-radius: 0 .3em 0 0;
 }
 
 .heart-btn {
   position: absolute;
   bottom: 0;
   right: 0;
-  border-top: 2px solid var(--blue);
-  border-left: 2px solid var(--blue);
-  border-radius: .3em 0 0 0;
 }
 
 .heart-btn .icon {
   fill: var(--blue);
 }
 
-/* .save-btn {
-  border: none;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  background: var(--grey);
-  border-bottom-right-radius: .3em;
-}
-
-.save-btn:hover {
-  background: var(--blue);
-  cursor: pointer;
-} */
-
 .icon {
+  /* border: 1px solid red; */
+  width: 100%;
+  height: 100%;
   stroke: var(--blue);
 }
