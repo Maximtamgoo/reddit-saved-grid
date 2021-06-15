@@ -1,6 +1,4 @@
 .main {
   background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  padding: 0 .3em;
+  padding: 0 .5em;
 }

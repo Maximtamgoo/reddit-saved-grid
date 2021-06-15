@@ -4,7 +4,7 @@ import Card from '../Card/Card'
 function GridView({ list }) {
 
   return (
-    <div className={style['grid-view']}>
+    <div className={style.grid_view}>
       {list.map(item => {
         // if (item.src === undefined) return null
         return (

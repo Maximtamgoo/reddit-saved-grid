@@ -1,11 +1,9 @@
 .card {
   border: 2px solid var(--grey);
   border-radius: .3em;
-  /* margin: .5em; */
-  height: 18em;
-  background: var(--grey);
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   position: relative;
+  padding-top: 100%;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   overflow: hidden;
 }
 
@@ -13,24 +11,17 @@
   border: 2px solid var(--blue);
 }
 
-.image {
-  /* pointer-events:none; */
-  /* border: 2px solid var(--grey); */
-  /* border-radius: .3em; */
-  /* filter: blur(1em); */
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+.card:hover .image {
+  opacity: .5;
 }
 
-/* background-image version*/
-.Bimage {
-  /* border: 3px solid red; */
-  height: 100%;
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  height: 100%;
+  object-fit: cover;
 }
 
 .actions {
