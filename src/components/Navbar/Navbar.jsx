@@ -12,10 +12,10 @@ function Navbar() {
       <div className={style.title} onClick={() => window.location.href = '/'}>
         Reddit Saved Grid
       </div>
-      <div className={style.wrapper}>
-        <Toggle />
+      {/* <div className={style.wrapper}> */}
+        {/* <Toggle /> */}
         <button className={style.btn} onClick={handleBtn}>Sign Out</button>
-      </div>
+      {/* </div> */}
     </div>
   )
 }
