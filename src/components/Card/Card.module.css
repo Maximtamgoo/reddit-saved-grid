@@ -8,8 +8,9 @@
   cursor: pointer;
 }
 
-.card:hover .image {
-  opacity: .5;
+.card:active {
+  opacity: .3;
+  box-shadow: none;
 }
 
 .image {
