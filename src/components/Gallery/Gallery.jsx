@@ -1,10 +1,10 @@
-import style from './GridView.module.css'
+import style from './Gallery.module.css'
 import Card from '../Card/Card'
 
-function GridView({ list }) {
+function Gallery({ list }) {
 
   return (
-    <div className={style.grid_view}>
+    <div className={style.gallery}>
       {list.map(item => {
         // if (item.src === undefined) return null
         return (
@@ -15,4 +15,4 @@ function GridView({ list }) {
   )
 }
 
-export default GridView;
+export default Gallery;

@@ -1,6 +1,6 @@
 import style from './MainPage.module.css';
 import useSavedContent from '../../hooks/useSavedContent';
-import GridView from '../../components/GridView/GridView';
+import Gallery from '../../components/Gallery/Gallery';
 import Navbar from '../../components/Navbar/Navbar';
 
 // const fakeList = []
@@ -38,7 +38,7 @@ function MainPage() {
   return (
     <div className={style.main}>
       <Navbar />
-      <GridView list={data} />
+      <Gallery list={data} />
       <button onClick={handle_nextSavedContent}>Next Saved Content</button>
     </div>
   )
