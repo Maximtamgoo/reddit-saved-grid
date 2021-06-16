@@ -9,13 +9,8 @@ function Navbar() {
 
   return (
     <div className={style.navbar}>
-      <div className={style.title} onClick={() => window.location.href = '/'}>
-        Reddit Saved Grid
-      </div>
-      {/* <div className={style.wrapper}> */}
-        {/* <Toggle /> */}
-        <button className={style.btn} onClick={handleBtn}>Sign Out</button>
-      {/* </div> */}
+      <div className={style.title}>Reddit Saved Grid</div>
+      <button className={style.btn} onClick={handleBtn}>Sign Out</button>
     </div>
   )
 }

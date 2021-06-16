@@ -4,8 +4,6 @@
   width: 100%;
   z-index: 5;
   border-bottom: 2px solid var(--blue);
-  /* border-top: none; */
-  /* border-radius: 0 0 .3em .3em; */
   background: var(--bg);
   display: flex;
   align-items: center;
@@ -16,17 +14,6 @@
 .title {
   color: var(--blue);
   font-size: 1em;
-}
-
-.title:hover {
-  cursor: pointer;
-}
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 15em;
 }
 
 .btn {
