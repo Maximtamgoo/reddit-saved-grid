@@ -2,7 +2,7 @@
   /* border: 1px solid red; */
   background: var(--bg);
   margin: .5em auto;
-  max-width: 60em;
+  max-width: 55em;
 
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(15em, 1fr)); */
