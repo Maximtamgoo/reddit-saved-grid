@@ -8,6 +8,7 @@ import style from './Card.module.css'
 // import { ReactComponent as ExtLinkIcon } from '../../svg/external-link.svg';
 // import { ReactComponent as FullMaximizeIcon } from '../../svg/maximize.svg';
 // import { ReactComponent as SmallMaximizeIcon } from '../../svg/maximize-2.svg';
+// import { ReactComponent as MoreIcon } from '../../svg/more-vertical.svg';
 
 function Card({ id, imgSrc, over_18, permalink }) {
   // const [saved, setSaved] = useState(true)
@@ -50,26 +51,7 @@ function Card({ id, imgSrc, over_18, permalink }) {
 
   return (
     <div className={style.card}>
-      {/* <div className={style.Bimage} style={{ backgroundImage: `url(${imgSrc})` }}></div> */}
       <img className={style.image} src={imgSrc} alt="thumbnail" />
-
-      {/* <div className={style.actions}>
-        <div className={`${style.btn} ${style['full-maximize-btn']}`}>
-          <FullMaximizeIcon className={style.icon} />
-        </div>
-        <div className={`${style.btn} ${style['small-maximize-btn']}`}>
-          <SmallMaximizeIcon className={style.icon} />
-        </div>
-        <div className={`${style.btn} ${style['ext-link-btn']}`} onClick={handleExtLink}>
-          <ExtLinkIcon className={style.icon} />
-        </div>
-        <div className={`${style.btn} ${style['eye-btn']}`}>
-          <EyeIcon className={style.icon} />
-        </div>
-        <div className={`${style.btn} ${style['heart-btn']}`} onClick={handleHeartBtn}>
-          <HeartIcon className={style.icon} />
-        </div>
-      </div> */}
     </div>
   )
 }

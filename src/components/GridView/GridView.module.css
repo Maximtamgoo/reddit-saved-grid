@@ -1,7 +1,8 @@
 .grid_view {
   /* border: 1px solid red; */
   background: var(--bg);
-  margin: .5em auto;
+  margin: 0 auto;
+  padding: .5em;
   max-width: 55em;
 
   display: grid;
@@ -10,5 +11,4 @@
   /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 18em), 1fr)); */
   grid-template-columns: repeat(3, 1fr);
   gap: .5em;
-  /* justify-content: center; */
 }

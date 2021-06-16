@@ -1,6 +1,6 @@
 import style from './Navbar.module.css'
 // import * as reddit from '../../services/reddit'
-import Toggle from '../Toggle/Toggle'
+// import Toggle from '../Toggle/Toggle'
 
 function Navbar() {
   function handleBtn() {
