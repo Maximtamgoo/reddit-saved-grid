@@ -2,7 +2,6 @@ import style from './MainPage.module.css';
 import useSavedContent from '../../hooks/useSavedContent';
 import Gallery from '../../components/Gallery/Gallery';
 import Navbar from '../../components/Navbar/Navbar';
-import Footer from '../../components/Footer/Footer';
 
 export default function MainPage() {
   console.log('MainPage')
@@ -33,8 +32,9 @@ export default function MainPage() {
     <div className={style.main}>
       <Navbar />
       <Gallery list={data} />
-      <Footer />
-      <button onClick={handle_nextSavedContent}>Next Saved Content</button>
+      {!loading && <div className={style.loader}>loading...</div>}
+      {/* {!loading && <div className={style.loader}>End</div>} */}
+      {/* <button onClick={handle_nextSavedContent}>Next Saved Content</button> */}
     </div>
   )
 }
