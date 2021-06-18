@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import style from './Toggle.module.css'
 
-function Toggle() {
+export default function Toggle() {
   const [toggle, setToggle] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -23,5 +23,3 @@ function Toggle() {
     </div>
   )
 }
-
-export default Toggle

@@ -1,7 +1,7 @@
 import style from './LoginPage.module.css'
 import * as reddit from '../../services/reddit';
 
-function LoginPage() {
+export default function LoginPage() {
   console.log('Login Page')
 
   function handleBtn() {
@@ -15,5 +15,3 @@ function LoginPage() {
     </div>
   )
 }
-
-export default LoginPage;

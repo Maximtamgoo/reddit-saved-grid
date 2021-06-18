@@ -2,7 +2,7 @@ import style from './Navbar.module.css'
 // import * as reddit from '../../services/reddit'
 // import Toggle from '../Toggle/Toggle'
 
-function Navbar() {
+export default function Navbar() {
   function handleBtn() {
     console.log('handleBtn signout')
   }
@@ -14,5 +14,3 @@ function Navbar() {
     </div>
   )
 }
-
-export default Navbar

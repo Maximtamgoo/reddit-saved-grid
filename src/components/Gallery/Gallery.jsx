@@ -1,7 +1,7 @@
 import style from './Gallery.module.css'
 import Card from '../Card/Card'
 
-function Gallery({ list }) {
+export default function Gallery({ list }) {
 
   return (
     <div className={style.gallery}>
@@ -14,5 +14,3 @@ function Gallery({ list }) {
     </div>
   )
 }
-
-export default Gallery;

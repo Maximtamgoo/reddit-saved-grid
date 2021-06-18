@@ -2,7 +2,7 @@ import './App.css';
 import useAuth from './hooks/useAuth';
 import { LoginPage, MainPage } from './pages';
 
-function App() {
+export default function App() {
   // console.log('App')
   const [isAuthed, loading, error] = useAuth()
 
@@ -28,5 +28,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

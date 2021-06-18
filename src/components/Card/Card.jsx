@@ -10,7 +10,7 @@ import style from './Card.module.css'
 // import { ReactComponent as SmallMaximizeIcon } from '../../svg/maximize-2.svg';
 // import { ReactComponent as MoreIcon } from '../../svg/more-vertical.svg';
 
-function Card({ id, imgSrc, over_18, permalink }) {
+export default function Card({ id, imgSrc, over_18, permalink }) {
   // const [saved, setSaved] = useState(true)
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState(null)
@@ -55,5 +55,3 @@ function Card({ id, imgSrc, over_18, permalink }) {
     </div>
   )
 }
-
-export default Card;
