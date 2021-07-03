@@ -1,11 +1,22 @@
 .main {
-  background: var(--grey);
+  /* background: var(--bg); */
+  /* position: relative; */
+  /* border: 1px solid blue; */
+
 }
 
 .loader {
-  height: 4em;
+  /* border: 1px solid red; */
+  /* height: 2em; */
+  /* padding-bottom: .5em; */
+  margin-bottom: .5em;
   font-size: 2em;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; */
 }

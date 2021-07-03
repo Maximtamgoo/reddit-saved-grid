@@ -1,7 +1,7 @@
 .card {
-  /* border: 2px solid var(--grey); */
   border-radius: .3em;
   position: relative;
+  /* aspect-ratio: 1; */
   padding-bottom: 100%;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   overflow: hidden;
@@ -9,8 +9,13 @@
 }
 
 .card:active {
-  opacity: .3;
-  box-shadow: none;
+  /* opacity: .4; */
+  /* box-shadow: none; */
+  transform: scale(.98);
+}
+
+.loading {
+  position: absolute;
 }
 
 .image {

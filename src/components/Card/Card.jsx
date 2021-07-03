@@ -1,5 +1,6 @@
 import style from './Card.module.css'
-// import { useState } from 'react';
+import { useState } from 'react';
+import Placeholder from '../Placeholder/Placeholder';
 // import * as reddit from '../../services/reddit'
 // import getCookie from '../../utils/getCookie'
 // import { ReactComponent as HeartIcon } from '../../svg/heart.svg';
@@ -12,7 +13,7 @@ import style from './Card.module.css'
 
 export default function Card({ id, imgSrc, over_18, permalink }) {
   // const [saved, setSaved] = useState(true)
-  // const [loading, setLoading] = useState(false)
+  const [srcLoading, setSrcLoading] = useState(true)
   // const [error, setError] = useState(null)
 
   // if (error) {
@@ -49,9 +50,24 @@ export default function Card({ id, imgSrc, over_18, permalink }) {
   //   window.open(`https://www.reddit.com${permalink}`, '_blank').focus();
   // }
 
+  const img = new Image()
+  img.onload = async () => {
+    // await new Promise(r => setTimeout(r, 2000))
+    setSrcLoading(false)
+  }
+  img.src = imgSrc
+
   return (
     <div className={style.card}>
-      <img className={style.image} src={imgSrc} alt="thumbnail" />
+      {srcLoading ?
+        <div className={style.loading}>
+          <Placeholder />
+        </div>
+        :
+        <img className={style.image} src={img.src} alt="Reddit Content" />
+      }
+      {/* <img className={style.img} src={imageSrc} alt="Reddit Content"
+          onError={(e) => e.target.src = 'no-image-found.jpg'} /> */}
     </div>
   )
 }
