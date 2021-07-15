@@ -11,7 +11,10 @@ import Placeholder from '../Placeholder/Placeholder';
 // import { ReactComponent as SmallMaximizeIcon } from '../../svg/maximize-2.svg';
 // import { ReactComponent as MoreIcon } from '../../svg/more-vertical.svg';
 
-export default function Card({ id, imgSrc, over_18, permalink }) {
+export default function Card({ item }) {
+  let imgSrc = null
+  imgSrc = item?.preview?.images[0]?.resolutions[item?.preview?.images[0]?.resolutions.length - 1].url
+
   // const [saved, setSaved] = useState(true)
   const [srcLoading, setSrcLoading] = useState(true)
   // const [error, setError] = useState(null)
@@ -46,9 +49,9 @@ export default function Card({ id, imgSrc, over_18, permalink }) {
   //   }
   // }
 
-  // function handleExtLink() {
-  //   window.open(`https://www.reddit.com${permalink}`, '_blank').focus();
-  // }
+  function handleExtLink() {
+    window.open(`https://www.reddit.com${item?.permalink}`, '_blank').focus();
+  }
 
   const img = new Image()
   img.onload = async () => {
@@ -58,7 +61,7 @@ export default function Card({ id, imgSrc, over_18, permalink }) {
   img.src = imgSrc
 
   return (
-    <div className={style.card}>
+    <div className={style.card} onClick={handleExtLink}>
       {srcLoading ?
         <div className={style.loading}>
           <Placeholder />

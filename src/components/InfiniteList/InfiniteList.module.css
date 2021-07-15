@@ -1,0 +1,24 @@
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {  transform: rotate(359deg); }
+}
+
+.loader_wrapper {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+}
+
+.loader {
+  /* border: 1px solid blue; */
+  animation: spin 2s linear infinite;
+  display: flex;
+}
+
+.theend {
+  /* border: 1px solid blue; */
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+  color: var(--grey);
+}
