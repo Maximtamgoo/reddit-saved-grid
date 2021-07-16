@@ -13,30 +13,8 @@ import { ReactComponent as LoaderIcon } from '../../svg/loader.svg';
 export default function MainPage() {
   // console.log('MainPage')
   const [list, setList] = useState([])
-  // const [hasMore, setHasMore] = useState(true)
-  // const hasMoreRef = useRef(true)
   const usernameRef = useRef(null)
   const optionsRef = useRef({ after: undefined })
-
-  // const [data, pending, getMore, error] = useSavedContent()
-  // console.log('pending:', pending)
-  // const getMoreRef = useRef(getMore)
-
-  // function checkIfAtBottomThenGetMore() {
-  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-  //     console.log('%c AT BOTTOM ', 'color: red');
-  //     // console.log('innerHeight + scrollY:', window.innerHeight + window.scrollY)
-  //     // console.log('offsetHeight:', document.body.offsetHeight)
-  //     // getMore()
-  //   }
-  // }
-
-  // useScrollEvent(checkIfAtBottomThenGetMore)
-
-  // useEffect(() => {
-  //   console.log('main page useEffect')
-  //   checkIfAtBottomThenGetMore()
-  // }, [checkIfAtBottomThenGetMore])
 
   // if (error) {
   //   return (
@@ -54,11 +32,6 @@ export default function MainPage() {
   //   )
   // }
 
-  // function handle_nextSavedContent() {
-  //   // getMoreRef.current()
-  //   checkIfAtBottomThenGetMore()
-  // }
-
   const fetchMore = useCallback(async () => {
     // console.log('%c options after', 'color: green', optionsRef.current.after);
     let access_token = getCookie('access_token')
@@ -71,7 +44,7 @@ export default function MainPage() {
       usernameRef.current = me.name
     }
     const savedContent = await reddit.getSavedContent(access_token, usernameRef.current, optionsRef.current)
-    console.log('%c SavedContent', 'color: red', savedContent);
+    // console.log('%c SavedContent', 'color: red', savedContent);
     // if (savedContent.data.after === null) setHasMore(false)
     optionsRef.current.after = savedContent.data.after
     const newItems = savedContent.data.children.map(item => item.data)
@@ -82,9 +55,7 @@ export default function MainPage() {
   return (
     <div className={style.main}>
       <Navbar />
-      {/* <div className={style.gallery}> */}
-      <InfiniteList fetchMore={fetchMore} loader={<LoaderIcon />}>
-        <div className={style.gallery}>
+      <InfiniteList parentStyle={style.gallery} fetchMore={fetchMore} loader={<LoaderIcon />}>
         {/* {(targetRef) => {
           return (
             <div className={style.gallery}>
@@ -107,13 +78,7 @@ export default function MainPage() {
           )
         }} */}
         {list.map(item => <Card key={item.name} item={item} />)}
-        </div>
       </InfiniteList>
-      {/* </div> */}
-
-      {/* <div ref={intersectionRef} className={style.loader}>loading...</div> */}
-      {/* {pending && <div className={style.loader} style={{visibility: !pending}} >loading...</div>} */}
-      {/* <button onClick={handle_nextSavedContent}>Next Saved Content</button> */}
     </div>
   )
 }
