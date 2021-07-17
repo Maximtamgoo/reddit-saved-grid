@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback, useRef } from "react"
-// import useIntersectionObserver from "../../hooks/useIntersectionObserver"
-import { useInView } from 'react-intersection-observer';
+import useIntersectionObserver from "../../hooks/useIntersectionObserver"
+// import { useInView } from 'react-intersection-observer';
 import style from './InfiniteList.module.css'
 
 export default function InfiniteList({ parentStyle, fetchMore, loader, children }) {
   const pendingRef = useRef(false)
-  // const [pending, setPending] = useState(false)
+  // const [pending, setPending] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
-  // const [ref, inView] = useIntersectionObserver()
+  // const ref = useRef()
+  const [ref, inView] = useIntersectionObserver()
   // console.log('inView:', inView)
   // const [error, setError] = useState(null)
-  const { ref, inView } = useInView()
+  // const { ref, inView } = useInView()
 
   const fetchMoreWrapper = useCallback(async () => {
     try {
@@ -21,7 +22,6 @@ export default function InfiniteList({ parentStyle, fetchMore, loader, children 
       if (!hasMore) {
         setHasMore(hasMore)
       }
-      // setHasMore(hasMore)
       pendingRef.current = false
       // setPending(false)
     } catch (error) {
@@ -36,27 +36,26 @@ export default function InfiniteList({ parentStyle, fetchMore, loader, children 
 
   useEffect(() => {
     // console.log('useEffect fetchMoreWrapper')
-    console.log('useEffect:', { inView, pendingRef: pendingRef.current })
-    if (inView && !pendingRef.current) {
-      console.log('run fetchMore')
+    console.log('useEffect:', { inView, pendingRef: pendingRef.current, hasMore })
+    if (inView && !pendingRef.current && hasMore) {
+      console.log('%c run fetchMore', 'color: red')
       fetchMoreWrapper()
-      console.log('fetchMore end')
+      console.log('%c fetchMore end', 'color: red')
     }
-  }, [inView, fetchMoreWrapper])
-
-  const Loader = () => (
-    <div ref={ref} className={style.loader_wrapper}>
-      <div className={style.loader}>{loader}</div>
-    </div>
-  )
+  }, [inView, hasMore, fetchMoreWrapper])
 
   return (
     <div className={style.infinite_list}>
       <div className={parentStyle}>
         {children}
       </div>
-      {hasMore && <Loader />}
-      {!hasMore && <div className={style.theend}>The End</div>}
+      {hasMore ?
+        <div ref={ref} className={style.loader_wrapper}>
+          <div className={style.loader}>{loader}</div>
+        </div>
+        :
+        <div className={style.theend}>The End</div>
+      }
     </div>
   )
 }

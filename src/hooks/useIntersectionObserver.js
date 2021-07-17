@@ -1,30 +1,20 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 
 export default function useIntersectionObserver() {
   const [inView, setInView] = useState(false)
-  const targetRef = useRef()
+
   const observerRef = useRef()
 
-  useEffect(() => {
-    console.log('useEffect IntersectionObserver')
+  const targetCallbackRef = useCallback((node) => {
+    if (!node) return observerRef.current.disconnect()
 
-    let observer = observerRef.current
-    if (observer) observer.disconnect()
-
-    observer = new IntersectionObserver(([entry]) => {
+    const observer = new IntersectionObserver(([entry]) => {
       setInView(entry.isIntersecting)
+      console.log('isIntersecting:', entry.isIntersecting)
     })
-
-    const target = targetRef.current
-    if (target) {
-      observer.observe(target)
-    }
-
-    return () => {
-      console.log('disconnect')
-      observer.disconnect()
-    }
+    observer.observe(node)
+    observerRef.current = observer
   }, [])
 
-  return [targetRef, inView]
+  return [targetCallbackRef, inView]
 }
