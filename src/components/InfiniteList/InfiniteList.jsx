@@ -23,11 +23,11 @@ export default function InfiniteList({ parentStyle, fetchMore, loader, children 
 
   useEffect(() => {
     // console.log('useEffect fetchMoreWrapper')
-    console.log('useEffect:', { inView, pendingRef: pendingRef.current, hasMore })
+    // console.log('useEffect:', { inView, pendingRef: pendingRef.current, hasMore })
     if (inView && !pendingRef.current && hasMore) {
-      console.log('%c run fetchMore', 'color: red')
+      // console.log('%c run fetchMore', 'color: red')
       fetchMoreWrapper()
-      console.log('%c fetchMore end', 'color: red')
+      // console.log('%c fetchMore end', 'color: red')
     }
   }, [inView, hasMore, fetchMoreWrapper])
 

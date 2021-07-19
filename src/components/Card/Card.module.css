@@ -6,13 +6,19 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   overflow: hidden;
   cursor: pointer;
+
+  /* animation: cardAnime .5s ease-in-out; */
 }
 
-.card:active {
-  /* opacity: .4; */
-  /* box-shadow: none; */
-  transform: scale(.98);
-}
+/* @keyframes cardAnime {
+  from {
+    transform: scale(.7) translateX(50%);
+  }
+
+  to {
+    transform: scale(1) translateX(0%);
+  }
+} */
 
 .loading {
   position: absolute;

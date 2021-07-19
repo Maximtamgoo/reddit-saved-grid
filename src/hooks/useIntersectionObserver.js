@@ -10,7 +10,7 @@ export default function useIntersectionObserver() {
 
     const observer = new IntersectionObserver(([entry]) => {
       setInView(entry.isIntersecting)
-      console.log('isIntersecting:', entry.isIntersecting)
+      // console.log('isIntersecting:', entry.isIntersecting)
     })
     observer.observe(node)
     observerRef.current = observer

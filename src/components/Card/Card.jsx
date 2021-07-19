@@ -64,7 +64,7 @@ export default function Card({ item }) {
     <div className={style.card} onClick={handleExtLink}>
       {srcLoading ?
         <div className={style.loading}>
-          <Placeholder />
+          <Placeholder /> //! shrinks when window resized
         </div>
         :
         <img className={style.image} src={img.src} alt="Reddit Content" />
