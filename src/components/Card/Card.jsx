@@ -3,29 +3,12 @@ import { useState } from 'react';
 import Placeholder from '../Placeholder/Placeholder';
 // import * as reddit from '../../services/reddit'
 // import getCookie from '../../utils/getCookie'
-// import { ReactComponent as HeartIcon } from '../../svg/heart.svg';
-// import { ReactComponent as EyeIcon } from '../../svg/eye.svg';
-// import { ReactComponent as EyeOffIcon } from '../../svg/eye-off.svg';
-// import { ReactComponent as ExtLinkIcon } from '../../svg/external-link.svg';
-// import { ReactComponent as FullMaximizeIcon } from '../../svg/maximize.svg';
-// import { ReactComponent as SmallMaximizeIcon } from '../../svg/maximize-2.svg';
-// import { ReactComponent as MoreIcon } from '../../svg/more-vertical.svg';
 
 export default function Card({ item }) {
   let imgSrc = null
   imgSrc = item?.preview?.images[0]?.resolutions[item?.preview?.images[0]?.resolutions.length - 1].url
 
-  // const [saved, setSaved] = useState(true)
   const [srcLoading, setSrcLoading] = useState(true)
-  // const [error, setError] = useState(null)
-
-  // if (error) {
-  //   return (
-  //     <div className={style.card}>
-  //       {`${error}`}
-  //     </div>
-  //   )
-  // }
 
   // async function handleHeartBtn() {
   //   return console.log('Canceled handleHeartBtn!')
@@ -49,9 +32,9 @@ export default function Card({ item }) {
   //   }
   // }
 
-  function handleExtLink() {
-    window.open(`https://www.reddit.com${item?.permalink}`, '_blank').focus();
-  }
+  // function handleExtLink() {
+  //   window.open(`https://www.reddit.com${item?.permalink}`, '_blank').focus();
+  // }
 
   const img = new Image()
   img.onload = async () => {
@@ -61,10 +44,11 @@ export default function Card({ item }) {
   img.src = imgSrc
 
   return (
-    <div className={style.card} onClick={handleExtLink}>
+    <div className={style.card}>
       {srcLoading ?
         <div className={style.loading}>
-          <Placeholder /> //! shrinks when window resized
+          {/* //! shrinks when window resized */}
+          <Placeholder />
         </div>
         :
         <img className={style.image} src={img.src} alt="Reddit Content" />

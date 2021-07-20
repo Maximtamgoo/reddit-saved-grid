@@ -1,6 +1,6 @@
 .main {
   /* border: 1px solid green; */
-  margin-bottom: 1em;
+  margin-bottom: .5em;
   /* position: absolute;
   inset: 0; */
 }
@@ -8,7 +8,7 @@
 .gallery {
   /* border: 1px solid red; */
   margin: 0 auto;
-  padding: 1em;
+  padding: .5em;
   max-width: 55em;
 
   display: grid;
@@ -16,7 +16,7 @@
   /* grid-template-columns: repeat(3, minmax(7rem, 1fr)); */
   /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 18em), 1fr)); */
   grid-template-columns: repeat(3, 1fr);
-  gap: 1em;
+  gap: .5em;
 }
 
 @media screen and (max-width: 500px) {
@@ -24,6 +24,5 @@
   .gallery {
     padding: .2em;
     gap: .2em;
-    padding-bottom: 1em;
   }
 }
