@@ -17,15 +17,17 @@ app.get('/api/accesstoken', require('./routes/api/accesstoken'), setTokenCookies
 
 app.get('/api/fakedata', (req, res) => {
   console.log(`${req.method} ${req.path} : route`)
-  res.send([
-    { id: 'fake0', thumbnail: '/fake0.jpg' },
-    { id: 'fake1', thumbnail: '/fake1.jpg' },
-    { id: 'fake2', thumbnail: '/fake2.jpg' },
-    { id: 'fake3', thumbnail: '/fake3.jpg' },
-    { id: 'fake4', thumbnail: '/fake4.jpg' },
-    { id: 'fake5', thumbnail: '/fake5.jpg' },
-    { id: 'fake6', thumbnail: '/fake6.jpg' }
-  ])
+
+  const children = []
+  for (let i = 0; i < 30; i++) {
+    children.push({ data: { name: `fake${i}`, image: `/fake${i}.jpg` } })
+  }
+
+  res.send({
+    data: {
+      children
+    }
+  })
 })
 
 app.use('*', (req, res, next) => {

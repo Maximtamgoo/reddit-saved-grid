@@ -1,11 +1,9 @@
 .card {
-  border-radius: .3em;
-  position: relative;
-  /* aspect-ratio: 1; */
-  padding-bottom: 100%;
-  box-shadow: 0 2px 4px 0 black;
   overflow: hidden;
-  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  background: var(--grey);
 
   /* animation: cardAnime .5s ease-in-out; */
 }
@@ -21,14 +19,39 @@
 } */
 
 .loading {
-  position: absolute;
+
 }
 
-.image {
-  position: absolute;
-  top: 0;
-  left: 0;
+img {
+  display:block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+}
+
+.details {
+  display: flex;
+  border-bottom: 1px solid var(--blue);
+}
+
+.info {
+  flex-grow: 1;
+}
+
+.links > a {
+  font-size: .8em;
+  margin: 0 5px;
+}
+
+.title {
+  font-size: 1.3em;
+  margin: 0 5px;
+}
+
+.bookmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img, .bookmark > svg, .links > a, .title  {
+  cursor: pointer;
 }

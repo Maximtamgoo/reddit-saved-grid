@@ -1,60 +1,97 @@
 import style from './Card.module.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ReactComponent as BookmarkIcon } from '../../svg//bookmark.svg';
 import Placeholder from '../Placeholder/Placeholder';
-// import * as reddit from '../../services/reddit'
-// import getCookie from '../../utils/getCookie'
 
 export default function Card({ item }) {
-  let imgSrc = null
-  imgSrc = item?.preview?.images[0]?.resolutions[item?.preview?.images[0]?.resolutions.length - 1].url
+  // let imgSrc = null
+  // const imgSrc = item?.preview?.images[0]?.resolutions[item?.preview?.images[0]?.resolutions.length - 1].url
 
+  // const imgSrc = item?.image
   const [srcLoading, setSrcLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // async function handleHeartBtn() {
-  //   return console.log('Canceled handleHeartBtn!')
-  //   try {
-  //     setLoading(true)
-  //     // await new Promise(r => setTimeout(r, 3000))
-  //     const access_token = getCookie('access_token')
-  //     if (saved) {
-  //       const data = await reddit.unsaveContent(id, access_token)
-  //       console.log('unsave data:', data)
-  //     } else {
-  //       const data = await reddit.saveContent(id, access_token)
-  //       console.log('save data:', data)
-  //     }
-  //     setSaved(saved => !saved)
-  //     setLoading(false)
-  //   } catch (error) {
-  //     console.log('error:', error)
-  //     setError(error)
-  //     setLoading(false)
+  // const onLoad = async () => {
+  //   await new Promise(r => setTimeout(r, 2000))
+  //   // console.log('onload img:', img.src)
+  //   setSrcLoading(false)
+  // }
+
+  // useEffect(() => {
+
+  //   const img = new Image()
+  //   img.onload = async () => {
+  //     await new Promise(r => setTimeout(r, 2000))
+  //     // console.log('onload img:', img.src)
+  //     setSrcLoading(false)
   //   }
+
+  //   img.onerror = (error) => {
+  //     console.log('img:', img.src)
+  //     console.log('img.onerror:', error)
+  //     setError(error)
+  //     setSrcLoading(false)
+  //   }
+
+  //   img.src = item.src
+  // }, [item.src])
+
+  // if (error) {
+  //   return (
+  //     <div className={style.card}>
+  //       <img alt="content failed to load" />
+  //     </div>
+  //   )
   // }
 
-  // function handleExtLink() {
-  //   window.open(`https://www.reddit.com${item?.permalink}`, '_blank').focus();
-  // }
-
-  const img = new Image()
-  img.onload = async () => {
-    // await new Promise(r => setTimeout(r, 2000))
-    setSrcLoading(false)
-  }
-  img.src = imgSrc
+  // return (
+  //   <div className={style.card} style={{ ...itemStyle }}>
+  //     {srcLoading ?
+  //       <div className={style.loading}>
+  //         {/* //! shrinks when window resized */}
+  //         <Placeholder width={photo.width} height={photo.height} />
+  //       </div>
+  //       :
+  //       <>
+  //         <img {...photo} alt="Reddit Content" />
+  //         <div className={style.details}>
+  //           hello
+  //           <a href={photo.link}>a link</a>
+  //         </div>
+  //       </>
+  //     }
+  //   </div>
+  // )
 
   return (
     <div className={style.card}>
-      {srcLoading ?
-        <div className={style.loading}>
-          {/* //! shrinks when window resized */}
-          <Placeholder />
+      <div className={style.details}>
+        <div className={style.info}>
+          <div className={style.links}>
+            <a href={item.sub}>sub link</a>
+            &middot;
+            <a href={item.author}>author</a>
+          </div>
+          <a className={style.title} href={item.post}>title</a>
         </div>
-        :
-        <img className={style.image} src={img.src} alt="Reddit Content" />
-      }
-      {/* <img className={style.img} src={imageSrc} alt="Reddit Content"
-          onError={(e) => e.target.src = 'no-image-found.jpg'} /> */}
+        <div className={style.bookmark}>
+          <BookmarkIcon />
+        </div>
+      </div>
+
+      {/* {srcLoading && <Placeholder />} */}
+        
+        <a href={item.post} target='_blank' rel="noreferrer" 
+        style={srcLoading ? { display: 'none' } : { }}>
+          <img
+            onLoad={async () => {
+              await new Promise(r => setTimeout(r, 2000))
+              // console.log('onload img:', img.src)
+              setSrcLoading(false)
+            }}
+            src={item.src}
+            alt="Reddit Content" />
+        </a>
     </div>
   )
 }
