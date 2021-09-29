@@ -1,0 +1,144 @@
+.modal {
+  background: rgba(0,0,0,0.5);
+  /* border: 1px solid red; */
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* display: grid;
+  place-items: center; */
+  padding: 0 .5em;
+}
+
+.modal_body {
+  border: 1px solid red;
+  /* position: relative; */
+  /* position: absolute; */
+  /* margin: 0 auto; */
+  
+  max-width: 50em;
+  max-height: 30em;
+  width: 100%;
+  height: 100%;
+  padding: 0 .5em;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+
+  /* display: grid; */
+  /* grid-template-columns: 2em 1fr 2em;
+  grid-template-rows: .5fr .5fr 1fr 5em 2fr;
+  gap: 0 .5em;
+  grid-template-areas:
+    ". content side_panel"
+    ". content side_panel"
+    ". content ."
+    "chevron_left content chevron_right"
+    ". content ."; */
+}
+
+/* .chevron_left { grid-area: chevron_left; }
+
+.content { grid-area: content; }
+
+.side_panel { grid-area: side_panel; }
+
+.chevron_right { grid-area: chevron_right; } */
+
+.modal_box {
+  border-radius: .3em;
+  background: var(--grey);
+  box-shadow: 0 2px 4px 0 black;
+}
+
+.content {
+  border: 1px solid green;
+  position: relative;
+  /* display: inline-block; */
+  /* padding-bottom: 100%; */
+  /* aspect-ratio: 1; */
+  /* overflow: hidden; */
+  /* display: flex; */
+  /* flex-grow: 1; */
+  /* margin: 0 .5em; */
+
+  /* max-width: 40em; */
+  width: 100%;
+  /* height: 100%; */
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.loading {
+  position: absolute;
+}
+
+.side_panel {
+  border: 1px solid green;
+
+  display: grid;
+  grid-template-rows: 1fr 3em 3em 5em 2fr;
+  gap: .5em;
+}
+
+.chevron_left {
+  width: 2em;
+  height: 5em;
+  align-self: center;
+}
+
+.chevron_right {
+  width: 2em;
+  height: 5em;
+}
+
+/* .test_btn {
+  position: absolute;
+  display: flex;
+  height: 5em;
+  background: green;
+  transform: translate(-2em);
+} */
+
+.btn {
+  display: flex;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.btn:active .icon {
+  stroke: black;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  stroke: var(--blue);
+}
+
+/* @media screen and (max-width: 500px) {
+
+  .modal {
+    padding: 0 .2em;
+  }
+
+  .modal_body {
+    padding: 0 .2em;
+    gap: 0 .2em;
+  }
+
+  .side_panel {
+    gap: .2em;
+  }
+} */
