@@ -1,7 +1,8 @@
 import style from './Card.module.css'
 import { useState, useEffect } from 'react';
 import { ReactComponent as BookmarkIcon } from '../../svg//bookmark.svg';
-import Placeholder from '../Placeholder/Placeholder';
+// import Placeholder from '../Placeholder/Placeholder';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export default function Card({ item }) {
   // let imgSrc = null
@@ -70,7 +71,7 @@ export default function Card({ item }) {
           <div className={style.links}>
             <a href={item.sub}>sub link</a>
             &middot;
-            <a href={item.author}>author</a>
+            <a href={item.author}>author author author author author</a>
           </div>
           <a className={style.title} href={item.post}>title</a>
         </div>
@@ -79,19 +80,23 @@ export default function Card({ item }) {
         </div>
       </div>
 
-      {/* {srcLoading && <Placeholder />} */}
-        
-        <a href={item.post} target='_blank' rel="noreferrer" 
-        style={srcLoading ? { display: 'none' } : { }}>
-          <img
-            onLoad={async () => {
-              await new Promise(r => setTimeout(r, 2000))
-              // console.log('onload img:', img.src)
-              setSrcLoading(false)
-            }}
-            src={item.src}
-            alt="Reddit Content" />
-        </a>
+      {srcLoading &&
+        <SkeletonTheme color="var(--grey)" highlightColor="var(--blue)">
+          <Skeleton style={{ borderRadius: 0 }} height={item.height} />
+        </SkeletonTheme>
+      }
+
+      <a href={item.post} target='_blank' rel="noreferrer"
+        style={srcLoading ? { display: 'none' } : {}}>
+        <img
+          onLoad={async () => {
+            await new Promise(r => setTimeout(r, 2000))
+            // console.log('onload img:', img.src)
+            setSrcLoading(false)
+          }}
+          src={item.src}
+          alt="Reddit Content" />
+      </a>
     </div>
   )
 }
