@@ -74,6 +74,10 @@ export default function MainPage() {
         src: lastImg?.url ?? '',
         width: lastImg?.width ?? 100,
         height: lastImg?.height ?? 100,
+        title: item.data.title,
+        author: item.data.author,
+        subreddit: item.data.subreddit_name_prefixed,
+        permalink: item.data.permalink
       }
     })
     setList((oldItems) => ([...oldItems, ...newItems]))
@@ -82,9 +86,9 @@ export default function MainPage() {
 
   const breakpointCols = {
     default: 3,
-    // 1100: 3,
-    700: 2,
-    500: 1
+    1100: 3,
+    900: 2,
+    600: 1
   }
 
   return (
