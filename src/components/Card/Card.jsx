@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import style from './Card.module.css'
 import { ReactComponent as BookmarkIcon } from '../../svg//bookmark.svg'
-import { saveContent, unsaveContent } from '../../services/reddit'
-import getCookie from '../../utils/getCookie'
+import api from '../../services/api'
 
 export default function Card({ item }) {
   const [saved, setSaved] = useState(true)
@@ -13,12 +12,11 @@ export default function Card({ item }) {
 
   const onClick = async () => {
     try {
-      let access_token = getCookie('access_token')
       if (saved) {
-        await unsaveContent(item.id, access_token)
+        await api.unsaveContent(item.id)
         setSaved(false)
       } else {
-        await saveContent(item.id, access_token)
+        await api.saveContent(item.id)
         setSaved(true)
       }
     } catch (error) {

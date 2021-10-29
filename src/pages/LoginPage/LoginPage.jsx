@@ -1,11 +1,11 @@
 import style from './LoginPage.module.css'
-import * as reddit from '../../services/reddit';
+import api from '../../services/api';
 
 export default function LoginPage() {
   console.log('Login Page')
 
   function handleBtn() {
-    reddit.authRedirect()
+    api.signInWithReddit()
   }
 
   return (

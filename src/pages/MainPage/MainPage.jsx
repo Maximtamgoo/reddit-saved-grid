@@ -6,16 +6,15 @@ import Navbar from '../../components/Navbar/Navbar';
 import Card from '../../components/Card/Card';
 import InfiniteList from '../../components/InfiniteList/InfiniteList';
 import { useState, useCallback, useRef } from 'react';
-import getCookie from '../../utils/getCookie';
-import * as reddit from '../../services/reddit';
+import api from '../../services/api';
 import { ReactComponent as LoaderIcon } from '../../svg/loader.svg';
 import Masonry from 'react-masonry-css'
 
 export default function MainPage() {
   // console.log('MainPage')
   const [list, setList] = useState([])
-  const usernameRef = useRef(null)
-  const optionsRef = useRef({ after: undefined })
+  // const usernameRef = useRef(null)
+  const afterRef = useRef()
 
   // if (error) {
   //   return (
@@ -42,20 +41,16 @@ export default function MainPage() {
     // return true
 
     // console.log('%c options after', 'color: green', optionsRef.current.after);
-    let access_token = getCookie('access_token')
-    if (!access_token) {
-      await reddit.refreshAccessToken()
-      access_token = getCookie('access_token')
-    }
-    if (usernameRef.current === null) {
-      const me = await reddit.getMe(access_token)
-      usernameRef.current = me.name
-    }
+
+    // if (usernameRef.current === null) {
+    //   const me = await reddit.getMe()
+    //   usernameRef.current = me.name
+    // }
 
     // const savedContent = await reddit.getFakeData()
-    const savedContent = await reddit.getSavedContent(access_token, usernameRef.current, optionsRef.current)
+    const savedContent = await api.getSavedContent(afterRef.current)
     console.log('%c SavedContent', 'color: red', savedContent)
-    optionsRef.current.after = savedContent.data.after
+    afterRef.current = savedContent.data.after
     const newItems = savedContent.data.children.map(item => {
       // console.log('item:', item)
       if (!item.data?.preview) {
