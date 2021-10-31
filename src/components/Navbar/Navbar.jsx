@@ -1,10 +1,14 @@
 import style from './Navbar.module.css'
-// import * as reddit from '../../services/reddit'
-// import Toggle from '../Toggle/Toggle'
+import api from '../../services/api'
 
 export default function Navbar() {
-  function handleBtn() {
-    console.log('handleBtn signout')
+  async function handleBtn() {
+    try {
+      await api.signOut()
+      window.location.reload()
+    } catch (error) {
+      console.log('signOut error:', error)
+    }
   }
 
   return (

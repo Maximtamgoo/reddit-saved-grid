@@ -42,7 +42,7 @@ module.exports = class Reddit {
         throw aError('UnauthorizedError', 'Unauthorized request')
       }
     } catch (error) {
-      // console.log('apiRequest error:', error.name)
+      console.log('apiRequest error:', error.name)
       if (error.name === 'UnauthorizedError') {
         try {
           const data = await this.refreshToken()
@@ -64,7 +64,12 @@ module.exports = class Reddit {
   getMe() {
     return this.apiRequest(() => ({
       url: 'https://oauth.reddit.com/api/v1/me',
-      options: { headers: { 'Authorization': `Bearer ${this.access_token}` } }
+      options: {
+        headers: {
+          'User-Agent': this.userAgent,
+          'Authorization': `Bearer ${this.access_token}`
+        }
+      }
     }))
   }
 
@@ -73,7 +78,12 @@ module.exports = class Reddit {
     if (username && limit) {
       return this.apiRequest(() => ({
         url: `https://oauth.reddit.com/user/${username}/saved?after=${after}&limit=${limit}&raw_json=1`,
-        options: { headers: { 'Authorization': `Bearer ${this.access_token}` } }
+        options: {
+          headers: {
+            'User-Agent': this.userAgent,
+            'Authorization': `Bearer ${this.access_token}`
+          }
+        }
       }))
     } else {
       throw aError('BadRequestError', 'Request failed')
@@ -86,7 +96,11 @@ module.exports = class Reddit {
         url: 'https://oauth.reddit.com/api/unsave',
         options: {
           method: 'POST',
-          headers: { 'Authorization': `Bearer ${this.access_token}` },
+          headers: {
+            'User-Agent': this.userAgent,
+            'Authorization': `Bearer ${this.access_token}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
           body: `id=${id}`
         }
       }))
@@ -101,7 +115,11 @@ module.exports = class Reddit {
         url: 'https://oauth.reddit.com/api/save',
         options: {
           method: 'POST',
-          headers: { 'Authorization': `Bearer ${this.access_token}` },
+          headers: {
+            'User-Agent': this.userAgent,
+            'Authorization': `Bearer ${this.access_token}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
           body: `id=${id}`
         }
       }))
@@ -111,10 +129,15 @@ module.exports = class Reddit {
   }
 
   async oauthRequest(url, options) {
-    const request = async () => {
+    async function request() {
       const res = await fetch(url, options)
       if (res.ok) {
-        return await res.json()
+        console.log('res.headers:', res.headers.get('content-length'))
+        if (res.headers.get('content-length') === '0') {
+          return undefined
+        } else {
+          return await res.json()
+        }
       } else if (res.status === 401) {
         throw aError('UnauthorizedError', 'Unauthorized request')
       } else {
@@ -136,7 +159,7 @@ module.exports = class Reddit {
       return this.oauthRequest('https://www.reddit.com/api/v1/access_token', {
         method: 'POST',
         headers: {
-          // 'User-Agent': process.env.REACT_APP_REDDIT_USERAGENT,
+          'User-Agent': this.userAgent,
           'Authorization': `Basic ${this.base64Creds}`,
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -153,7 +176,7 @@ module.exports = class Reddit {
       return this.oauthRequest('https://www.reddit.com/api/v1/access_token', {
         method: 'POST',
         headers: {
-          // 'User-Agent': process.env.REACT_APP_REDDIT_USERAGENT,
+          'User-Agent': this.userAgent,
           'Authorization': `Basic ${this.base64Creds}`,
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -167,15 +190,16 @@ module.exports = class Reddit {
   revokeToken(token_type_hint) {
     console.log(`revokeToken(${token_type_hint})`)
     const token = this[token_type_hint]
+    console.log('token:', token)
     if (token) {
       return this.oauthRequest('https://www.reddit.com/api/v1/revoke_token', {
         method: 'POST',
         headers: {
-          // 'User-Agent': process.env.REACT_APP_REDDIT_USERAGENT,
+          'User-Agent': this.userAgent,
           'Authorization': `Basic ${this.base64Creds}`,
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `token=${token}&token_type_hint=${token_type_hint}`
+        body: `token=${token}&token_type_hint=${token_type_hint}&redirect_uri=${this.redirectUri}`
       })
     } else {
       throw aError('UnauthorizedError', 'Unauthorized request')
