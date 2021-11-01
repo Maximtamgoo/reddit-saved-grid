@@ -1,4 +1,6 @@
-module.exports = async (req, res, next) => {
+const router = require('express').Router()
+
+module.exports = router.get('/api/authorize', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     const authorization_code = req.headers.authorization_code
@@ -16,4 +18,4 @@ module.exports = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}
+})

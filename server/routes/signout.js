@@ -1,4 +1,6 @@
-module.exports = async (req, res, next) => {
+const router = require('express').Router()
+
+module.exports = router.post('/api/signout', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     await req.reddit.revokeToken('refresh_token')
@@ -9,4 +11,4 @@ module.exports = async (req, res, next) => {
     console.log('signout error:', error)
     next(error)
   }
-}
+})

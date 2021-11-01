@@ -3,7 +3,6 @@ require('dotenv').config()
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
 const reddit = require('./middleware/reddit')
-const controllers = require('./controllers')
 const routes = require('./routes')
 const express = require('express')
 const app = express()
@@ -20,7 +19,7 @@ app.use(reddit({
 app.use(express.json())
 app.use(express.static('public'))
 
-app.use(routes(controllers))
+app.use(routes)
 
 app.use(function (error, req, res, next) {
   if (error.name === 'UnauthorizedError') {

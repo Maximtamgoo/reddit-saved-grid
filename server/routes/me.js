@@ -1,4 +1,6 @@
-module.exports = async (req, res, next) => {
+const router = require('express').Router()
+
+module.exports = router.get('/api/me', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     const me = await req.reddit.getMe()
@@ -11,4 +13,4 @@ module.exports = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}
+})

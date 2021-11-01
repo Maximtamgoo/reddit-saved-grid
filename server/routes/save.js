@@ -1,4 +1,6 @@
-module.exports = async (req, res, next) => {
+const router = require('express').Router()
+
+module.exports = router.post('/api/save', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     console.log('req.body.id:', req.body.id)
@@ -13,4 +15,4 @@ module.exports = async (req, res, next) => {
     console.log('save error:', error)
     next(error)
   }
-}
+})

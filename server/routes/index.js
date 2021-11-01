@@ -1,13 +1,17 @@
 const router = require('express').Router()
 
-module.exports = (controllers) => {
-  router.get('/api/saved/:username', controllers.saved)
-  router.get('/api/authorize', controllers.authorize)
-  router.get('/api/me', controllers.me)
+const authorize = require('./authorize')
+const signout = require('./signout')
+const unsave = require('./unsave')
+const saved = require('./saved')
+const save = require('./save')
+const me = require('./me')
 
-  router.post('/api/signout', controllers.signout)
-  router.post('/api/unsave', controllers.unsave)
-  router.post('/api/save', controllers.save)
+router.use(authorize)
+router.use(signout)
+router.use(unsave)
+router.use(saved)
+router.use(save)
+router.use(me)
 
-  return router
-}
+module.exports = router
