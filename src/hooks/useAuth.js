@@ -4,7 +4,7 @@ import api from '../services/api'
 
 const pathname = window.location.pathname
 const urlParams = new URLSearchParams(window.location.search)
-const redirectParams = { state: urlParams.get('state'), code: urlParams.get('code') }
+const redirectParams = { state: urlParams.get('state'), code: urlParams.get('code'), error: urlParams.get('error') }
 window.history.replaceState({}, document.title, "/")
 const redirectState = window.localStorage.getItem('redirect_state')
 window.localStorage.clear()
@@ -28,6 +28,9 @@ export function useProvideAuth() {
   useEffect(() => {
     (async () => {
       try {
+        if(redirectParams.error === 'access_denied') {
+          throw redirectParams.error
+        }
         const data = (pathname === '/auth_callback' && redirectState === redirectParams.state) ? await api.authorize(redirectParams.code) : await api.getMe()
         // console.log('useAuth data:', data)
         if (data) {
