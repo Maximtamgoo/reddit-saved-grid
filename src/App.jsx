@@ -1,30 +1,20 @@
-import './App.css';
-import useAuth from './hooks/useAuth';
-import { LoginPage, MainPage } from './pages';
+import './App.css'
+import useAuth from './hooks/useAuth'
+import { LoginPage, MainPage } from './pages'
 
 export default function App() {
   // console.log('App')
-  const [isAuthed, loading, error] = useAuth()
+  const auth = useAuth()
 
-  if (error) {
+  if (auth.loading) {
     return (
-      <div>
-        {`${error}`}
-      </div>
-    )
-  }
-
-  if (loading) {
-    return (
-      <div>
-        Loading...
-      </div>
+      <div></div>
     )
   }
 
   return (
     <div className="App">
-      {isAuthed ? <MainPage /> : <LoginPage />}
+      {auth.isAuthed ? <MainPage /> : <LoginPage />}
     </div>
-  );
+  )
 }

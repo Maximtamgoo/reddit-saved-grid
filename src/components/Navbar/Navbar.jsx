@@ -1,20 +1,13 @@
 import style from './Navbar.module.css'
-import api from '../../services/api'
+import useAuth from '../../hooks/useAuth'
 
 export default function Navbar() {
-  async function handleBtn() {
-    try {
-      await api.signOut()
-      window.location.reload()
-    } catch (error) {
-      console.log('signOut error:', error)
-    }
-  }
+  const auth = useAuth()
 
   return (
     <div className={style.navbar}>
       <div className={style.title}>Reddit Saved Grid</div>
-      <button className={style.btn} onClick={handleBtn}>Sign Out</button>
+      <button className={style.btn} onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   )
 }

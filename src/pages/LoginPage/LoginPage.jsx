@@ -1,17 +1,14 @@
 import style from './LoginPage.module.css'
-import api from '../../services/api';
+import useAuth from '../../hooks/useAuth'
 
 export default function LoginPage() {
   console.log('Login Page')
-
-  function handleBtn() {
-    api.signInWithReddit()
-  }
+  const auth = useAuth()
 
   return (
     <div className={style.login}>
       <div className={style.title}>Reddit Saved Grid</div>
-        <button className={style.btn} onClick={handleBtn}>Sign In</button>
+      <button className={style.btn} onClick={() => auth.signInWithReddit()}>Sign In</button>
     </div>
   )
 }
