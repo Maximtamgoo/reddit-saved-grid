@@ -1,38 +1,23 @@
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useEffect, useRef } from "react"
 import useIntersectionObserver from "../../hooks/useIntersectionObserver"
 import style from './InfiniteList.module.css'
 
-export default function InfiniteList({ parentStyle, fetchMore, loader, children }) {
+export default function InfiniteList({ parentStyle, fetchMore, hasMore = true, loader, children }) {
   const pendingRef = useRef(false)
-  const [hasMore, setHasMore] = useState(true)
   const [ref, inView] = useIntersectionObserver()
-  // const [error, setError] = useState(null)
-
-  const fetchMoreWrapper = useCallback(async () => {
-    try {
-      pendingRef.current = true
-      const hasMore = await fetchMore()
-      if (!hasMore) {
-        setHasMore(hasMore)
-      }
-      pendingRef.current = false
-    } catch (error) {
-      console.log('fetchMoreWrapper error:', error)
-    }
-  }, [fetchMore])
 
   useEffect(() => {
-    // console.log('useEffect fetchMoreWrapper')
-    // console.log('useEffect:', { inView, pendingRef: pendingRef.current, hasMore })
     if (inView && !pendingRef.current && hasMore) {
-      // console.log('%c run fetchMore', 'color: red')
-      fetchMoreWrapper()
-      // console.log('%c fetchMore end', 'color: red')
+      (async () => {
+        pendingRef.current = true
+        await fetchMore()
+        pendingRef.current = false
+      })()
     }
-  }, [inView, hasMore, fetchMoreWrapper])
+  }, [inView, hasMore, fetchMore])
 
   return (
-    <div className={style.infinite_list}>
+    <>
       <div className={parentStyle}>
         {children}
       </div>
@@ -43,6 +28,6 @@ export default function InfiniteList({ parentStyle, fetchMore, loader, children 
         :
         <div className={style.theend}>The End</div>
       }
-    </div>
+    </>
   )
 }

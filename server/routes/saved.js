@@ -5,7 +5,7 @@ module.exports = router.get('/api/saved/:username', async (req, res) => {
   try {
     const username = req.params.username
     const after = req.query.after
-    const limit = 50
+    const limit = 24
 
     const data = await req.reddit.getSavedContent(username, { after, limit })
     // res.set(rateLimit)
