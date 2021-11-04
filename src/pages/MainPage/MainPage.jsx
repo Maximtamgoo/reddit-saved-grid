@@ -19,31 +19,12 @@ export default function MainPage() {
     console.log('fetchMore')
     try {
       const savedContent = await api.getSavedContent(afterRef.current)
-      console.log('%c SavedContent', 'color: red', savedContent)
+      // console.log('%c SavedContent', 'color: red', savedContent)
       afterRef.current = savedContent.data.after
       const newItems = savedContent.data.children.map(item => {
-        // console.log('item:', item)
-        if (!item.data?.preview) {
-          console.log('item:', item)
-        }
-
-        // console.log('item.name:', item.name)
-        const resolutions = item.data?.preview?.images[0]?.resolutions
-        // console.log('resolutions:', resolutions)
-        const lastImg = resolutions?.[resolutions?.length - 1]
-        // console.log('lastImg:', lastImg)
-        // const lastImg = resolutions[1]
-
-        return {
-          id: item.data.name,
-          src: lastImg?.url ?? '',
-          width: lastImg?.width ?? 100,
-          height: lastImg?.height ?? 100,
-          title: item.data.title,
-          author: item.data.author,
-          subreddit: item.data.subreddit_name_prefixed,
-          permalink: item.data.permalink
-        }
+        console.log('title:', item.data.title)
+        console.log('item.data:', item.data)
+        return item.data
       })
 
       setList((oldItems) => ([...oldItems, ...newItems]))
@@ -77,7 +58,7 @@ export default function MainPage() {
             className={style.masonry_grid}
             columnClassName={style.masonry_grid_column}
           >
-            {list.map(item => <Card key={item.id} item={item} />)}
+            {list.map(item => <Card key={item.name} item={item} />)}
           </Masonry>}
       </InfiniteList>
     </div>

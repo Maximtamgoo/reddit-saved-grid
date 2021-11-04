@@ -9,7 +9,7 @@ module.exports = class Reddit {
     this.redirectUri = redirectUri
     this.access_token = accessToken
     this.refresh_token = refreshToken
-    this.expiresIn = null
+    this.expires_in = null
     this.newTokens = false
   }
 
@@ -48,7 +48,7 @@ module.exports = class Reddit {
           const data = await this.refreshToken()
           this.access_token = data.access_token
           this.refresh_token = data.refresh_token
-          this.expiresIn = data.expires_in
+          this.expires_in = data.expires_in
           this.newTokens = true
           return await request()
         } catch (error) {
