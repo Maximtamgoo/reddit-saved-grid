@@ -25,7 +25,7 @@ export default function Card({ item }) {
     const media_id = item?.gallery_data?.items?.[0]?.media_id
     const p = item?.media_metadata?.[media_id]?.p
     src = p?.[p?.length - 1]?.u
-  } else if ((ext === 'jpg') || (ext === 'png')) {
+  } else if ((ext === 'jpg') || (ext === 'png') || (ext === 'gif')) {
     src = item?.url
   }
   // else if (ext !== 'jpg') {

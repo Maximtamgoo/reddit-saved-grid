@@ -5,7 +5,7 @@ import InfiniteList from '../../components/InfiniteList/InfiniteList'
 import { useState, useCallback, useRef } from 'react'
 import api from '../../services/api'
 import { ReactComponent as LoaderIcon } from '../../svg/loader.svg'
-import Masonry from 'react-masonry-css'
+import Masonry from 'react-masonry-component'
 import useAuth from '../../hooks/useAuth'
 
 export default function MainPage() {
@@ -22,8 +22,8 @@ export default function MainPage() {
       // console.log('%c SavedContent', 'color: red', savedContent)
       afterRef.current = savedContent.data.after
       const newItems = savedContent.data.children.map(item => {
-        console.log('title:', item.data.title)
-        console.log('item.data:', item.data)
+        // console.log('title:', item.data.title)
+        // console.log('item.data:', item.data)
         return item.data
       })
 
@@ -36,31 +36,33 @@ export default function MainPage() {
     }
   }, [auth])
 
-  const breakpointCols = {
-    default: 3,
-    1100: 3,
-    900: 2,
-    600: 1
-  }
-
   return (
-    <div className={style.main}>
+    <>
       <Navbar />
       <InfiniteList
-        parentStyle={style.gallery}
         fetchMore={fetchMore}
         hasMore={hasMore}
         loader={<LoaderIcon />}
       >
-        {list.length > 0 &&
+        <div className={style.wrap}>
           <Masonry
-            breakpointCols={breakpointCols}
-            className={style.masonry_grid}
-            columnClassName={style.masonry_grid_column}
+            className={style.grid}
+            options={{
+              // transitionDuration: 0,
+              itemSelector: `.${style.grid_item}`,
+              columnWidth: `.${style.grid_item}`,
+              percentPosition: true,
+              gutter: 10
+            }}
           >
-            {list.map(item => <Card key={item.name} item={item} />)}
-          </Masonry>}
+            {list.map(item => {
+              return <div key={item.name} className={style.grid_item}>
+                <Card item={item} />
+              </div>
+            })}
+          </Masonry>
+        </div>
       </InfiniteList>
-    </div>
+    </>
   )
 }

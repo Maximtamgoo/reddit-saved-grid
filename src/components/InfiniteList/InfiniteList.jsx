@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import useIntersectionObserver from "../../hooks/useIntersectionObserver"
 import style from './InfiniteList.module.css'
 
-export default function InfiniteList({ parentStyle, fetchMore, hasMore = true, loader, children }) {
+export default function InfiniteList({ fetchMore, hasMore = true, loader, children }) {
   const pendingRef = useRef(false)
   const [ref, inView] = useIntersectionObserver()
 
@@ -18,9 +18,7 @@ export default function InfiniteList({ parentStyle, fetchMore, hasMore = true, l
 
   return (
     <>
-      <div className={parentStyle}>
-        {children}
-      </div>
+      {children}
       {hasMore ?
         <div ref={ref} className={style.loader_wrapper}>
           <div className={style.loader}>{loader}</div>

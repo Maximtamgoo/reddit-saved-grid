@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-module.exports = router.get('/api/saved/:username', async (req, res) => {
+module.exports = router.get('/api/saved/:username', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     const username = req.params.username
