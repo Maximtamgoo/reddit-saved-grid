@@ -6,7 +6,6 @@ import api from '../../services/api'
 
 export default function Card({ item }) {
   const [saved, setSaved] = useState(true)
-  // console.log('%c item:', 'color: red', item)
 
   const authorLink = `https://www.reddit.com/u/${item.author}`
   const subredditLink = `https://www.reddit.com/${item.subreddit_name_prefixed}`
@@ -28,10 +27,6 @@ export default function Card({ item }) {
   } else if ((ext === 'jpg') || (ext === 'png') || (ext === 'gif')) {
     src = item?.url
   }
-  // else if (ext !== 'jpg') {
-  //   console.log('%c title:', 'color: red', item.subreddit)
-  //   console.log('%c item:', 'color: red', item)
-  // }
 
   const onClick = async () => {
     try {
@@ -46,7 +41,7 @@ export default function Card({ item }) {
       console.log('error:', error)
     }
   }
-  //style={{ border: (!item.parts.post_hint) ? '5px solid red' : null }}
+
   return (
     <div className={style.card}>
       <div className={style.details}>

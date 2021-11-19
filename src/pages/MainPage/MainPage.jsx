@@ -55,11 +55,11 @@ export default function MainPage() {
               gutter: 10
             }}
           >
-            {list.map(item => {
-              return <div key={item.name} className={style.grid_item}>
+            {list.map(item => (
+              <div key={item.name} className={style.grid_item}>
                 <Card item={item} />
               </div>
-            })}
+            ))}
           </Masonry>
         </div>
       </InfiniteList>
