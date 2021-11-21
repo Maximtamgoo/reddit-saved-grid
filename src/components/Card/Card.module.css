@@ -4,6 +4,7 @@
   /* border: 1px solid var(--blue); */
   color: var(--blue);
   background: var(--grey);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
 
   /* animation: cardAnime .5s ease-in-out; */
 }
