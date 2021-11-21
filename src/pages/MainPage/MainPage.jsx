@@ -4,7 +4,7 @@ import Card from '../../components/Card/Card'
 import InfiniteList from '../../components/InfiniteList/InfiniteList'
 import { useState, useCallback, useRef } from 'react'
 import api from '../../services/api'
-import { ReactComponent as LoaderIcon } from '../../svg/loader.svg'
+import { ReactComponent as LoaderIcon } from '../../svg/three-dots.svg'
 import Masonry from 'react-masonry-component'
 import useAuth from '../../hooks/useAuth'
 

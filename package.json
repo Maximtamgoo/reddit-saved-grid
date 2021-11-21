@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "node-fetch": "^2.6.5",

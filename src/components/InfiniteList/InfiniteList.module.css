@@ -4,23 +4,21 @@
 }
 
 .loader_wrapper {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .loader {
-  /* border: 1px solid blue; */
-  animation: spin 2s linear infinite;
   display: flex;
+  margin-bottom: 30px;
 }
 
 .theend {
-  /* border: 1px solid blue; */
   text-align: center;
   font-weight: bold;
   font-size: 2em;
   color: var(--grey);
-  margin-top: -15px;
-  margin-bottom: 10px;
+  line-height: 1em;
+  padding-bottom: 30px;
 }
