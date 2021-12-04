@@ -5,7 +5,7 @@ import InfiniteList from '../../components/InfiniteList/InfiniteList'
 import { useState, useCallback, useRef } from 'react'
 import api from '../../services/api'
 import { ReactComponent as LoaderIcon } from '../../svg/three-dots.svg'
-import Masonry from 'react-masonry-component'
+import { XMasonry, XBlock } from 'react-xmasonry'
 import useAuth from '../../hooks/useAuth'
 
 export default function MainPage() {
@@ -45,22 +45,15 @@ export default function MainPage() {
         loader={<LoaderIcon />}
       >
         <div className={style.wrap}>
-          <Masonry
-            className={style.grid}
-            options={{
-              // transitionDuration: 0,
-              itemSelector: `.${style.grid_item}`,
-              columnWidth: `.${style.grid_item}`,
-              percentPosition: true,
-              gutter: 10
-            }}
+          <XMasonry
+            targetBlockWidth={400}
           >
             {list.map(item => (
-              <div key={item.name} className={style.grid_item}>
-                <Card item={item} />
-              </div>
+              <XBlock>
+                <Card key={item.name} item={item} />
+              </XBlock>
             ))}
-          </Masonry>
+          </XMasonry>
         </div>
       </InfiniteList>
     </>

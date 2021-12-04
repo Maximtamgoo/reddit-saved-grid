@@ -1,3 +1,17 @@
+@keyframes comeIn {
+  0% {
+    transform: scale(0)
+  }
+
+  75% {
+    transform: scale(1.03)
+  }
+
+  100% {
+    transform: scale(1)
+  }
+}
+
 .card {
   overflow: hidden;
   border-radius: 5px;
@@ -6,7 +20,13 @@
   background: var(--grey);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
 
-  /* animation: cardAnime .5s ease-in-out; */
+  margin: 5px;
+
+  animation: comeIn ease 0.5s;
+  animation-iteration-count: 1;
+  transition: left .3s ease, top .3s ease;
+
+  /* animation: scale .5s ease-in-out; */
 }
 
 /* @keyframes cardAnime {
