@@ -49,8 +49,8 @@ export default function MainPage() {
             targetBlockWidth={400}
           >
             {list.map(item => (
-              <XBlock>
-                <Card key={item.name} item={item} />
+              <XBlock key={item.name}>
+                <Card item={item} />
               </XBlock>
             ))}
           </XMasonry>
