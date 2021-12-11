@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <div className={style.navbar}>
-      <div className={style.title}>Reddit Saved Grid</div>
+      <div className={style.title}>Reddit Saved Masonry</div>
       <button className={style.btn} onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   )
