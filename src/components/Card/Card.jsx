@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import style from './Card.module.css'
 import { ReactComponent as BookmarkIcon } from '../../svg/bookmark.svg'
-import { ReactComponent as FileHelpIcon } from '../../svg/file-help.svg'
 import api from '../../services/api'
 
 export default function Card({ item }) {
@@ -28,7 +27,7 @@ export default function Card({ item }) {
     src = item?.url
   }
 
-  const onClick = async () => {
+  async function handleBookmark() {
     try {
       if (saved) {
         await api.unsaveContent(item.name)
@@ -53,7 +52,7 @@ export default function Card({ item }) {
           </div>
           <a className={style.title} href={postLink} target='_blank' rel="noreferrer">{item.title}</a>
         </div>
-        <div className={style.bookmark} onClick={onClick}>
+        <div className={style.bookmark} onClick={handleBookmark}>
           <BookmarkIcon className={style.icon}
             style={{ fill: (saved) ? 'var(--blue)' : 'none' }}
           />
@@ -65,9 +64,7 @@ export default function Card({ item }) {
         {src ?
           <img src={src} alt="Reddit Content" />
           :
-          <div className={style.filehelp}>
-            <FileHelpIcon className={style.icon} />
-          </div>
+          <div className={style.unknown}>?</div>
         }
       </a>
     </div>
