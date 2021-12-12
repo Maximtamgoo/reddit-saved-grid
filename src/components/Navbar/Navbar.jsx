@@ -1,28 +1,25 @@
 import style from './Navbar.module.css'
 import useAuth from '../../hooks/useAuth'
-// import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { throttle } from 'lodash'
 
 export default function Navbar() {
-  // const [shrink, setShrink] = useState(false)
+  const [shrink, setShrink] = useState(false)
   const auth = useAuth()
-  // const ref = useRef()
+  const navRef = useRef()
 
-  // TODO shrink or hide navbar on scroll
-  // useEffect(() => {
-  //   window.onscroll = function () {
-  //     console.log('ref.current:', ref.current.offsetTop)
-  //     if (ref.current.offsetTop > 60) {
-  //       setShrink(true)
-  //     } else {
-  //       setShrink(false)
-  //     }
-  //   }
-  // }, [])
-
-  // <div ref={ref} className={`${style.navbar} ${shrink ? style.shrink : ''}`}>
+  useEffect(() => {
+    window.onscroll = throttle(function () {
+      setShrink((shrink) => {
+        if (!shrink && navRef.current.offsetTop > 70) return true
+        if (shrink && navRef.current.offsetTop < 70) return false
+        return shrink
+      })
+    }, 100)
+  }, [])
 
   return (
-    <div className={style.navbar}>
+    <div ref={navRef} className={`${style.navbar} ${shrink ? style.shrink : ''}`}>
       <div className={style.title}>Reddit Saved Masonry</div>
       <button className={style.btn} onClick={() => auth.signOut()}>Sign Out</button>
     </div>
