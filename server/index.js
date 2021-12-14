@@ -12,7 +12,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["self", "*.redd.it"]
+      "img-src": ["'self'", "*.redd.it"]
     }
   }
 }))
