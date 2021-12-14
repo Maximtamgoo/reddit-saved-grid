@@ -1,3 +1,3 @@
 # Reddit Saved Masonry
 
-A web app that displays your Reddit saved content in a grid.
+A web app that displays your Reddit saved content in a masonry grid.

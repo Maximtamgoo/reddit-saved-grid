@@ -1,13 +1,21 @@
 'use strict'
 require('dotenv').config()
 const helmet = require('helmet')
+const path = require('path')
 const cookieParser = require('cookie-parser')
 const reddit = require('./middleware/reddit')
 const routes = require('./routes')
 const express = require('express')
 const app = express()
 
-app.use(helmet())
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "img-src": ["self", "*.redd.it"]
+    }
+  }
+}))
 app.use(cookieParser(process.env.REACT_APP_COOKIE_SECRET))
 app.use(reddit({
   userAgent: process.env.REACT_APP_REDDIT_USERAGENT,
@@ -15,11 +23,26 @@ app.use(reddit({
   clientSecret: process.env.REACT_APP_REDDIT_CLIENTSECRET,
   redirectUri: process.env.REACT_APP_REDDIT_REDIRECT_URI
 }))
-
 app.use(express.json())
-app.use(express.static('public'))
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('build'))
+} else {
+  app.use(express.static('public'))
+}
+
+console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 app.use(routes)
+
+app.get('/*', (req, res, next) => {
+  console.log(`${req.method} ${req.path}`)
+  try {
+    res.sendFile(path.join(__dirname, '../', 'build/index.html'))
+  } catch (error) {
+    next(error)
+  }
+})
 
 app.use(function (error, req, res, next) {
   if (error.name === 'UnauthorizedError') {
@@ -53,10 +76,7 @@ app.use('*', (req, res, next) => {
   res.status(404).send('404: Page Not Found')
 })
 
-// todo set up dev & prod env
-// todo figure out starting nodemon with dev & prod env
-
-const port = 5000
+const port = process.env.PORT || 5000
 app.listen(port, () => {
   console.log('server started on port:', port)
 })
