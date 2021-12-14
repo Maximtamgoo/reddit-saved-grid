@@ -57,21 +57,6 @@ app.use(function (error, req, res, next) {
   }
 })
 
-app.get('/api/fakedata', (req, res) => {
-  console.log(`${req.method} ${req.path} : route`)
-
-  const children = []
-  for (let i = 0; i < 30; i++) {
-    children.push({ data: { name: `fake${i}`, image: `/fake${i}.jpg` } })
-  }
-
-  res.send({
-    data: {
-      children
-    }
-  })
-})
-
 app.use('*', (req, res, next) => {
   res.status(404).send('404: Page Not Found')
 })
