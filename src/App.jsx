@@ -1,4 +1,3 @@
-import './App.css'
 import useAuth from './hooks/useAuth'
 import { LoginPage, MainPage } from './pages'
 
