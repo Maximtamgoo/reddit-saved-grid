@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "cookie-parser": "^1.4.6",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "helmet": "^4.6.0",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.5",

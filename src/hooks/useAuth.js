@@ -38,7 +38,7 @@ export function useProvideAuth() {
           setIsAuthed(true)
         }
       } catch (error) {
-        console.log('useEffect error:', error)
+        // console.log('useEffect error:', error)
       }
       setLoading(false)
     })()

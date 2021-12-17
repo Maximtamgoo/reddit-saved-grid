@@ -25,23 +25,27 @@ app.use(reddit({
 }))
 app.use(express.json())
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('build'))
-} else {
-  app.use(express.static('public'))
-}
-
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
+const folder = (process.env.NODE_ENV === 'production') ? 'build' : 'public'
+const indexPath = path.join(__dirname, '../', `${folder}/index.html`)
+app.use(express.static(folder))
+
 app.use(routes)
+
+app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 
 app.get('/*', (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
-    res.sendFile(path.join(__dirname, '../', 'build/index.html'))
+    res.sendFile(indexPath)
   } catch (error) {
     next(error)
   }
+})
+
+app.use('*', (req, res, next) => {
+  res.status(404).send('404: Page Not Found')
 })
 
 app.use(function (error, req, res, next) {
@@ -55,10 +59,6 @@ app.use(function (error, req, res, next) {
     console.log('express error:', error)
     res.sendStatus(500)
   }
-})
-
-app.use('*', (req, res, next) => {
-  res.status(404).send('404: Page Not Found')
 })
 
 const port = process.env.PORT || 5000

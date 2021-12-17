@@ -9,13 +9,19 @@ export default function Navbar() {
   const navRef = useRef()
 
   useEffect(() => {
-    window.onscroll = throttle(function () {
+    const throttleScroll = throttle(() => {
       setShrink((shrink) => {
         if (!shrink && navRef.current.offsetTop > 70) return true
         if (shrink && navRef.current.offsetTop < 70) return false
         return shrink
       })
     }, 100)
+
+    window.addEventListener('scroll', throttleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', throttleScroll)
+    }
   }, [])
 
   return (
