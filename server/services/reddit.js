@@ -15,10 +15,11 @@ module.exports = class Reddit {
 
   setTokenCookies(res) {
     const expires_at = Date.now() + (this.expires_in * 1000)
+    const expires_at_month = Date.now() + (2592000 * 1000)
 
     const cookieOptions = { sameSite: 'strict', secure: true, httpOnly: true, signed: true }
     res.cookie('access_token', this.access_token, { ...cookieOptions, expires: new Date(expires_at) })
-    res.cookie('refresh_token', this.refresh_token, cookieOptions)
+    res.cookie('refresh_token', this.refresh_token, { ...cookieOptions, expires: new Date(expires_at_month) })
     return res
   }
 
