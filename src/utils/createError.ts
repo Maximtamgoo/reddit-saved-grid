@@ -1,4 +1,4 @@
-export default function createError(name, message) {
+export default function createError(name: string, message: string) {
   const error = Error()
   error.name = name
   error.message = message

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react"
-import useIntersectionObserver from "../../hooks/useIntersectionObserver"
+import { useEffect, useRef } from 'react'
+import Props from './InfiniteList.types'
+import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 import style from './InfiniteList.module.css'
 
-export default function InfiniteList({ fetchMore, hasMore = true, loader, children }) {
+export default function InfiniteList({ fetchMore, hasMore = true, loader, children }: Props) {
   const pendingRef = useRef(false)
-  const [ref, inView] = useIntersectionObserver()
+  const { targetRef, inView } = useIntersectionObserver()
 
   useEffect(() => {
     if (inView && !pendingRef.current && hasMore) {
@@ -20,7 +21,7 @@ export default function InfiniteList({ fetchMore, hasMore = true, loader, childr
     <>
       {children}
       {hasMore ?
-        <div ref={ref} className={style.loader_wrapper}>
+        <div ref={targetRef} className={style.loader_wrapper}>
           <div className={style.loader}>{loader}</div>
         </div>
         :

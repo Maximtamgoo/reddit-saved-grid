@@ -1,19 +1,33 @@
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext, ReactNode } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import api from '../services/api'
 
 const pathname = window.location.pathname
 const urlParams = new URLSearchParams(window.location.search)
-const redirectParams = { state: urlParams.get('state'), code: urlParams.get('code'), error: urlParams.get('error') }
-window.history.replaceState({}, document.title, "/")
+const redirectParams = {
+  state: urlParams.get('state'),
+  code: urlParams.get('code'),
+  error: urlParams.get('error')
+}
+
+window.history.replaceState({}, document.title, '/')
 const redirectState = window.localStorage.getItem('redirect_state')
 window.localStorage.clear()
 
-const AuthContext = createContext()
+type AuthContextType = {
+  isAuthed: boolean,
+  loading: boolean,
+  signInWithReddit: () => void,
+  signOut: () => void
+}
 
-export function AuthProvider({ children }) {  
+const AuthContext = createContext<AuthContextType>({
+  isAuthed: false, loading: true, signInWithReddit: () => null, signOut: () => null
+})
+
+export function AuthProvider(props: { children: ReactNode }) {
   const auth = useProvideAuth()
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={auth}>{props.children}</AuthContext.Provider>
 }
 
 export default function useAuth() {
@@ -28,12 +42,22 @@ export function useProvideAuth() {
   useEffect(() => {
     (async () => {
       try {
-        if(redirectParams.error === 'access_denied') {
+        if (redirectParams.error === 'access_denied') {
           throw redirectParams.error
         }
-        const data = (pathname === '/auth_callback' && redirectState === redirectParams.state) ? await api.authorize(redirectParams.code) : await api.getMe()
-        // console.log('useAuth data:', data)
-        if (data) {
+
+        let data: { username: string | null } = { username: null }
+        if (
+          pathname === '/auth_callback' &&
+          redirectState === redirectParams.state &&
+          redirectParams.code
+        ) {
+          data = await api.authorize(redirectParams.code)
+        } else {
+          data = await api.getMe()
+        }
+
+        if (data.username) {
           api.setUsername(data.username)
           setIsAuthed(true)
         }

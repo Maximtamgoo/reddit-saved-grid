@@ -1,6 +1,9 @@
 'use strict'
-const fetch = require('node-fetch')
+// const fetch = require('node-fetch')
 const aError = require('../utils/createError')
+
+const fetchPromise = import('node-fetch').then(mod => mod.default)
+const fetch = (...args) => fetchPromise.then(fetch => fetch(...args))
 
 module.exports = class Reddit {
   constructor({ userAgent, clientId, clientSecret, redirectUri, accessToken, refreshToken }) {

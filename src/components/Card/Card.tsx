@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import style from './Card.module.css'
+import ItemType from '../../pages/MainPage/ItemType.types'
 import { ReactComponent as BookmarkIcon } from '../../svg/bookmark.svg'
 import api from '../../services/api'
 
-export default function Card({ item }) {
+export default function Card(props: { item: ItemType }) {
+  const { item } = props
   const [saved, setSaved] = useState(true)
 
   const authorLink = `https://www.reddit.com/u/${item.author}`

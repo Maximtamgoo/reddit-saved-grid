@@ -7,13 +7,14 @@ import api from '../../services/api'
 import { ReactComponent as LoaderIcon } from '../../svg/three-dots.svg'
 import { XMasonry, XBlock } from 'react-xmasonry'
 import useAuth from '../../hooks/useAuth'
+import ItemType from './ItemType.types'
 
 export default function MainPage() {
   // console.log('MainPage')
   const auth = useAuth()
-  const [list, setList] = useState([])
+  const [list, setList] = useState<ItemType[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const afterRef = useRef()
+  const afterRef = useRef(null)
 
   const fetchMore = useCallback(async () => {
     console.log('fetchMore')
@@ -21,7 +22,7 @@ export default function MainPage() {
       const savedContent = await api.getSavedContent(afterRef.current)
       // console.log('%c SavedContent', 'color: red', savedContent)
       afterRef.current = savedContent.data.after
-      const newItems = savedContent.data.children.map(item => {
+      const newItems = savedContent.data.children.map((item: { data: unknown }) => {
         // console.log('title:', item.data.title)
         // console.log('item.data:', item.data)
         return item.data
@@ -30,7 +31,8 @@ export default function MainPage() {
       setList((oldItems) => ([...oldItems, ...newItems]))
       if (savedContent.data.after === null) setHasMore(false)
     } catch (error) {
-      if (error.name === 'UnauthorizedError') {
+      const err = error as { name: string }
+      if (err.name === 'UnauthorizedError') {
         auth.signOut()
       }
     }

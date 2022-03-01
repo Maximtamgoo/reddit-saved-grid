@@ -1,33 +1,40 @@
 import aError from '../utils/createError'
 
+type Options = {
+  method?: string,
+  credentials?: RequestCredentials,
+  headers?: {
+    authorization_code?: string,
+    ['Content-Type']?: string
+  },
+  body?: string
+}
+
 class Api {
+  private username: string | null
+
   constructor() {
     this.username = null
   }
 
-  setUsername(name) {
+  setUsername(name: string) {
     this.username = name
   }
 
-  async apiRequest(url, options) {
-    try {
-      const res = await fetch(url, { credentials: 'same-origin', ...options })
-      // console.log('res:', res)
-      if (res.ok) {
-        return await res.json()
-      } else if (res.status === 401) {
-        throw aError('UnauthorizedError', 'Unauthorized request')
-      } else {
-        throw aError('BadRequestError', 'Request failed')
-      }
-    } catch (error) {
-      // console.log('error:', error)
-      throw error
+  async apiRequest(url: string, options?: Options) {
+    const res = await fetch(url, { credentials: 'same-origin', ...options })
+    // console.log('res:', res)
+    if (res.ok) {
+      return await res.json()
+    } else if (res.status === 401) {
+      throw aError('UnauthorizedError', 'Unauthorized request')
+    } else {
+      throw aError('BadRequestError', 'Request failed')
     }
   }
 
-  authorize(code) {
-    return this.apiRequest('/api/authorize', { headers: { 'authorization_code': code } })
+  authorize(code: string) {
+    return this.apiRequest('/api/authorize', { headers: { authorization_code: code } })
   }
 
   getMe() {
@@ -38,11 +45,11 @@ class Api {
     return this.apiRequest('/api/signout', { method: 'POST' })
   }
 
-  getSavedContent(after) {
+  getSavedContent(after: string | null) {
     return this.apiRequest(`/api/saved/${this.username}?after=${after}`)
   }
 
-  unsaveContent(id) {
+  unsaveContent(id: string) {
     console.log(`unsaveContent(${id})`)
     return this.apiRequest('/api/unsave', {
       method: 'POST',
@@ -51,7 +58,7 @@ class Api {
     })
   }
 
-  saveContent(id) {
+  saveContent(id: string) {
     console.log(`saveContent(${id})`)
     return this.apiRequest('/api/save', {
       method: 'POST',

@@ -6,13 +6,15 @@ import { throttle } from 'lodash'
 export default function Navbar() {
   const [shrink, setShrink] = useState(false)
   const auth = useAuth()
-  const navRef = useRef()
+  const navRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const throttleScroll = throttle(() => {
       setShrink((shrink) => {
-        if (!shrink && navRef.current.offsetTop > 70) return true
-        if (shrink && navRef.current.offsetTop < 70) return false
+        if (null !== navRef.current) {
+          if (!shrink && navRef.current.offsetTop > 70) return true
+          if (shrink && navRef.current.offsetTop < 70) return false
+        }
         return shrink
       })
     }, 100)
