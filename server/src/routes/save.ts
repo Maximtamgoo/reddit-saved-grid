@@ -1,9 +1,10 @@
-const router = require('express').Router()
+import express from 'express'
+const router = express.Router()
 
-module.exports = router.post('/api/save', async (req, res, next) => {
+export default router.post('/api/save', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
-    console.log('req.body.id:', req.body.id)
+    console.log('req.body.id:', req.body.id as string)
     await req.reddit.saveContent(req.body.id)
     // res.set(rateLimit)
     if (req.reddit.newTokens) {

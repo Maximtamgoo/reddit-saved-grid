@@ -1,13 +1,57 @@
-'use strict'
-// const fetch = require('node-fetch')
-const aError = require('../utils/createError')
+import fetch from 'node-fetch'
+import aError from '../utils/createError'
+import { CookieOptions, Response } from 'express'
 
-const fetchPromise = import('node-fetch').then(mod => mod.default)
-const fetch = (...args) => fetchPromise.then(fetch => fetch(...args))
+type RedditTokenType = {
+  access_token: string,
+  refresh_token: string,
+  expires_in: number
+}
 
-module.exports = class Reddit {
+type RedditFields = {
+  base64Creds: string,
+  userAgent: string,
+  newTokens: boolean,
+  token: RedditTokenType
+}
+
+type RedditRequestParams = () => {
+  url: string,
+  options: {
+    method?: 'GET' | 'POST',
+    headers: {
+      'User-Agent': string,
+      'Authorization': string,
+      'Content-Type'?: 'application/x-www-form-urlencoded'
+    },
+    body?: string
+  }
+}
+
+// type RedditRequestParams = {
+//   url: string,
+//   options: {
+//     method: 'GET' | 'POST',
+//     headers: {
+//       'User-Agent': string,
+//       'Authorization': string,
+//       'Content-Type': 'application/x-www-form-urlencoded'
+//     },
+//     body: string
+//   }
+// }
+
+export default class Reddit {
+  private readonly base64Creds: string
+  private readonly userAgent: string
+  private readonly redirectUri: string
+  private access_token: string
+  private refresh_token: string
+  private expires_in: number
+  private newTokens: boolean
+
   constructor({ userAgent, clientId, clientSecret, redirectUri, accessToken, refreshToken }) {
-    this.base64Creds = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+    this.base64Creds = Buffer.from(`${clientId}:${clientSecret} `).toString('base64')
     this.userAgent = userAgent
     this.redirectUri = redirectUri
     this.access_token = accessToken
@@ -16,17 +60,20 @@ module.exports = class Reddit {
     this.newTokens = false
   }
 
-  setTokenCookies(res) {
+  isNewTokens() {
+    return this.newTokens
+  }
+
+  setTokenCookies(res: Response) {
     const expires_at = Date.now() + (this.expires_in * 1000)
     const expires_at_month = Date.now() + (2592000 * 1000)
 
-    const cookieOptions = { sameSite: 'strict', secure: true, httpOnly: true, signed: true }
+    const cookieOptions: CookieOptions = { sameSite: 'strict', secure: true, httpOnly: true, signed: true }
     res.cookie('access_token', this.access_token, { ...cookieOptions, expires: new Date(expires_at) })
     res.cookie('refresh_token', this.refresh_token, { ...cookieOptions, expires: new Date(expires_at_month) })
-    return res
   }
 
-  async apiRequest(freshParams) {
+  async apiRequest(freshParams: RedditRequestParams) {
     async function request() {
       const { url, options } = freshParams()
       const res = await fetch(url, options)
@@ -48,17 +95,12 @@ module.exports = class Reddit {
     } catch (error) {
       console.log('apiRequest error:', error.name)
       if (error.name === 'UnauthorizedError') {
-        try {
-          const data = await this.refreshToken()
-          this.access_token = data.access_token
-          this.refresh_token = data.refresh_token
-          this.expires_in = data.expires_in
-          this.newTokens = true
-          return await request()
-        } catch (error) {
-          // console.log('this.refreshToken error:', error.name)
-          throw error
-        }
+        const data = await this.refreshToken()
+        this.access_token = data.access_token
+        this.refresh_token = data.refresh_token
+        this.expires_in = data.expires_in
+        this.newTokens = true
+        return await request()
       } else {
         throw error
       }
@@ -71,14 +113,15 @@ module.exports = class Reddit {
       options: {
         headers: {
           'User-Agent': this.userAgent,
-          'Authorization': `Bearer ${this.access_token}`
+          'Authorization': `Bearer ${this.access_token} `
         }
       }
-    }))
+    })) as Promise<{ name: string }>
   }
 
-  getSavedContent(username, params) {
-    const { type, before, after, count, limit = 24 } = params
+
+  getSavedContent(username: string, after: string, limit = 24) {
+    // unused params: type, before, count
     if (username && limit) {
       return this.apiRequest(() => ({
         url: `https://oauth.reddit.com/user/${username}/saved?after=${after}&limit=${limit}&raw_json=1`,
@@ -132,7 +175,7 @@ module.exports = class Reddit {
     }
   }
 
-  async oauthRequest(url, options) {
+  async oauthRequest(url, options): Promise<RedditTokenType> {
     async function request() {
       const res = await fetch(url, options)
       if (res.ok) {
@@ -148,13 +191,7 @@ module.exports = class Reddit {
         throw aError('BadRequestError', 'Request failed')
       }
     }
-
-    try {
-      const data = await request()
-      return data
-    } catch (error) {
-      throw error
-    }
+    return await request()
   }
 
   authorize(code) {

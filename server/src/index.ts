@@ -1,18 +1,17 @@
-'use strict'
-require('dotenv').config()
-const helmet = require('helmet')
-const path = require('path')
-const cookieParser = require('cookie-parser')
-const reddit = require('./middleware/reddit')
-const routes = require('./routes')
-const express = require('express')
+import 'dotenv/config'
+import helmet from 'helmet'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import reddit from './middleware/reddit'
+import routes from './routes'
+import express, { ErrorRequestHandler } from 'express'
 const app = express()
 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "*.redd.it"]
+      'img-src': ['"self"', '*.redd.it']
     }
   }
 }))
@@ -33,7 +32,7 @@ app.use(express.static(folder))
 
 app.use(routes)
 
-app.get('/favicon.ico', (req, res) => res.sendStatus(204))
+app.get('/favicon.ico', (_req, res) => res.sendStatus(204))
 
 app.get('/*', (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
@@ -44,11 +43,11 @@ app.get('/*', (req, res, next) => {
   }
 })
 
-app.use('*', (req, res, next) => {
+app.use('*', (_req, res) => {
   res.status(404).send('404: Page Not Found')
 })
 
-app.use(function (error, req, res, next) {
+const errorMW: ErrorRequestHandler = (error, _req, res, _next) => {
   if (error.name === 'UnauthorizedError') {
     console.log('express error:', error.name)
     res.sendStatus(401)
@@ -59,7 +58,9 @@ app.use(function (error, req, res, next) {
     console.log('express error:', error)
     res.sendStatus(500)
   }
-})
+}
+
+app.use(errorMW)
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {

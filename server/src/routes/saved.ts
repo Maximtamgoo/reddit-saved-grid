@@ -1,13 +1,14 @@
-const router = require('express').Router()
+import express from 'express'
+const router = express.Router()
 
-module.exports = router.get('/api/saved/:username', async (req, res, next) => {
+export default router.get('/api/saved/:username', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     const username = req.params.username
-    const after = req.query.after
+    const after = req.query.after as string
     const limit = 24
 
-    const data = await req.reddit.getSavedContent(username, { after, limit })
+    const data = await req.reddit.getSavedContent(username, after, limit)
     // res.set(rateLimit)
     if (req.reddit.newTokens) {
       res = req.reddit.setTokenCookies(res)

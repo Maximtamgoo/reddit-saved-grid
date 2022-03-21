@@ -1,12 +1,9 @@
-const Reddit = require('../services/reddit')
+import Reddit from '../services/reddit'
 
-module.exports = function reddit({
-  userAgent,
-  clientId,
-  clientSecret,
-  redirectUri
-}) {
-  return (req, res, next) => {
+export default ({
+  userAgent, clientId, clientSecret, redirectUri
+}) => {
+  return (req, _res, next) => {
     req.reddit = new Reddit({
       userAgent,
       clientId,

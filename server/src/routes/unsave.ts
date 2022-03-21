@@ -1,13 +1,14 @@
-const router = require('express').Router()
+import express from 'express'
+const router = express.Router()
 
-module.exports = router.post('/api/unsave', async (req, res, next) => {
+export default router.post('/api/unsave', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     console.log('req.body.id:', req.body.id)
     await req.reddit.unsaveContent(req.body.id)
     // res.set(rateLimit)
     if (req.reddit.newTokens) {
-      res = req.reddit.setTokenCookies(res)
+      req.reddit.setTokenCookies(res)
     }
     console.log(`send()`)
     res.send({})

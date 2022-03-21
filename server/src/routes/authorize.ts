@@ -1,6 +1,7 @@
-const router = require('express').Router()
+import express from 'express'
+const router = express.Router()
 
-module.exports = router.get('/api/authorize', async (req, res, next) => {
+export default router.get('/api/authorize', async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
     const authorization_code = req.headers.authorization_code
@@ -8,10 +9,7 @@ module.exports = router.get('/api/authorize', async (req, res, next) => {
 
     const data = await req.reddit.authorize(authorization_code)
     console.log('data:', data)
-    req.reddit.access_token = data.access_token
-    req.reddit.expires_in = data.expires_in
-    req.reddit.refresh_token = data.refresh_token
-    res = req.reddit.setTokenCookies(res)
+    req.reddit.setTokenCookies(res)
 
     const me = await req.reddit.getMe()
     res.send({ username: me.name })
