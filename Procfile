@@ -1,1 +1,0 @@
-web: npm run build-client && rm -rf react-client/src && npm run build-server && rm -rf server/src && set NODE_ENV=production&& node server/dist/index.js
