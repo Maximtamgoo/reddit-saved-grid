@@ -1,10 +1,12 @@
-import 'dotenv/config'
-import helmet from 'helmet'
+import dotenv from 'dotenv'
 import path from 'path'
+dotenv.config({ path: path.join(__dirname, '../../', '.env') })
+import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import reddit from './middleware/reddit'
 import routes from './routes'
 import express, { ErrorRequestHandler } from 'express'
+import RedditError from './utils/RedditError'
 const app = express()
 
 app.use(helmet({
@@ -17,10 +19,10 @@ app.use(helmet({
 }))
 app.use(cookieParser(process.env.REACT_APP_COOKIE_SECRET))
 app.use(reddit({
-  userAgent: process.env.REACT_APP_REDDIT_USERAGENT,
-  clientId: process.env.REACT_APP_REDDIT_CLIENTID,
-  clientSecret: process.env.REACT_APP_REDDIT_CLIENTSECRET,
-  redirectUri: process.env.REACT_APP_REDDIT_REDIRECT_URI
+  userAgent: process.env.REACT_APP_REDDIT_USERAGENT as string,
+  clientId: process.env.REACT_APP_REDDIT_CLIENTID as string,
+  clientSecret: process.env.REACT_APP_REDDIT_CLIENTSECRET as string,
+  redirectUri: process.env.REACT_APP_REDDIT_REDIRECT_URI as string
 }))
 app.use(express.json())
 
@@ -47,20 +49,15 @@ app.use('*', (_req, res) => {
   res.status(404).send('404: Page Not Found')
 })
 
-const errorMW: ErrorRequestHandler = (error, _req, res, _next) => {
-  if (error.name === 'UnauthorizedError') {
-    console.log('express error:', error.name)
-    res.sendStatus(401)
-  } else if (error.name === 'BadRequestError') {
-    console.log('express error:', error.name)
-    res.sendStatus(400)
+app.use(((error, _req, res, _next) => {
+  if (error instanceof RedditError) {
+    console.log(error.message)
+    res.sendStatus(error.status)
   } else {
-    console.log('express error:', error)
+    console.log('express error:', error.message)
     res.sendStatus(500)
   }
-}
-
-app.use(errorMW)
+}) as ErrorRequestHandler)
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {

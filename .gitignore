@@ -2,11 +2,8 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
+/react-client/node_modules
+/server/node_modules
 
 # production
 /react-client/build

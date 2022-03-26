@@ -10,10 +10,10 @@ export default router.get('/api/saved/:username', async (req, res, next) => {
 
     const data = await req.reddit.getSavedContent(username, after, limit)
     // res.set(rateLimit)
-    if (req.reddit.newTokens) {
-      res = req.reddit.setTokenCookies(res)
+    if (req.reddit.isNewTokens()) {
+      req.reddit.setTokenCookies(res)
     }
-    console.log(`send(data)`)
+    console.log('send(data)')
     res.send(data)
   } catch (error) {
     next(error)

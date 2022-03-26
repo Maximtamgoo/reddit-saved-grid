@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "",
+    "start": "npm run build-client && npm run build-server && cd server && node dist/index.js",
     "dev-server": "npm start --workspace=server",
-    "dev-client": "npm start --workspace=react-client"
+    "dev-client": "npm start --workspace=react-client",
+    "build-server": "npm run build --workspace=server",
+    "build-client": "npm run build --workspace=react-client"
   },
   "workspaces": [
     "react-client",
