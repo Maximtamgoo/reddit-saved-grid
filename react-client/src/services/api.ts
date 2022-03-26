@@ -49,18 +49,9 @@ class Api {
     return this.apiRequest(`/api/saved/${this.username}?after=${after}`)
   }
 
-  unsaveContent(id: string) {
-    console.log(`unsaveContent(${id})`)
-    return this.apiRequest('/api/unsave', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    })
-  }
-
-  saveContent(id: string) {
-    console.log(`saveContent(${id})`)
-    return this.apiRequest('/api/save', {
+  bookmarkContent(id: string, state: string) {
+    console.log(`bookmarkContent(${id}, ${state})`)
+    return this.apiRequest(`/api/bookmark/${state}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id })

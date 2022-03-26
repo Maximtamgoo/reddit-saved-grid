@@ -31,13 +31,8 @@ export default function Card(props: { item: ItemType }) {
 
   async function handleBookmark() {
     try {
-      if (saved) {
-        await api.unsaveContent(item.name)
-        setSaved(false)
-      } else {
-        await api.saveContent(item.name)
-        setSaved(true)
-      }
+      await api.bookmarkContent(item.name, (saved) ? 'unsave' : 'save')
+      setSaved(!saved)
     } catch (error) {
       console.log('error:', error)
     }
