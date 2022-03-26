@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run build-client && npm run build-server && cd server && node dist/index.js",
+    "prestart": "npm run build-client && npm run build-server",
+    "start": "set NODE_ENV=production&& node server/dist/index.js",
     "dev-server": "npm start --workspace=server",
     "dev-client": "npm start --workspace=react-client",
     "build-server": "npm run build --workspace=server",

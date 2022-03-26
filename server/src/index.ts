@@ -10,10 +10,10 @@ import RedditError from './utils/RedditError'
 const app = express()
 
 app.use(helmet({
+  crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      'img-src': ['"self"', '*.redd.it']
+      'img-src': ['*.redd.it']
     }
   }
 }))
@@ -29,21 +29,13 @@ app.use(express.json())
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 const folder = (process.env.NODE_ENV === 'production') ? 'build' : 'public'
-const indexPath = path.join(__dirname, '../', `${folder}/index.html`)
-app.use(express.static(folder))
+const folderPath = path.join(__dirname, '../../react-client', `${folder}`)
+console.log('folderPath:', folderPath)
+app.use(express.static(folderPath))
 
 app.use(routes)
 
 app.get('/favicon.ico', (_req, res) => res.sendStatus(204))
-
-app.get('/*', (req, res, next) => {
-  console.log(`${req.method} ${req.path}`)
-  try {
-    res.sendFile(indexPath)
-  } catch (error) {
-    next(error)
-  }
-})
 
 app.use('*', (_req, res) => {
   res.status(404).send('404: Page Not Found')
