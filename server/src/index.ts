@@ -37,6 +37,15 @@ app.use(routes)
 
 app.get('/favicon.ico', (_req, res) => res.sendStatus(204))
 
+app.get('/*', (req, res, next) => {
+  console.log(`${req.method} ${req.path}`)
+  try {
+    res.sendFile(folderPath)
+  } catch (error) {
+    next(error)
+  }
+})
+
 app.use('*', (_req, res) => {
   res.status(404).send('404: Page Not Found')
 })
