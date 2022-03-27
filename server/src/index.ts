@@ -40,7 +40,7 @@ app.get('/favicon.ico', (_req, res) => res.sendStatus(204))
 app.get('/*', (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   try {
-    res.sendFile(folderPath)
+    res.sendFile(`${folderPath}/index.html`)
   } catch (error) {
     next(error)
   }
