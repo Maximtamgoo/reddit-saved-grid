@@ -7,8 +7,8 @@ export default function LoginPage() {
 
   return (
     <div className={style.login}>
-      <div className={style.title}>Reddit Saved Grid</div>
-      <button className={style.btn} onClick={() => auth.signInWithReddit()}>Sign In</button>
+      <div className={style.title}>Reddit Saved Masonry</div>
+      <button className={style.btn} onClick={() => auth.signInWithReddit()}>Login with Reddit</button>
     </div>
   )
 }
