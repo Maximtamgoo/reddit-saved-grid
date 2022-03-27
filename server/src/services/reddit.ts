@@ -79,7 +79,7 @@ export default class Reddit {
     })) as Promise<{ name: string }>
   }
 
-  getSavedContent(username: string, after: string, limit = 24) {
+  getSavedContent(username: string, after: string, limit = '24') {
     // unused params: type, before, count
     if (username && limit) {
       return this.apiRequest(() => ({

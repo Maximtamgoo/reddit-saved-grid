@@ -6,8 +6,7 @@ export default router.get('/api/saved/:username', async (req, res, next) => {
   try {
     const username = req.params.username
     const after = req.query.after as string
-    const limit = 24
-
+    const limit = process.env.REDDIT_LIMIT
     const data = await req.reddit.getSavedContent(username, after, limit)
     // res.set(rateLimit)
     if (req.reddit.isNewTokens()) {
