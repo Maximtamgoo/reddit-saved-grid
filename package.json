@@ -15,7 +15,7 @@
     "react-client",
     "server"
   ],
-  "devDependencies": {
+  "dependencies": {
     "env-cmd": "^10.1.0"
   }
 }
