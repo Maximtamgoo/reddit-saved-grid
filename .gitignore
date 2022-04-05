@@ -1,13 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/react-client/node_modules
-/server/node_modules
+node_modules
 
 # production
-/react-client/build
-/server/dist
+build
+dist
 
 # misc
 .DS_Store
