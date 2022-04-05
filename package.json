@@ -2,16 +2,20 @@
   "name": "reddit-saved-masonry",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "prestart": "npm run build-client && npm run build-server",
-    "start": "set NODE_ENV=production&& node server/dist/index.js",
-    "dev-server": "npm start --workspace=server",
-    "dev-client": "npm start --workspace=react-client",
+    "prestart": "env-cmd -f .env.production npm run build-client && npm run build-server",
+    "start": "env-cmd -f .env.production node server/dist/index.js",
     "build-server": "npm run build --workspace=server",
-    "build-client": "npm run build --workspace=react-client"
+    "build-client": "npm run build --workspace=react-client",
+    "dev-server": "env-cmd -f .env.development npm start --workspace=server",
+    "dev-client": "env-cmd -f .env.development npm start --workspace=react-client"
   },
   "workspaces": [
     "react-client",
     "server"
-  ]
+  ],
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
+  }
 }

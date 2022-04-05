@@ -1,6 +1,4 @@
-import dotenv from 'dotenv'
 import path from 'path'
-dotenv.config({ path: path.join(__dirname, '../../', '.env') })
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import reddit from './middleware/reddit'
@@ -17,12 +15,12 @@ app.use(helmet({
     }
   }
 }))
-app.use(cookieParser(process.env.REACT_APP_COOKIE_SECRET))
+app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(reddit({
-  userAgent: process.env.REACT_APP_REDDIT_USERAGENT as string,
-  clientId: process.env.REACT_APP_REDDIT_CLIENTID as string,
-  clientSecret: process.env.REACT_APP_REDDIT_CLIENTSECRET as string,
-  redirectUri: process.env.REACT_APP_REDDIT_REDIRECT_URI as string
+  userAgent: process.env.REDDIT_USERAGENT as string,
+  clientId: process.env.REDDIT_CLIENTID as string,
+  clientSecret: process.env.REDDIT_CLIENT_SECRET as string,
+  redirectUri: process.env.REDDIT_REDIRECT_URI as string
 }))
 app.use(express.json())
 
