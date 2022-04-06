@@ -11,7 +11,8 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
-      'img-src': ['*.redd.it']
+      // eslint-disable-next-line quotes
+      imgSrc: ["'self'", '*.redd.it']
     }
   }
 }))
@@ -32,8 +33,6 @@ console.log('folderPath:', folderPath)
 app.use(express.static(folderPath))
 
 app.use(routes)
-
-app.get('/favicon.ico', (_req, res) => res.sendStatus(204))
 
 app.get('/*', (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
