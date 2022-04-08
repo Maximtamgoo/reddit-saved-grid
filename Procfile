@@ -1,1 +1,1 @@
-web: [ -d './server/dist' ] && node server/dist/index.js || npm run build-client && npm run build-server && node server/dist/index.js
+web: npm run build-client && npm run build-server && node server/dist/index.js
