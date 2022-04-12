@@ -9,6 +9,7 @@ export default function LoginPage() {
     <div className={style.login}>
       <div className={style.title}>Reddit Saved Masonry</div>
       <button className={style.btn} onClick={() => auth.signInWithReddit()}>Login with Reddit</button>
+      <div className={style.description}>Display your saved Reddit content in a masonry grid.</div>
     </div>
   )
 }
