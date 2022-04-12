@@ -35,9 +35,9 @@ app.use(routes)
 //   }
 // })
 
-app.use('*', (_req, res) => {
-  res.status(404).send('404: Page Not Found')
-})
+// app.use('*', (_req, res) => {
+//   res.status(404).send('404: Page Not Found')
+// })
 
 app.use(((error, _req, res, _next) => {
   if (error instanceof RedditError) {
