@@ -9,6 +9,15 @@ import { XMasonry, XBlock } from 'react-xmasonry'
 import useAuth from '../../hooks/useAuth'
 import ItemType from './ItemType.types'
 
+declare module 'react-xmasonry'  {
+  interface XMasonryProps {
+    children?: any
+  }
+  interface XBlockProps {
+    children?: any
+  }
+}
+
 export default function MainPage() {
   // console.log('MainPage')
   const auth = useAuth()
