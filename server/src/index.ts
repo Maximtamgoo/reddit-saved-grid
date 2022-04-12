@@ -1,4 +1,4 @@
-import path from 'path'
+// import path from 'path'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import reddit from './middleware/reddit'
@@ -7,15 +7,7 @@ import express, { ErrorRequestHandler } from 'express'
 import RedditError from './utils/RedditError'
 const app = express()
 
-app.use(helmet({
-  crossOriginEmbedderPolicy: false,
-  contentSecurityPolicy: {
-    directives: {
-      // eslint-disable-next-line quotes
-      imgSrc: ["'self'", '*.redd.it']
-    }
-  }
-}))
+app.use(helmet())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(reddit({
   userAgent: process.env.REDDIT_USERAGENT as string,
@@ -27,21 +19,21 @@ app.use(express.json())
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
-const folder = (process.env.NODE_ENV === 'production') ? 'build' : 'public'
-const folderPath = path.join(__dirname, '../../react-client', `${folder}`)
-console.log('folderPath:', folderPath)
-app.use(express.static(folderPath))
+// const folder = (process.env.NODE_ENV === 'production') ? 'build' : 'public'
+// const folderPath = path.join(__dirname, '../../react-client', `${folder}`)
+// console.log('folderPath:', folderPath)
+// app.use(express.static(folderPath))
 
 app.use(routes)
 
-app.get('/*', (req, res, next) => {
-  console.log(`${req.method} ${req.path}`)
-  try {
-    res.sendFile(`${folderPath}/index.html`)
-  } catch (error) {
-    next(error)
-  }
-})
+// app.get('/*', (req, res, next) => {
+//   console.log(`${req.method} ${req.path}`)
+//   try {
+//     res.sendFile(`${folderPath}/index.html`)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 app.use('*', (_req, res) => {
   res.status(404).send('404: Page Not Found')
