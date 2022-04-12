@@ -11,10 +11,10 @@ import ItemType from './ItemType.types'
 
 declare module 'react-xmasonry'  {
   interface XMasonryProps {
-    children?: any
+    children?: unknown
   }
   interface XBlockProps {
-    children?: any
+    children?: unknown
   }
 }
 
