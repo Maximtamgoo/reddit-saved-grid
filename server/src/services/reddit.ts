@@ -9,7 +9,12 @@ const fetch = async (...args: unknown[]) => {
 }
 
 export default class Reddit {
-  static readonly cookieOptions: CookieOptions = { sameSite: 'strict', secure: true, httpOnly: true, signed: true }
+  static readonly cookieOptions: CookieOptions = {
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    signed: true
+  }
   private readonly base64Creds: string
   private readonly userAgent: string
   private readonly redirectUri: string
