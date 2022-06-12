@@ -1,7 +1,13 @@
-import { useEffect, useRef } from 'react'
-import Props from './InfiniteList.types'
+import { useEffect, useRef, ReactNode } from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 import style from './InfiniteList.module.css'
+
+type Props = {
+  fetchMore: () => void,
+  hasMore: boolean,
+  loader: ReactNode,
+  children: ReactNode
+}
 
 export default function InfiniteList({ fetchMore, hasMore = true, loader, children }: Props) {
   const pendingRef = useRef(false)
