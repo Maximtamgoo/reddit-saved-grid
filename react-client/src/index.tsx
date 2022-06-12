@@ -1,18 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import { AuthProvider } from './hooks/useAuth'
 import App from './App'
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
-ReactDOM.render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(document.getElementById('root')!)
+root.render(
   <AuthProvider>
     <App />
-  </AuthProvider>,
-  document.getElementById('root'))
+  </AuthProvider>
+)
