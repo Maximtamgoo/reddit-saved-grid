@@ -1,4 +1,5 @@
-import { useState, useEffect, createContext, useContext, ReactNode } from 'react'
+import { useState, useEffect, useContext, ReactNode } from 'react'
+import AuthContext from '../Context/AuthContext'
 import { v4 as uuidv4 } from 'uuid'
 import api from '../services/api'
 
@@ -14,17 +15,6 @@ window.history.replaceState({}, document.title, '/')
 const redirectState = window.localStorage.getItem('redirect_state')
 window.localStorage.clear()
 
-type AuthContextType = {
-  isAuthed: boolean,
-  loading: boolean,
-  signInWithReddit: () => void,
-  signOut: () => void
-}
-
-const AuthContext = createContext<AuthContextType>({
-  isAuthed: false, loading: true, signInWithReddit: () => null, signOut: () => null
-})
-
 export function AuthProvider(props: { children: ReactNode }) {
   const auth = useProvideAuth()
   return <AuthContext.Provider value={auth}>{props.children}</AuthContext.Provider>
@@ -34,7 +24,7 @@ export default function useAuth() {
   return useContext(AuthContext)
 }
 
-export function useProvideAuth() {
+function useProvideAuth() {
   const [isAuthed, setIsAuthed] = useState(false)
   const [loading, setLoading] = useState(true)
   // const [error, setError] = useState(null)
