@@ -1,4 +1,3 @@
-// import style from './MainPage.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Card from '../../components/Card/Card'
 import InfiniteList from '../../components/InfiniteList/InfiniteList'
@@ -70,7 +69,6 @@ export default function MainPage() {
         hasMore={hasMore}
         loader={<LoaderIcon />}
       >
-        {/* <div className={style.wrap}> */}
         <XMasonry
           targetBlockWidth={Math.min(Math.floor(width / 3), 400)}
           maxColumns={3}
@@ -81,7 +79,6 @@ export default function MainPage() {
             </XBlock>
           ))}
         </XMasonry>
-        {/* </div> */}
       </InfiniteList>
     </>
   )

@@ -18,8 +18,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background: var(--bg);
-  position: absolute;
-  inset: 0;
 }
 
 code {
