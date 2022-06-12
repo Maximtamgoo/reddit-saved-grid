@@ -1,4 +1,4 @@
-import style from './MainPage.module.css'
+// import style from './MainPage.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Card from '../../components/Card/Card'
 import InfiniteList from '../../components/InfiniteList/InfiniteList'
@@ -7,38 +7,52 @@ import api from '../../services/api'
 import { ReactComponent as LoaderIcon } from '../../svg/three-dots.svg'
 import { XMasonry, XBlock } from 'react-xmasonry'
 import useAuth from '../../hooks/useAuth'
-import ItemType from './ItemType.types'
-
-declare module 'react-xmasonry'  {
-  interface XMasonryProps {
-    children?: unknown
-  }
-  interface XBlockProps {
-    children?: unknown
-  }
-}
+import useWindowWidth from '../../hooks/useWindowWidth'
+import Modal from '../../components/Modal/Modal'
+import extractSavedPosts from '../../helpers/extractSavedPosts'
+import { RedditListing, SavedPost } from '../../types/RedditListing.types'
 
 export default function MainPage() {
   // console.log('MainPage')
   const auth = useAuth()
-  const [list, setList] = useState<ItemType[]>([])
+  const width = useWindowWidth()
+  const [list, setList] = useState<SavedPost[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const afterRef = useRef(null)
+  const afterRef = useRef<string | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const [modalData, setModalData] = useState<SavedPost | null>(null)
+
+  function openModal(savedPost: SavedPost) {
+    document.body.style.overflow = 'hidden'
+    document.body.style.height = '100%'
+    setModalData(savedPost)
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    document.body.style.overflow = 'auto'
+    document.body.style.height = 'auto'
+    setIsOpen(false)
+  }
+
+  function setBookmarkState(name: string, saved: boolean) {
+    setList((oldList) => {
+      return oldList.map(e => {
+        return (e.name === name) ? { ...e, saved } : e
+      })
+    })
+    console.log('setBookmarkState:', saved)
+  }
 
   const fetchMore = useCallback(async () => {
     console.log('fetchMore')
     try {
-      const savedContent = await api.getSavedContent(afterRef.current)
-      // console.log('%c SavedContent', 'color: red', savedContent)
-      afterRef.current = savedContent.data.after
-      const newItems = savedContent.data.children.map((item: { data: unknown }) => {
-        // console.log('title:', item.data.title)
-        // console.log('item.data:', item.data)
-        return item.data
-      })
-
+      const redditListing: RedditListing = await api.getSavedContent(afterRef.current)
+      // console.log('%c redditListing', 'color: red', redditListing)
+      afterRef.current = redditListing.data.after
+      const newItems = extractSavedPosts(redditListing.data.children)
       setList((oldItems) => ([...oldItems, ...newItems]))
-      if (savedContent.data.after === null) setHasMore(false)
+      if (redditListing.data.after === null) setHasMore(false)
     } catch (error) {
       const err = error as { name: string }
       if (err.name === 'UnauthorizedError') {
@@ -49,23 +63,25 @@ export default function MainPage() {
 
   return (
     <>
+      <Modal isOpen={isOpen} closeModal={closeModal} modalData={modalData} setBookmarkState={setBookmarkState} />
       <Navbar />
       <InfiniteList
         fetchMore={fetchMore}
         hasMore={hasMore}
         loader={<LoaderIcon />}
       >
-        <div className={style.wrap}>
-          <XMasonry
-            targetBlockWidth={400}
-          >
-            {list.map(item => (
-              <XBlock key={item.name}>
-                <Card item={item} />
-              </XBlock>
-            ))}
-          </XMasonry>
-        </div>
+        {/* <div className={style.wrap}> */}
+        <XMasonry
+          targetBlockWidth={Math.min(Math.floor(width / 3), 400)}
+          maxColumns={3}
+        >
+          {list.map(savedPost => (
+            <XBlock key={savedPost.name}>
+              <Card savedPost={savedPost} openModal={openModal} />
+            </XBlock>
+          ))}
+        </XMasonry>
+        {/* </div> */}
       </InfiniteList>
     </>
   )
