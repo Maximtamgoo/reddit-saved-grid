@@ -1,3 +1,4 @@
+import style from './MainPage.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Card from '../../components/Card/Card'
 import InfiniteList from '../../components/InfiniteList/InfiniteList'
@@ -69,16 +70,17 @@ export default function MainPage() {
         hasMore={hasMore}
         loader={<LoaderIcon />}
       >
-        <XMasonry
-          targetBlockWidth={Math.min(Math.floor(width / 3), 400)}
-          maxColumns={3}
-        >
-          {list.map(savedPost => (
-            <XBlock key={savedPost.name}>
-              <Card savedPost={savedPost} openModal={openModal} />
-            </XBlock>
-          ))}
-        </XMasonry>
+        <div className={style.max_width}>
+          <XMasonry
+            targetBlockWidth={(width <= 500) ? Math.floor(width / 2) : 300}
+          >
+            {list.map(savedPost => (
+              <XBlock key={savedPost.name}>
+                <Card savedPost={savedPost} openModal={openModal} />
+              </XBlock>
+            ))}
+          </XMasonry>
+        </div>
       </InfiniteList>
     </>
   )

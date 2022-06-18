@@ -7,4 +7,4 @@ declare module 'react-xmasonry' {
   }
 }
 
-export {}
+export { }
