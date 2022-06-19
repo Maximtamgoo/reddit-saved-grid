@@ -16,7 +16,7 @@ export default function Modal({ isOpen, closeModal, modalData, setBookmarkState 
 
   const {
     src,
-    name,
+    id,
     title,
     author,
     authorLink,
@@ -29,10 +29,10 @@ export default function Modal({ isOpen, closeModal, modalData, setBookmarkState 
 
   async function handleBookmark() {
     try {
-      if (name) {
-        await api.bookmarkContent(name, (saved) ? 'unsave' : 'save')
+      if (id) {
+        await api.bookmarkContent(id, (saved) ? 'unsave' : 'save')
         setSaved(!saved)
-        setBookmarkState(name, !saved)
+        setBookmarkState(id, !saved)
       }
     } catch (error) {
       console.log('error:', error)

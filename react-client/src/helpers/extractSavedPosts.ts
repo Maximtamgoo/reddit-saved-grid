@@ -40,7 +40,7 @@ export default function extractWantedData(listingItem: ListingItem[]): SavedPost
 
     return {
       src,
-      name,
+      id: name,
       title,
       author,
       authorLink,

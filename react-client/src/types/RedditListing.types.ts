@@ -37,7 +37,7 @@ export type ListingItem = {
 
 export type SavedPost = {
   src: string,
-  name: string,
+  id: string,
   title: string,
   author: string,
   authorLink: string,

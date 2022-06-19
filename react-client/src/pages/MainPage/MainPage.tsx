@@ -35,13 +35,12 @@ export default function MainPage() {
     setIsOpen(false)
   }
 
-  function setBookmarkState(name: string, saved: boolean) {
+  function setBookmarkState(id: string, saved: boolean) {
     setList((oldList) => {
-      return oldList.map(e => {
-        return (e.name === name) ? { ...e, saved } : e
+      return oldList.map(savedPost => {
+        return (savedPost.id === id) ? { ...savedPost, saved } : savedPost
       })
     })
-    console.log('setBookmarkState:', saved)
   }
 
   const fetchMore = useCallback(async () => {
@@ -75,7 +74,7 @@ export default function MainPage() {
             targetBlockWidth={(width <= 500) ? Math.floor(width / 2) : 300}
           >
             {list.map(savedPost => (
-              <XBlock key={savedPost.name}>
+              <XBlock key={savedPost.id}>
                 <Card savedPost={savedPost} openModal={openModal} />
               </XBlock>
             ))}
