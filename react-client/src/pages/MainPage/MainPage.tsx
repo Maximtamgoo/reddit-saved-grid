@@ -3,7 +3,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import Card from '../../components/Card/Card'
 import InfiniteList from '../../components/InfiniteList/InfiniteList'
 import { useState, useCallback, useRef } from 'react'
-import api from '../../services/api'
+import { getSavedContent } from '../../services/api'
 import { ReactComponent as LoaderIcon } from '../../svg/three-dots.svg'
 import { XMasonry, XBlock } from 'react-xmasonry'
 import useAuth from '../../hooks/useAuth'
@@ -18,7 +18,7 @@ export default function MainPage() {
   const width = useWindowWidth()
   const [list, setList] = useState<SavedPost[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const afterRef = useRef<string | null>(null)
+  const afterRef = useRef<string>('')
   const [isOpen, setIsOpen] = useState(false)
   const [modalData, setModalData] = useState<SavedPost | null>(null)
 
@@ -46,7 +46,7 @@ export default function MainPage() {
   const fetchMore = useCallback(async () => {
     console.log('fetchMore')
     try {
-      const redditListing: RedditListing = await api.getSavedContent(afterRef.current)
+      const redditListing: RedditListing = await getSavedContent(auth.name, afterRef.current)
       // console.log('%c redditListing', 'color: red', redditListing)
       afterRef.current = redditListing.data.after
       const newItems = extractSavedPosts(redditListing.data.children)

@@ -10,53 +10,38 @@ type Options = {
   body?: string
 }
 
-class Api {
-  private username: string | null
-
-  constructor() {
-    this.username = null
-  }
-
-  setUsername(name: string) {
-    this.username = name
-  }
-
-  async apiRequest(url: string, options?: Options) {
-    const res = await fetch(url, { credentials: 'same-origin', ...options })
-    // console.log('res:', res)
-    if (res.ok) {
-      return await res.json()
-    } else if (res.status === 401) {
-      throw aError('UnauthorizedError', 'Unauthorized request')
-    } else {
-      throw aError('BadRequestError', 'Request failed')
-    }
-  }
-
-  authorize(code: string) {
-    return this.apiRequest('/api/authorize', { headers: { authorization_code: code } })
-  }
-
-  getMe() {
-    return this.apiRequest('/api/me')
-  }
-
-  signOut() {
-    return this.apiRequest('/api/signout', { method: 'POST' })
-  }
-
-  getSavedContent(after: string | null) {
-    return this.apiRequest(`/api/saved/${this.username}?after=${after}`)
-  }
-
-  bookmarkContent(id: string, state: string) {
-    console.log(`bookmarkContent(${id}, ${state})`)
-    return this.apiRequest(`/api/bookmark/${state}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    })
+async function apiRequest(url: string, options?: Options) {
+  const res = await fetch(url, { credentials: 'same-origin', ...options })
+  if (res.ok) {
+    return await res.json()
+  } else if (res.status === 401) {
+    throw aError('UnauthorizedError', 'Unauthorized request')
+  } else {
+    throw aError('BadRequestError', 'Request failed')
   }
 }
 
-export default new Api()
+export function authorize(code: string) {
+  return apiRequest('/api/authorize', { headers: { authorization_code: code } })
+}
+
+export function getMe() {
+  return apiRequest('/api/me')
+}
+
+export function signOut() {
+  return apiRequest('/api/signout', { method: 'POST' })
+}
+
+export function getSavedContent(name: string, after: string) {
+  return apiRequest(`/api/saved/${name}?after=${after}`)
+}
+
+export function bookmarkContent(id: string, state: string) {
+  console.log(`bookmarkContent(${id}, ${state})`)
+  return apiRequest(`/api/bookmark/${state}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id })
+  })
+}

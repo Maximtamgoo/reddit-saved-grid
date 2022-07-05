@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SavedPost } from '../../types/RedditListing.types'
 import style from './Modal.module.css'
-import api from '../../services/api'
+import { bookmarkContent } from '../../services/api'
 import { ReactComponent as BookmarkIcon } from '../../svg/bookmark.svg'
 
 type Props = {
@@ -30,7 +30,7 @@ export default function Modal({ isOpen, closeModal, modalData, setBookmarkState 
   async function handleBookmark() {
     try {
       if (id) {
-        await api.bookmarkContent(id, (saved) ? 'unsave' : 'save')
+        await bookmarkContent(id, (saved) ? 'unsave' : 'save')
         setSaved(!saved)
         setBookmarkState(id, !saved)
       }

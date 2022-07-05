@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <div ref={navRef} className={`${style.navbar} ${shrink ? style.shrink : ''}`}>
       <div className={style.title}>Reddit Saved Masonry</div>
-      <button className={style.btn} onClick={() => auth.signOut()}>Sign Out</button>
+      <button className={style.btn} onClick={() => auth.signOut()}>{auth.name} | Sign Out</button>
     </div>
   )
 }
