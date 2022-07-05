@@ -24,6 +24,11 @@ console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 // console.log('folderPath:', folderPath)
 // app.use(express.static(folderPath))
 
+app.use((req, _res, next) => {
+  console.log(`${req.method} ${req.path}`)
+  next()
+})
+
 app.use(routes)
 
 // app.get('/*', (req, res, next) => {

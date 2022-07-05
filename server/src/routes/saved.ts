@@ -2,7 +2,6 @@ import express from 'express'
 const router = express.Router()
 
 export default router.get('/api/saved/:username', async (req, res, next) => {
-  console.log(`${req.method} ${req.path}`)
   try {
     const username = req.params.username
     const after = req.query.after as string
@@ -12,7 +11,7 @@ export default router.get('/api/saved/:username', async (req, res, next) => {
     if (req.reddit.isNewTokens()) {
       req.reddit.setTokenCookies(res)
     }
-    console.log('send(data)')
+    // console.log('send(data)')
     res.send(data)
   } catch (error) {
     next(error)
