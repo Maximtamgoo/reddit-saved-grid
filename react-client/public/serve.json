@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/api/:splat",
+      "destination": "http://localhost\\:5000/api/:splat",
+      "type": 308
+    }
+  ]
+}
