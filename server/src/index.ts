@@ -5,9 +5,12 @@ import reddit from './middleware/reddit'
 import routes from './routes'
 import express, { ErrorRequestHandler } from 'express'
 import RedditError from './utils/RedditError'
+import cors from 'cors'
 const app = express()
 
+app.set('trust proxy', 1)
 app.use(helmet())
+app.use(cors({ origin: process.env.REACT_CLIENT_DOMAIN, credentials: true }))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(reddit({
   userAgent: process.env.REDDIT_USERAGENT as string,

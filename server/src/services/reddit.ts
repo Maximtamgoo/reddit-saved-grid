@@ -10,7 +10,7 @@ const fetch = async (...args: unknown[]) => {
 
 export default class Reddit {
   static readonly cookieOptions: CookieOptions = {
-    sameSite: 'strict',
+    sameSite: (process.env.NODE_ENV === 'production') ? 'none' : 'strict',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     signed: true

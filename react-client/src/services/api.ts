@@ -11,7 +11,7 @@ type Options = {
 }
 
 async function apiRequest(url: string, options?: Options) {
-  const res = await fetch(url, { credentials: 'same-origin', ...options })
+  const res = await fetch(url, { credentials: 'include', ...options })
   if (res.ok) {
     return await res.json()
   } else if (res.status === 401) {
