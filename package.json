@@ -11,7 +11,8 @@
     "dev-server": "env-cmd -f .env.development npm run dev --workspace=server",
     "dev-client": "env-cmd -f .env.development npm start --workspace=react-client",
     "staging-server": "npm run build-server && env-cmd -f .env.staging node server/dist/index.js",
-    "staging-client": "env-cmd -f .env.staging npm run build-client && serve -s react-client/build"
+    "staging-client": "env-cmd -f .env.staging npm run build-client && npm run ws",
+    "ws": "cd react-client/build && ws --spa -p 3000 -r '/api/(.*) -> http://localhost:5000/api/$1'"
   },
   "workspaces": [
     "react-client",
