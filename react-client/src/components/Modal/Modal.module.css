@@ -33,7 +33,7 @@
   /* background: linear-gradient(to bottom, var(--bg), var(--grey)); */
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  /* gap: 5px; */
   animation: comeIn .3s ease-in-out;
 }
 
@@ -60,6 +60,7 @@
   color: var(--blue);
   display: flex;
   margin: 0 auto;
+  margin-top: 5px;
   width: 100%;
   max-width: 50em;
   height: 4em;
@@ -113,7 +114,10 @@
   height: 100%;
 }
 
-img, .bookmark>svg, .links>a, .title {
+img,
+.bookmark>svg,
+.links>a,
+.title {
   cursor: pointer;
 }
 
