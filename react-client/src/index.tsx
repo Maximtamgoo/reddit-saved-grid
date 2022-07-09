@@ -9,7 +9,9 @@ const root = createRoot(
 )
 
 root.render(
-  <AuthProvider>
-    <App />
-  </AuthProvider>
+  <React.StrictMode>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </React.StrictMode>
 )

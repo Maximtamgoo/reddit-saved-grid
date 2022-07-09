@@ -12,8 +12,6 @@ type Props = {
 }
 
 export default function Modal({ isOpen, closeModal, modalData, setBookmarkState }: Props) {
-  if (!isOpen) return null
-
   const {
     src,
     id,
@@ -38,6 +36,8 @@ export default function Modal({ isOpen, closeModal, modalData, setBookmarkState 
       console.log('error:', error)
     }
   }
+
+  if (!isOpen) return null
 
   return (
     <div className={style.background}>
