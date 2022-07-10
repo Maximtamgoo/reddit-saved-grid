@@ -1,5 +1,5 @@
 // import path from 'path'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import reddit from './middleware/reddit'
 import routes from './routes'
@@ -9,7 +9,7 @@ import cors from 'cors'
 const app = express()
 
 app.set('trust proxy', 1)
-app.use(helmet())
+// app.use(helmet())
 app.use(cors({ origin: process.env.REACT_CLIENT_DOMAIN, credentials: true }))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(reddit({
