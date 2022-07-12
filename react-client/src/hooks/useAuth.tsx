@@ -47,7 +47,7 @@ function useProvideAuth() {
   }, [])
 
   function signInWithReddit() {
-    window.location.href = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.REACT_APP_REDDIT_CLIENTID}&response_type=code&state=_&redirect_uri=${process.env.REACT_APP_REDDIT_REDIRECT_URI}&duration=permanent&scope=identity history save`
+    window.location.href = '/api/authurl'
   }
 
   async function signOut() {
