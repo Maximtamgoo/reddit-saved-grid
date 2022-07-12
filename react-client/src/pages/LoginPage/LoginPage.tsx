@@ -2,7 +2,7 @@ import style from './LoginPage.module.css'
 import useAuth from '../../hooks/useAuth'
 
 export default function LoginPage() {
-  console.log('Login Page')
+  // console.log('Login Page')
   const auth = useAuth()
 
   return (

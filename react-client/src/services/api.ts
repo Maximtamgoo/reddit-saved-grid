@@ -38,7 +38,7 @@ export function getSavedContent(name: string, after: string) {
 }
 
 export function bookmarkContent(id: string, state: string) {
-  console.log(`bookmarkContent(${id}, ${state})`)
+  // console.log(`bookmarkContent(${id}, ${state})`)
   return apiRequest(`/api/bookmark/${state}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

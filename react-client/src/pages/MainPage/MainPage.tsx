@@ -44,7 +44,7 @@ export default function MainPage() {
   }
 
   const fetchMore = useCallback(async () => {
-    console.log('fetchMore')
+    // console.log('fetchMore')
     try {
       const redditListing: RedditListing = await getSavedContent(auth.name, afterRef.current)
       // console.log('%c redditListing', 'color: red', redditListing)

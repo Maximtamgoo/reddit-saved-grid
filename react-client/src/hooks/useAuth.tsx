@@ -33,13 +33,13 @@ function useProvideAuth() {
           throw redirectParams.error
         }
         const data = (pathname === '/auth_callback' && redirectParams.code) ? await api.authorize(redirectParams.code) : await api.getMe()
-        console.log('data:', data)
+        // console.log('data:', data)
         if (data.name) {
           nameRef.current = data.name
           setIsAuthed(true)
         }
       } catch (error) {
-        console.log('useEffect error:', error)
+        // console.log('useEffect error:', error)
       } finally {
         setLoading(false)
       }
@@ -55,7 +55,7 @@ function useProvideAuth() {
       await api.signOut()
       setIsAuthed(false)
     } catch (error) {
-      console.log('signOut error:', error)
+      // console.log('signOut error:', error)
     }
   }
 

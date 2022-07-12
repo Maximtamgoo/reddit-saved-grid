@@ -33,7 +33,7 @@ export default function Modal({ closeModal, modalData, setBookmarkState }: Props
         setBookmarkState(id, !saved)
       }
     } catch (error) {
-      console.log('error:', error)
+      // console.log('error:', error)
     }
   }
 
