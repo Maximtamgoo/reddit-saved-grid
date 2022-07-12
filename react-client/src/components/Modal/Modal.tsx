@@ -5,13 +5,13 @@ import { bookmarkContent } from '../../services/api'
 import { ReactComponent as BookmarkIcon } from '../../svg/bookmark.svg'
 
 type Props = {
-  isOpen: boolean,
+  // isOpen: boolean,
   closeModal: () => void,
   modalData: SavedPost | null,
   setBookmarkState: (name: string, saved: boolean) => void
 }
 
-export default function Modal({ isOpen, closeModal, modalData, setBookmarkState }: Props) {
+export default function Modal({ closeModal, modalData, setBookmarkState }: Props) {
   const {
     src,
     id,
@@ -36,8 +36,6 @@ export default function Modal({ isOpen, closeModal, modalData, setBookmarkState 
       console.log('error:', error)
     }
   }
-
-  if (!isOpen) return null
 
   return (
     <div className={style.background}>

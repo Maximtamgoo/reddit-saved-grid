@@ -62,7 +62,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={closeModal} modalData={modalData} setBookmarkState={setBookmarkState} />
+      {isOpen && <Modal closeModal={closeModal} modalData={modalData} setBookmarkState={setBookmarkState} />}
       <Navbar />
       <InfiniteList
         fetchMore={fetchMore}
