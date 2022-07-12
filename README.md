@@ -2,7 +2,7 @@
 
 A web app that displays your saved Reddit content in a masonry grid.
 
-Website: https://reddit-saved-masonry.netlify.app
+Website: https://reddit-saved-masonry.herokuapp.com
 
 ## Screenshots
 ![Main Page Screenshot](/../screenshots/screenshots/MainPage.png?raw=true)
