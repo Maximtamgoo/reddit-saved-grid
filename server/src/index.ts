@@ -7,7 +7,15 @@ import express, { ErrorRequestHandler } from 'express'
 import RedditError from './utils/RedditError'
 const app = express()
 
-app.use(helmet())
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      // eslint-disable-next-line quotes
+      imgSrc: ["'self'", '*.redd.it']
+    }
+  }
+}))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(reddit({
   userAgent: process.env.REDDIT_USERAGENT as string,
@@ -49,7 +57,7 @@ app.use(((error, _req, res, _next) => {
   }
 }) as ErrorRequestHandler)
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log('server started on port:', port)
 })
