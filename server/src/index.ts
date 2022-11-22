@@ -12,7 +12,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       // eslint-disable-next-line quotes
-      imgSrc: ["'self'", '*.redd.it']
+      imgSrc: ["'self'", '*.redd.it', '*.imgur.com']
     }
   }
 }))
