@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "react-xmasonry": "^3.0.6"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.189",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
@@ -18,13 +16,15 @@
     "@typescript-eslint/parser": "^5.44.0",
     "eslint": "^8.28.0",
     "eslint-plugin-react": "^7.31.11",
+    "source-map-explorer": "^2.5.3",
     "typescript": "^4.9.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
