@@ -1,6 +1,5 @@
 {
   "env": {
-    "commonjs": true,
     "es2021": true,
     "node": true
   },
@@ -8,9 +7,11 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "plugins": [
     "@typescript-eslint"
