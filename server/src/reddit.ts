@@ -66,3 +66,21 @@ export async function revokeToken(tokenHint: 'access_token' | 'refresh_token', t
     throw createError(res.status, res.statusText)
   }
 }
+
+export async function toggleBookmark(access_token: string, state: 'unsave' | 'save', id: string) {
+  const res = await fetch(`https://oauth.reddit.com/api/${state}`, {
+    method: 'POST',
+    headers: {
+      'User-Agent': env.REDDIT_USERAGENT,
+      'Authorization': `Bearer ${access_token}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `id=${id}`
+  })
+
+  if (res.ok) {
+    return z.object({}).parse(await res.json())
+  } else {
+    throw createError(res.status, res.statusText)
+  }
+}

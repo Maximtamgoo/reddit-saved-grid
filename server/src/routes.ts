@@ -1,6 +1,6 @@
 import express from 'express'
 import { env } from './envConfig.js'
-import { authorize, getNewAccessToken, revokeToken } from './reddit.js'
+import { authorize, getNewAccessToken, revokeToken, toggleBookmark } from './reddit.js'
 import { z } from 'zod'
 const router = express.Router()
 
@@ -37,6 +37,20 @@ router.post('/api/signout', async (req, res, next) => {
     const refresh_token = z.string({ required_error: 'Invalid refresh_token' }).max(100).parse(req.body.refresh_token)
     const WeirdRedditResponse = await revokeToken('refresh_token', refresh_token)
     res.send(WeirdRedditResponse)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/api/bookmark/:state', async (req, res, next) => {
+  try {
+    const state = z.literal('unsave').or(z.literal('save')).parse(req.params.state)
+    const id = z.string({ required_error: 'Invalid id' }).parse(req.query.id)
+    const bearerAccessToken = z.string({ required_error: 'Invalid access_token' }).parse(req.headers.authorization)
+    const access_token = bearerAccessToken.split(' ')[1]
+    const data = await toggleBookmark(access_token, state, id)
+    res.send(data)
+    res.send()
   } catch (error) {
     next(error)
   }
