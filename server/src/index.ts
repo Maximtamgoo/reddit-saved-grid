@@ -19,7 +19,8 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ['self', 'oauth.reddit.com'],
+      // eslint-disable-next-line quotes
+      defaultSrc: ["'self'", '*.reddit.com'],
       // eslint-disable-next-line quotes
       imgSrc: ["'self'", '*.redd.it', '*.imgur.com']
     }

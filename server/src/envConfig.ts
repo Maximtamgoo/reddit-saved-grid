@@ -9,8 +9,7 @@ const Schema = z.object({
   REDDIT_USERAGENT: z.string(),
   REDDIT_CLIENTID: z.string(),
   REDDIT_CLIENT_SECRET: z.string(),
-  REDDIT_REDIRECT_URI: z.string(),
-  REDDIT_LIMIT: z.string()
+  REDDIT_REDIRECT_URI: z.string()
 })
 
 const result = Schema.safeParse({
@@ -20,8 +19,7 @@ const result = Schema.safeParse({
   REDDIT_USERAGENT: process.env.REDDIT_USERAGENT,
   REDDIT_CLIENTID: process.env.REDDIT_CLIENTID,
   REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
-  REDDIT_REDIRECT_URI: process.env.REDDIT_REDIRECT_URI,
-  REDDIT_LIMIT: process.env.REDDIT_LIMIT
+  REDDIT_REDIRECT_URI: process.env.REDDIT_REDIRECT_URI
 })
 
 if (!result.success) {
