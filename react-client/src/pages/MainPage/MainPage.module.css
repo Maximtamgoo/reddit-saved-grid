@@ -2,3 +2,28 @@
   margin: 0 auto;
   max-width: 80em;
 }
+
+.theend {
+  /* border: 1px solid red; */
+  font-weight: bold;
+  font-size: 2em;
+  color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.limit_msg {
+  color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

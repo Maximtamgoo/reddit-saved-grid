@@ -1,6 +1,6 @@
 @keyframes comeIn {
   0% {
-    transform: scale(0)
+    transform: scale(.5)
   }
 
   100% {
@@ -9,22 +9,34 @@
 }
 
 .card {
-  overflow: hidden;
-  border-radius: 5px;
-  color: var(--blue);
-  background: var(--grey);
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
   margin: 5px;
+  border-radius: 5px;
+  position: relative;
+  background: var(--grey);
   animation: comeIn .5s ease-in-out;
-  cursor: pointer;
 }
 
-img {
+.gallery_count {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  background: var(--bg);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card_img {
   display: block;
   width: 100%;
+  border-radius: 5px;
 }
 
 .unknown {
+  color: var(--blue);
   font-size: 10em;
   display: flex;
   align-items: center;

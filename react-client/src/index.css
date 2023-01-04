@@ -5,6 +5,10 @@
   user-select: none;
 }
 
+button {
+  cursor: pointer;
+}
+
 :root {
   --bg: #222831;
   --grey: #393e46;

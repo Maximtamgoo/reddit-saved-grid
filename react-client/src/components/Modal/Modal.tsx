@@ -1,70 +1,110 @@
 import { useState } from 'react'
-import { SavedPost } from '../../types/RedditListing.types'
 import style from './Modal.module.css'
-import { bookmarkContent } from '../../services/api'
-import { ReactComponent as BookmarkIcon } from '../../svg/bookmark.svg'
+import { ReactComponent as LeftArrow } from '../../svg/chevron-left.svg'
+import { ReactComponent as RightArrow } from '../../svg/chevron-right.svg'
+import { ReactComponent as Bookmark } from '../../svg/bookmark.svg'
+import useBookmark from '../../hooks/useBookmark'
+import useGallery from '../../hooks/useGallery'
+import { useStore } from '../../store'
 
 type Props = {
-  // isOpen: boolean,
-  closeModal: () => void,
-  modalData: SavedPost | null,
-  setBookmarkState: (name: string, saved: boolean) => void
+  // opened: boolean,
+  onClose: () => void
 }
 
-export default function Modal({ closeModal, modalData, setBookmarkState }: Props) {
-  const {
-    src,
-    id,
-    title,
-    author,
-    authorLink,
-    subreddit,
-    subredditLink,
-    postLink
-  } = modalData ?? {}
+export default function Modal({ onClose }: Props) {
+  const [loading, setLoading] = useState(true)
+  const data = useStore((state) => state.modalData)
+  const { currentIndex, prevIndex, nextIndex } = useGallery(data.type === 'gallery' ? data.modal.length : 0)
+  const { saved, toggle } = useBookmark(data.id, data.saved)
 
-  const [saved, setSaved] = useState(modalData?.saved)
+  document.body.style.overflow = 'hidden'
+  document.body.style.height = '100%'
 
-  async function handleBookmark() {
-    try {
-      if (id) {
-        await bookmarkContent(id, (saved) ? 'unsave' : 'save')
-        setSaved(!saved)
-        setBookmarkState(id, !saved)
-      }
-    } catch (error) {
-      // console.log('error:', error)
-    }
+  async function onLoad() {
+    // await new Promise(r => setTimeout(r, 2000))
+    setLoading(false)
+  }
+
+  function handleOnClose() {
+    document.body.style.overflow = 'auto'
+    document.body.style.height = 'auto'
+    onClose()
+  }
+
+  const authorLink = `https://www.reddit.com/u/${data.author}`
+  const subredditLink = `https://www.reddit.com/r/${data.subreddit}`
+  const postLink = `https://www.reddit.com${data.permalink}`
+
+  const ModalDetails = () => (
+    <div className={style.modal_details}>
+      <div className={style.info}>
+        <div className={style.links}>
+          <a href={subredditLink} target='_blank' rel="noreferrer">r/{data.subreddit}</a>
+          <span style={{ margin: '2px' }}>&middot;</span>
+          <a href={authorLink} target='_blank' rel="noreferrer">u/{data.author}</a>
+        </div>
+        <div className={style.links}>
+          <a className={style.title} href={postLink} target='_blank' rel="noreferrer">{data.title || postLink}</a>
+        </div>
+      </div>
+      <button className={style.bookmark_btn}
+        onClick={toggle}
+      >
+        <Bookmark style={{ fill: (saved) ? 'var(--blue)' : 'none' }} />
+      </button>
+    </div>
+  )
+
+  if (data.type === 'image' || data.type === 'url') {
+    return (
+      <div className={style.modal} onClick={handleOnClose}>
+        <div className={style.modal_img_wrapper}>
+          <img className={style.modal_img} onLoad={onLoad} src={data.modal.url} alt="Reddit Content"
+            style={{ filter: (loading) ? 'blur(1em)' : 'blur(0)' }}
+          />
+        </div>
+        <ModalDetails />
+      </div>
+    )
+  }
+
+  if (data.type === 'gallery') {
+    const leftDisabled = currentIndex === 0
+    const rightDisabled = currentIndex === data.modal.length - 1
+    return (
+      <div className={style.modal} onClick={handleOnClose}>
+        <div className={style.modal_img_wrapper}>
+          <div className={style.gallery_btn_wrapper}>
+            <div className={style.current_gallery_index}>{currentIndex + 1}/{data.modal.length}</div>
+            <button className={style.gallery_btn} onClick={prevIndex}
+              disabled={leftDisabled}
+              style={{ visibility: (leftDisabled ? 'hidden' : 'visible') }}
+            >
+              <LeftArrow />
+            </button>
+            <button className={style.gallery_btn} onClick={nextIndex}
+              disabled={rightDisabled}
+              style={{ visibility: (rightDisabled ? 'hidden' : 'visible') }}
+            >
+              <RightArrow />
+            </button>
+          </div>
+          <img className={style.modal_img} onLoad={onLoad} src={data.modal[currentIndex].url} alt="Reddit Content"
+            style={{ filter: (loading) ? 'blur(1em)' : 'blur(0)' }}
+          />
+        </div>
+        <ModalDetails />
+      </div>
+    )
   }
 
   return (
-    <div className={style.background}>
-      <div className={style.center}>
-        <div className={style.modal}>
-          <div className={style.img_wrapper} onClick={closeModal}>
-            {src ?
-              <img className={style.modal_img} src={src} alt="Reddit Content" />
-              :
-              <div className={style.unknown}>?</div>
-            }
-          </div>
-          <div className={style.modal_actions}>
-            <div className={style.info}>
-              <div className={style.links}>
-                <a href={subredditLink} target='_blank' rel="noreferrer">r/{subreddit}</a>
-                <span style={{ margin: '2px' }}>&middot;</span>
-                <a href={authorLink} target='_blank' rel="noreferrer">u/{author}</a>
-              </div>
-              <a className={style.title} href={postLink} target='_blank' rel="noreferrer">{title}</a>
-            </div>
-            <div className={style.bookmark} onClick={handleBookmark}>
-              <BookmarkIcon className={style.icon}
-                style={{ fill: (saved) ? 'var(--blue)' : 'none' }}
-              />
-            </div>
-          </div>
-        </div>
+    <div className={style.modal} onClick={handleOnClose}>
+      <div className={style.modal_img_wrapper}>
+        <div className={style.error}>?</div>
       </div>
+      <ModalDetails />
     </div>
   )
 }

@@ -1,11 +1,10 @@
-import useAuth from './hooks/useAuth'
+import useCheckSignedInUser from './hooks/useCheckSignedInUser'
 import { LoginPage, MainPage } from './pages'
 
 export default function App() {
-  // console.log('App')
-  const auth = useAuth()
+  const { username, loading } = useCheckSignedInUser()
 
-  if (auth.loading) {
+  if (loading) {
     return (
       <div></div>
     )
@@ -13,7 +12,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {auth.isAuthed ? <MainPage /> : <LoginPage />}
+      {username ? <MainPage /> : <LoginPage />}
     </div>
   )
 }

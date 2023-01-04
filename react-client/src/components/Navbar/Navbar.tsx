@@ -1,16 +1,18 @@
 import style from './Navbar.module.css'
-import useAuth from '../../hooks/useAuth'
+import { useStore } from '../../store'
+import { ReactComponent as Github } from '../../svg/github.svg'
 
 export default function Navbar() {
-  const auth = useAuth()
-
   return (
     <div className={style.navbar}>
       <div className={style.wrap}>
         <div className={style.title}>Reddit Saved Masonry</div>
-        <div className={style.name}>u/{auth.name}</div>
+        <div className={style.name}>u/{useStore.getState().username}</div>
       </div>
-      <button className={style.btn} onClick={() => auth.signOut()}>Sign Out</button>
+      <a className={style.github_link} href="https://github.com/Maximtamgoo/reddit-saved-masonry" target='_blank' rel="noreferrer">
+        <Github />
+      </a>
+      <button className={style.signout_btn} onClick={useStore.getState().signOut}>Sign Out</button>
     </div>
   )
 }
