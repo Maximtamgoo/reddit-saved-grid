@@ -5,15 +5,15 @@
   "scripts": {
     "start": "node server/dist/index.js",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "npm run build --workspace=react-client",
+    "build-client": "npm run build --workspace=client",
     "build-server": "npm run build --workspace=server",
-    "dev-client": "npm run dev --workspace=react-client",
+    "dev-client": "npm run dev --workspace=client",
     "dev-server": "NODE_ENV=development npm run dev --workspace=server",
     "staging-client": "npm run build-client",
     "staging-server": "npm run build-server && NODE_ENV=staging node server/dist/index.js"
   },
   "workspaces": [
-    "react-client",
+    "client",
     "server"
   ]
 }
