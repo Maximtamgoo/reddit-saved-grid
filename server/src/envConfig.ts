@@ -5,7 +5,6 @@ import { z } from 'zod'
 const Schema = z.object({
   NODE_ENV: z.enum(['development', 'staging', 'production']),
   PORT: z.string(),
-  COOKIE_SECRET: z.string(),
 
   REDDIT_USERAGENT: z.string(),
   REDDIT_CLIENTID: z.string(),
@@ -17,7 +16,6 @@ const Schema = z.object({
 const result = Schema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
-  COOKIE_SECRET: process.env.COOKIE_SECRET,
 
   REDDIT_USERAGENT: process.env.REDDIT_USERAGENT,
   REDDIT_CLIENTID: process.env.REDDIT_CLIENTID,
