@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 import { MasonryPost } from '../types/MasonryPost.type'
 import { signOut } from '../services/redditTokens'
 
@@ -29,24 +29,21 @@ interface State {
   signOut: () => void
 }
 
-export const useStore = create<State>()(devtools(
-  (set) => ({
-    username: null,
-    list: [],
-    modalData: {},
-    setUsername: (username) => set(() => ({ username })),
-    appendList: (nextlist) => set((state) => ({ list: [...state.list, ...nextlist] })),
-    setModalData: (modalData) => set(() => ({ modalData })),
-    setBookmarkState: (id, saved) => {
-      set((state) => ({
-        list: state.list.map(masonryPost => (masonryPost.id === id) ? { ...masonryPost, saved } : masonryPost)
-      }))
-    },
-    signOut: async () => {
-      await signOut(useTokenStore.getState().refresh_token)
-      useTokenStore.getState().setTokens(null, null)
-      set(() => ({ username: null }))
-    }
-  }),
-  { enabled: process.env.NODE_ENV !== 'production' }
-))
+export const useStore = create<State>()((set) => ({
+  username: null,
+  list: [],
+  modalData: {},
+  setUsername: (username) => set(() => ({ username })),
+  appendList: (nextlist) => set((state) => ({ list: [...state.list, ...nextlist] })),
+  setModalData: (modalData) => set(() => ({ modalData })),
+  setBookmarkState: (id, saved) => {
+    set((state) => ({
+      list: state.list.map(masonryPost => (masonryPost.id === id) ? { ...masonryPost, saved } : masonryPost)
+    }))
+  },
+  signOut: async () => {
+    await signOut(useTokenStore.getState().refresh_token)
+    useTokenStore.getState().setTokens(null, null)
+    set(() => ({ username: null }))
+  }
+}))
