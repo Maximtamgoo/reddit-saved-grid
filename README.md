@@ -1,9 +1,8 @@
 # ![Alt text](./client/public/favicon.svg) Reddit Saved Masonry
 
-A web app that displays your saved Reddit posts in a masonry grid.
+A masonry of your saved reddit posts.
 
 ## Features
-
 - View image and gallery saved posts
 - Unsave/save your saved posts
 
