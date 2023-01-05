@@ -1,10 +1,20 @@
-# ![Alt text](./react-client/public/favicon.svg) Reddit Saved Masonry
+# ![Alt text](./client/public/favicon.svg) Reddit Saved Masonry
 
-A web app that displays your saved Reddit content in a masonry grid.
+A web app that displays your saved Reddit posts in a masonry grid.
 
-Website: https://reddit-saved-masonry.up.railway.app
+## Features
 
-## Screenshots
-![Main Page Screenshot](/../screenshots/screenshots/MainPage.png?raw=true)
+- View image and gallery saved posts
+- Unsave/save your saved posts
 
-![Modal Screenshot](/../screenshots/screenshots/Modal.png?raw=true)
+## Website
+
+https://reddit-saved-masonry.up.railway.app
+
+## Tech Stack
+
+**Client:** [XMasonry](https://github.com/ZitRos/react-xmasonry), Preact, React, Vite, Zustand
+
+**Server:** Node, Express, Zod, Helmet
+
+**Both:** Typescript
