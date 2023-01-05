@@ -29,7 +29,7 @@ app.use(helmet({
 app.use(express.json())
 app.use(routes)
 
-const folderPath = `${new URL('../../react-client', import.meta.url).pathname}/dist`
+const folderPath = `${new URL('../../client', import.meta.url).pathname}/dist`
 app.use(express.static(folderPath))
 
 app.get('/*', (req, res, next) => {
