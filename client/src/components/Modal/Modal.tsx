@@ -37,7 +37,7 @@ export default function Modal({ onClose }: Props) {
   const postLink = `https://www.reddit.com${data.permalink}`
 
   const ModalDetails = () => (
-    <div className={style.modal_details}>
+    <div className={style.modal_details} onClick={(e) => e.stopPropagation()}>
       <div className={style.info}>
         <div className={style.links}>
           <a href={subredditLink} target='_blank' rel="noreferrer">r/{data.subreddit}</a>
