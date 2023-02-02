@@ -5,16 +5,14 @@ import routes from './routes.js'
 import createError from 'http-errors'
 import { ZodError } from 'zod'
 import { fromZodError } from 'zod-validation-error'
+import compression from 'compression'
 import express, { ErrorRequestHandler } from 'express'
 const app = express()
 
 console.log('NODE_ENV:', env.NODE_ENV)
 
-app.use((req, _res, next) => {
-  console.log(`${req.method} ${req.path} - started`)
-  next()
-})
-app.use(morgan('dev'))
+app.use(compression())
+app.use(morgan('[:date] :method :url - :status'))
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
@@ -32,7 +30,7 @@ app.use(routes)
 const folderPath = `${new URL('../../client', import.meta.url).pathname}/dist`
 app.use(express.static(folderPath))
 
-app.get('/*', (req, res, next) => {
+app.get('/*', (_req, res, next) => {
   try {
     res.sendFile(`${folderPath}/index.html`)
   } catch (error) {
@@ -40,7 +38,6 @@ app.get('/*', (req, res, next) => {
   }
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(((error, _req, res, _next) => {
   if (error instanceof ZodError) {
     console.log(fromZodError(error).message)
