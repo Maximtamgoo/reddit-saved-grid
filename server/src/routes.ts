@@ -50,7 +50,6 @@ router.post('/api/bookmark/:state', async (req, res, next) => {
     const access_token = bearerAccessToken.split(' ')[1]
     const data = await toggleBookmark(access_token, state, id)
     res.send(data)
-    res.send()
   } catch (error) {
     next(error)
   }
