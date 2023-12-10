@@ -1,42 +1,42 @@
 interface Post {
-  id: string
-  title: string
-  author: string
-  subreddit: string
-  permalink: string
-  saved: boolean
+  id: string;
+  title: string;
+  author: string;
+  subreddit: string;
+  permalink: string;
+  saved: boolean;
 }
 
 interface ImageData {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }
 
 interface ImagePost extends Post {
-  type: 'image'
-  card: ImageData
-  modal: ImageData
+  type: "image";
+  card: ImageData;
+  modal: ImageData;
 }
 
 interface GalleryPost extends Post {
-  type: 'gallery'
-  card: ImageData
-  modal: ImageData[]
+  type: "gallery";
+  card: ImageData;
+  modal: ImageData[];
 }
 
 interface UrlPost extends Post {
-  type: 'url'
+  type: "url";
   card: {
-    url: string
-  }
+    url: string;
+  };
   modal: {
-    url: string
-  }
+    url: string;
+  };
 }
 
 interface ErrorPost extends Post {
-  type: 'error'
+  type: "error";
 }
 
-export type MasonryPost = ImagePost | GalleryPost | UrlPost | ErrorPost
+export type MasonryPost = ImagePost | GalleryPost | UrlPost | ErrorPost;

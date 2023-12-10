@@ -1,26 +1,26 @@
-import { MouseEvent, useState } from 'react'
-import { useStore } from '../store'
-import { toggleBookmark } from '../services/oauthReddit'
+import { MouseEvent, useState } from "react";
+import { useStore } from "../store";
+import { toggleBookmark } from "../services/oauthReddit";
 
 export default function useBookmark(id: string, savedState: boolean) {
-  const [saved, setSaved] = useState(savedState)
-  const [loading, setLoading] = useState(false)
+  const [saved, setSaved] = useState(savedState);
+  const [loading, setLoading] = useState(false);
 
   async function toggle(e: MouseEvent) {
-    e.stopPropagation()
+    e.stopPropagation();
     if (!loading) {
       try {
-        setLoading(true)
-        await toggleBookmark(id, (saved) ? 'unsave' : 'save')
-        setSaved(!saved)
-        useStore.getState().setBookmarkState(id, !saved)
+        setLoading(true);
+        await toggleBookmark(id, saved ? "unsave" : "save");
+        setSaved(!saved);
+        useStore.getState().setBookmarkState(id, !saved);
       } catch (error) {
         // console.log('error:', error)
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
   }
 
-  return { saved, toggle }
+  return { saved, toggle };
 }
