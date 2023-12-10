@@ -12,7 +12,7 @@ export default defineConfig({
     checker({
       typescript: true,
       eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"', // for example, lint .ts & .tsx
+        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
       }
     }),
     visualizer({ open: true, gzipSize: true })
@@ -20,10 +20,10 @@ export default defineConfig({
   server: {
     open: true,
     port: 3000,
-    host: true,
     strictPort: true,
     proxy: {
       '/api': 'http://localhost:5000'
     }
-  }
+  },
+  cacheDir: '../node_modules/.vite'
 })
