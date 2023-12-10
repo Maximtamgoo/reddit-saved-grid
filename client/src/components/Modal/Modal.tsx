@@ -20,6 +20,7 @@ export default function Modal({ onClose }: Props) {
 
   document.body.style.overflow = 'hidden'
   document.body.style.height = '100%'
+  document.body.style.scrollbarGutter = 'stable'
 
   async function onLoad() {
     // await new Promise(r => setTimeout(r, 2000))
