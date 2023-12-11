@@ -9,7 +9,7 @@ A masonry of your saved reddit posts.
 
 ## Website
 
-https://reddit-saved-masonry.up.railway.app
+https://reddit-saved-masonry.onrender.com
 
 ## Tech Stack
 
