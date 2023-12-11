@@ -6,11 +6,13 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 import Navbar from "../../components/Navbar/Navbar";
 import Card from "../../components/Card/Card";
 import Modal from "../../components/Modal/Modal";
-import { ReactComponent as Loader } from "../../svg/three-dots.svg";
+import Loader from "../../svg/three-dots.svg?react";
 import { getSavedContent } from "../../services/oauthReddit";
 import { XMasonry, XBlock } from "react-xmasonry";
-import { MasonryPost } from "../../types/MasonryPost.type";
-import { convertToMasonryPosts } from "../../utils/convertToMasonryPosts";
+import { RedditListing } from "../../schema/RedditListing";
+import { MasonryPost } from "../../schema/MasonryPost";
+import { toMasonryPost } from "../../utils/toMasonryPost";
+import { z } from "zod";
 
 export default function MainPage() {
   // console.log('MainPage')
@@ -22,20 +24,33 @@ export default function MainPage() {
   const [hasMore, setHasMore] = useState(true);
 
   async function fetchMore() {
-    // console.log('fetchMore')
-    const username = useStore.getState().username;
-    if (username) {
-      setLoading(true);
-      const redditListing = await getSavedContent(username, after);
-      // console.log('redditListing:', redditListing)
-      const masonryPosts = convertToMasonryPosts(redditListing.data.children);
-      // console.log('masonryPosts:', masonryPosts)
-      if (!redditListing.data.after) {
-        setHasMore(false);
+    console.log("fetchMore");
+    try {
+      const username = useStore.getState().username;
+      if (username) {
+        setLoading(true);
+        const data = await getSavedContent(username, after);
+        // console.log("data:", data);
+        const listing = RedditListing.parse(data);
+        // console.log("redditListing:", listing);
+        const masonryPosts = listing.data.children.map((item) =>
+          MasonryPost.parse(toMasonryPost(item))
+        );
+        // const masonryPosts = convertToMasonryPosts(listing.data.children);
+        // console.log("masonryPosts:", masonryPosts);
+        if (!listing.data.after) {
+          setHasMore(false);
+        }
+        setAfter(listing.data.after);
+        useStore.getState().appendList(masonryPosts);
+        setLoading(false);
       }
-      setAfter(redditListing.data.after);
-      useStore.getState().appendList(masonryPosts);
-      setLoading(false);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.log("error:", error);
+        setLoading(true);
+        setAfter(null);
+      }
     }
   }
 

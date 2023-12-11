@@ -1,6 +1,6 @@
-import create from "zustand";
+import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { MasonryPost } from "../types/MasonryPost.type";
+import { MasonryPost } from "../schema/MasonryPost";
 import { signOut } from "../services/redditTokens";
 
 interface TokenState {
@@ -38,13 +38,12 @@ export const useStore = create<State>()((set) => ({
   setUsername: (username) => set(() => ({ username })),
   appendList: (nextlist) => set((state) => ({ list: [...state.list, ...nextlist] })),
   setModalData: (modalData) => set(() => ({ modalData })),
-  setBookmarkState: (id, saved) => {
+  setBookmarkState: (id, saved) =>
     set((state) => ({
       list: state.list.map((masonryPost) =>
         masonryPost.id === id ? { ...masonryPost, saved } : masonryPost
       )
-    }));
-  },
+    })),
   signOut: async () => {
     await signOut(useTokenStore.getState().refresh_token);
     useTokenStore.getState().setTokens(null, null);

@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
-dotenv.config({
-  path: `${new URL("../../", import.meta.url).pathname}.env.${process.env.NODE_ENV}`
-});
+// import dotenv from "dotenv";
+// dotenv.config({
+//   path: `${new URL("../../", import.meta.url).pathname}.env.${process.env.NODE_ENV}`
+// });
 import { z } from "zod";
 
 const Schema = z.object({

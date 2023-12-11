@@ -8,7 +8,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     /* Emit */
-    "outDir": "./",
+    "outDir": "./dist",
     "noEmitOnError": true,
     /* Interop Constraints */
     "isolatedModules": true,

@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 
 export default function useGallery(gallerylength: number) {
   const [currentIndex, setCurrentIndex] = useState(0);

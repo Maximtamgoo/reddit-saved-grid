@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import { useStore } from "../store";
 import { toggleBookmark } from "../services/oauthReddit";
 

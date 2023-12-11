@@ -1,8 +1,8 @@
 import { useState } from "react";
 import style from "./Modal.module.css";
-import { ReactComponent as LeftArrow } from "../../svg/chevron-left.svg";
-import { ReactComponent as RightArrow } from "../../svg/chevron-right.svg";
-import { ReactComponent as Bookmark } from "../../svg/bookmark.svg";
+import LeftArrow from "../../svg/chevron-left.svg?react";
+import RightArrow from "../../svg/chevron-right.svg?react";
+import Bookmark from "../../svg/bookmark.svg?react";
 import useBookmark from "../../hooks/useBookmark";
 import useGallery from "../../hooks/useGallery";
 import { useStore } from "../../store";

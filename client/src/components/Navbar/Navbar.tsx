@@ -1,6 +1,6 @@
 import style from "./Navbar.module.css";
 import { useStore } from "../../store";
-import { ReactComponent as Github } from "../../svg/github.svg";
+import Github from "../../svg/github.svg?react";
 
 export default function Navbar() {
   return (

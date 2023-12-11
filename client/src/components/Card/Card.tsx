@@ -1,6 +1,6 @@
 import { useState } from "react";
 import style from "./Card.module.css";
-import { MasonryPost } from "../../types/MasonryPost.type";
+import { MasonryPost } from "../../schema/MasonryPost";
 
 type Props = {
   data: MasonryPost;
