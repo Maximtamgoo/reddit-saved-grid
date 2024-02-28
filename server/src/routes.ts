@@ -21,7 +21,19 @@ router.post("/api/authorize", async (req, res, next) => {
       .max(100)
       .parse(req.body.authorization_code);
     const token = await authorize(authorization_code);
-    res.send(token);
+    console.log("token:", token);
+    res.cookie("access_token", token.access_token, {
+      maxAge: token.expires_in * 1000,
+      sameSite: "none",
+      secure: true
+    });
+    res.cookie("refresh_token", token.refresh_token, {
+      maxAge: 2629800 * 1000,
+      sameSite: "strict",
+      secure: true,
+      httpOnly: true
+    });
+    res.send();
   } catch (error) {
     next(error);
   }
@@ -34,7 +46,13 @@ router.post("/api/access_token", async (req, res, next) => {
       .max(100)
       .parse(req.body.refresh_token);
     const token = await getNewAccessToken(refresh_token);
-    res.send(token);
+    console.log("token:", token);
+    res.cookie("access_token", token.access_token, {
+      maxAge: token.expires_in * 1000,
+      sameSite: "none",
+      secure: true
+    });
+    res.send();
   } catch (error) {
     next(error);
   }
