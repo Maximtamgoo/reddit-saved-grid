@@ -15,8 +15,9 @@ export default defineConfig({
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
       }
     }),
-    visualizer({ open: true, gzipSize: true })
+    visualizer({ open: true, gzipSize: true, sourcemap: true })
   ],
+  build: { sourcemap: true },
   server: {
     open: true,
     port: 3000,

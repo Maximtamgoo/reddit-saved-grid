@@ -29,15 +29,13 @@ const media_metadata = z.record(
   z.string(),
   z.object({
     id: z.string().nullish(),
-    p: z
-      .array(
-        z.object({
-          u: z.string(),
-          x: z.number(),
-          y: z.number()
-        })
-      )
-      .nullish()
+    p: z.array(
+      z.object({
+        u: z.string(),
+        x: z.number(),
+        y: z.number()
+      })
+    )
   })
 );
 
