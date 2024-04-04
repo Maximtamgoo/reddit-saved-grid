@@ -3,10 +3,17 @@ import { signOut } from "../services/api";
 
 export default function Navbar({ username }: { username: string }) {
   return (
-    <div className="sticky top-0 z-10 flex items-center gap-2 border-b-2 border-blue-500 bg-zinc-900 px-1.5 py-1  text-blue-500">
+    <div className="sticky top-0 z-10 flex h-16 items-center gap-2 border-b-2 border-blue-500 bg-zinc-900 px-2 text-blue-500">
       <div className="grid grow">
         <div className="truncate text-2xl">Reddit Saved Masonry</div>
-        <div className="truncate">u/{username}</div>
+        <a
+          className="w-fit truncate hover:underline"
+          href={`https://www.reddit.com/user/${username}/saved/`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          u/{username}
+        </a>
       </div>
 
       <a
