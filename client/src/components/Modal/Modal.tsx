@@ -1,6 +1,6 @@
 import { ReactNode, createPortal, useEffect } from "react";
-import { Post } from "../../schema/Post";
-import X from "../../svg/x.svg?react";
+import { Post } from "@src/schema/Post";
+import X from "@src/svg/x.svg?react";
 import { Gallery } from "./Gallery";
 // import Source from "./Source";
 
@@ -30,7 +30,7 @@ export default function Modal({ post, onClose }: Props) {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-50 bg-black/95 p-2">
+    <div className="fixed inset-0 z-50 bg-black/90 p-2">
       {Post}
       <button
         onClick={() => onClose()}

@@ -1,5 +1,5 @@
-import Github from "../svg/github.svg?react";
-import { signOut } from "../services/api";
+import Github from "@src/svg/github.svg?react";
+import { signOut } from "@src/services/api";
 
 export default function Navbar({ username }: { username: string }) {
   return (

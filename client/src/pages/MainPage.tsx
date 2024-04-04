@@ -1,12 +1,12 @@
 import { useMemo, useState, useEffect, useCallback, useLayoutEffect, useRef } from "react";
-import { useGetSavedContent } from "../services/queries";
+import { useGetSavedContent } from "@src/services/queries";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import Card from "../components/Card/Card";
-import ThreeDots from "../svg/three-dots.svg?react";
-import useWindowWidth from "../hooks/useWindowWidth";
+import Card from "@src/components/Card/Card";
+import ThreeDots from "@src/svg/three-dots.svg?react";
+import useWindowWidth from "@src/hooks/useWindowWidth";
 import { useInView } from "react-intersection-observer";
-import Modal from "../components/Modal/Modal";
-import { Post } from "../schema/Post";
+import Modal from "@src/components/Modal/Modal";
+import { Post } from "@src/schema/Post";
 
 const ITEM_SIZE = 400;
 const MAX_LANES = 3;

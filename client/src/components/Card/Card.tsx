@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
-import { Post } from "../../schema/Post";
+import { Post } from "@src/schema/Post";
 import Details from "./Details";
 import Preview from "./Preview";
 // import Comment from "./Comment";
-import Gif from "../../svg/gif.svg?react";
 
 type Props = {
   post: Post;
@@ -20,7 +19,7 @@ export default function Card({ post, onClickPreview }: Props) {
     Post = (
       <Preview url={post.preview} onClick={() => onClickPreview(post)}>
         {post.gallery.length > 1 && (
-          <div className="absolute right-2 top-2 grid h-9 min-w-9 place-items-center rounded-md bg-zinc-900 px-1 text-lg">
+          <div className="absolute right-2 top-2 grid h-10 min-w-10 place-items-center rounded-md bg-zinc-900 px-2 text-lg">
             {post.gallery.length}
           </div>
         )}
@@ -30,8 +29,8 @@ export default function Card({ post, onClickPreview }: Props) {
     Post = (
       <Preview url={post.preview} onClick={() => onClickPreview(post)}>
         {post.isGif && (
-          <div className="absolute right-2 top-2 grid h-9 w-9 place-items-center rounded-md bg-zinc-900 px-0.5 text-lg">
-            <Gif />
+          <div className="absolute right-2 top-2 grid h-10 w-10 place-items-center rounded-md bg-zinc-900">
+            GIF
           </div>
         )}
       </Preview>

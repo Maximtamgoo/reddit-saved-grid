@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from "react";
-import Oval from "../../svg/oval.svg?react";
+import Oval from "@src/svg/oval.svg?react";
 
 type Props = {
   url?: string;

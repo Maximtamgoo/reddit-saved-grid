@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Oval from "../../svg/oval.svg?react";
+import { useState } from "react";
+import Oval from "@src/svg/oval.svg?react";
 
 type Props = {
   url?: string;
@@ -14,11 +14,6 @@ export default function Source({ url }: Props) {
     setLoading(false);
   }
 
-  useEffect(() => {
-    console.log("mount");
-    return () => console.log("un mount");
-  });
-
   if (!url || isError) {
     return <div className="grid aspect-square place-items-center rounded-md text-8xl">?</div>;
   }
@@ -27,7 +22,6 @@ export default function Source({ url }: Props) {
     <>
       {/* <img className="absolute h-full w-full object-cover opacity-40 blur-xl" src={url} /> */}
       <img
-        disabled={loading}
         className="relative h-full w-full object-scale-down"
         src={url}
         onLoad={onLoad}

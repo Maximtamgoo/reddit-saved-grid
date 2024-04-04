@@ -1,5 +1,5 @@
-import { Listing } from "../schema/Listing";
-import HttpError from "../utils/HttpError";
+import { Listing } from "@src/schema/Listing";
+import HttpError from "@src/utils/HttpError";
 
 function getCookie(name: string) {
   return document.cookie

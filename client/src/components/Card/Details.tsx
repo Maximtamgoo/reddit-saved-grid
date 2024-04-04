@@ -1,4 +1,4 @@
-import { Post } from "../../schema/Post";
+import { Post } from "@src/schema/Post";
 
 type Props = {
   post: Post;

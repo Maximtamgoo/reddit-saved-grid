@@ -1,5 +1,5 @@
-import { ListingItem } from "../schema/Listing";
-import { Post } from "../schema/Post";
+import { ListingItem } from "@src/schema/Listing";
+import { Post } from "@src/schema/Post";
 
 export function trimListingItem(item: ListingItem): Post {
   const { name: id, author, subreddit, permalink } = item.data;

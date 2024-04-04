@@ -1,8 +1,8 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import * as api from "./api";
-import { Post } from "../schema/Post";
-import { trimListingItem } from "../utils/trimListingItem";
-import { ListingItem } from "../schema/Listing";
+import { Post } from "@src/schema/Post";
+import { trimListingItem } from "@src/utils/trimListingItem";
+import { ListingItem } from "@src/schema/Listing";
 
 const urlParams = new URLSearchParams(window.location.search);
 window.history.replaceState(null, "", "/");

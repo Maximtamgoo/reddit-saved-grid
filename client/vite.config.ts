@@ -26,5 +26,10 @@ export default defineConfig({
       "/api": "http://localhost:5000"
     }
   },
+  resolve: {
+    alias: {
+      "@src": new URL("./src", import.meta.url).pathname
+    }
+  },
   cacheDir: "../node_modules/.vite"
 });

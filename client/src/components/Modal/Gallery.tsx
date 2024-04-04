@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import useGallery from "../../hooks/useGallery";
-import Left from "../../svg/chevron-left.svg?react";
-import Right from "../../svg/chevron-right.svg?react";
+import useGallery from "@src/hooks/useGallery";
+import Left from "@src/svg/chevron-left.svg?react";
+import Right from "@src/svg/chevron-right.svg?react";
 import Source from "./Source";
 
 type Props = {
