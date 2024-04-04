@@ -1,16 +1,10 @@
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
+
+function handleResize(cb: () => void) {
+  window.addEventListener("resize", cb);
+  return () => window.removeEventListener("resize", cb);
+}
 
 export default function useWindowWidth() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  function handleResize() {
-    setWindowWidth(window.innerWidth);
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowWidth;
+  return useSyncExternalStore(handleResize, () => window.innerWidth);
 }
