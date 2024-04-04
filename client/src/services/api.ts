@@ -1,4 +1,4 @@
-import { RedditListing } from "../schema/RedditListing";
+import { Listing } from "../schema/Listing";
 import HttpError from "../utils/HttpError";
 
 function getCookie(name: string) {
@@ -18,11 +18,9 @@ export async function authorize(authorization_code: string) {
 }
 
 export async function getNewAccessToken() {
-  const token = getCookie("refresh_token");
   const res = await fetch("/api/access_token", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token })
+    credentials: "include"
   });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
 }
@@ -51,7 +49,7 @@ export async function getSavedContent(username: string, after: string | null, li
     }
   );
   if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return (await res.json()) as RedditListing;
+  return Listing.parse(await res.json(), { mode: "strip" });
 }
 
 export async function toggleBookmark(id: string, state: "unsave" | "save") {
