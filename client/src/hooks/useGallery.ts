@@ -1,19 +1,11 @@
 import { useState } from "react";
 
 export default function useGallery(gallerylength: number) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [index, setIndex] = useState(0);
 
-  function prevIndex(e: MouseEvent) {
-    e.stopPropagation();
-    if (currentIndex === 0) return;
-    setCurrentIndex(currentIndex - 1);
-  }
-
-  function nextIndex(e: MouseEvent) {
-    e.stopPropagation();
-    if (currentIndex === gallerylength - 1) return;
-    setCurrentIndex(currentIndex + 1);
-  }
-
-  return { currentIndex, prevIndex, nextIndex };
+  return {
+    index,
+    prevIndex: () => setIndex(index === 0 ? gallerylength - 1 : index - 1),
+    nextIndex: () => setIndex(index === gallerylength - 1 ? 0 : index + 1)
+  };
 }
