@@ -3,9 +3,10 @@ import { useInView } from "react-intersection-observer";
 import { useGetSavedContent } from "@src/services/queries";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import Card from "@src/components/Card/Card";
-import Modal from "@src/components/Modal/Modal";
 import ThreeDots from "@src/svg/three-dots.svg?react";
 import { Post } from "@src/schema/Post";
+import Dialog from "@src/components/Modal/Dialog";
+import Modal from "@src/components/Modal/Modal";
 
 export default function MainPage({ username }: { username: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,9 @@ export default function MainPage({ username }: { username: string }) {
   return (
     <main className="bg-zinc-900 text-zinc-300">
       {isOpen && modalDataRef.current && (
-        <Modal post={modalDataRef.current} onClose={() => setIsOpen(false)} />
+        <Dialog onClose={() => setIsOpen(false)}>
+          <Modal post={modalDataRef.current} />
+        </Dialog>
       )}
       <VirtualMasonry items={allItems}>
         {(item) => <Card post={item} onClickPreview={onClickPreview} />}
