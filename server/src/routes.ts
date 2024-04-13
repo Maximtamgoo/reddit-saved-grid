@@ -1,7 +1,7 @@
-import express from "express";
 import { env } from "./envConfig.js";
 import { authorize, getNewAccessToken, revokeToken, toggleBookmark } from "./reddit.js";
-import { z } from "zod";
+import { string, literal, union } from "@badrap/valita";
+import express from "express";
 const router = express.Router();
 
 router.get("/api/authurl", async (_req, res, next) => {
@@ -16,22 +16,19 @@ router.get("/api/authurl", async (_req, res, next) => {
 
 router.post("/api/authorize", async (req, res, next) => {
   try {
-    const authorization_code = z
-      .string({ required_error: "Invalid authorization_code" })
-      .max(100)
-      .parse(req.body.authorization_code);
+    const authorization_code = string().parse(req.body.authorization_code);
     const token = await authorize(authorization_code);
     console.log("token:", token);
     res.cookie("access_token", token.access_token, {
       maxAge: token.expires_in * 1000,
-      sameSite: "none",
-      secure: true
+      sameSite: "lax",
+      secure: false
     });
     res.cookie("refresh_token", token.refresh_token, {
       maxAge: 2629800 * 1000,
       sameSite: "strict",
-      secure: true,
-      httpOnly: true
+      secure: false,
+      httpOnly: false
     });
     res.send();
   } catch (error) {
@@ -41,10 +38,7 @@ router.post("/api/authorize", async (req, res, next) => {
 
 router.post("/api/access_token", async (req, res, next) => {
   try {
-    const refresh_token = z
-      .string({ required_error: "Invalid refresh_token" })
-      .max(100)
-      .parse(req.body.refresh_token);
+    const refresh_token = string().parse(req.body.refresh_token);
     const token = await getNewAccessToken(refresh_token);
     console.log("token:", token);
     res.cookie("access_token", token.access_token, {
@@ -60,10 +54,7 @@ router.post("/api/access_token", async (req, res, next) => {
 
 router.post("/api/signout", async (req, res, next) => {
   try {
-    const refresh_token = z
-      .string({ required_error: "Invalid refresh_token" })
-      .max(100)
-      .parse(req.body.refresh_token);
+    const refresh_token = string().parse(req.body.refresh_token);
     const WeirdRedditResponse = await revokeToken("refresh_token", refresh_token);
     res.send(WeirdRedditResponse);
   } catch (error) {
@@ -73,11 +64,9 @@ router.post("/api/signout", async (req, res, next) => {
 
 router.post("/api/bookmark/:state", async (req, res, next) => {
   try {
-    const state = z.literal("unsave").or(z.literal("save")).parse(req.params.state);
-    const id = z.string({ required_error: "Invalid id" }).parse(req.query.id);
-    const bearerAccessToken = z
-      .string({ required_error: "Invalid access_token" })
-      .parse(req.headers.authorization);
+    const state = union(literal("unsave"), literal("save")).parse(req.params.state);
+    const id = string().parse(req.query.id);
+    const bearerAccessToken = string().parse(req.headers.authorization);
     const access_token = bearerAccessToken.split(" ")[1];
     const data = await toggleBookmark(access_token, state, id);
     res.send(data);

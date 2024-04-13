@@ -10,14 +10,13 @@
     "typecheck": "tsc --noEmit || exit 0"
   },
   "dependencies": {
+    "@badrap/valita": "^0.3.8",
     "compression": "^1.7.4",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
     "morgan": "^1.10.0",
-    "node-fetch": "^3.3.2",
-    "zod": "^3.22.4",
-    "zod-validation-error": "^3.1.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",

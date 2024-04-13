@@ -1,15 +1,15 @@
 import fetch from "node-fetch";
 import createError from "http-errors";
 import { env } from "./envConfig.js";
-import { z } from "zod";
+import { object, string, number, literal } from "@badrap/valita";
 
-const RedditTokenResponse = z.object({
-  access_token: z.string(),
-  refresh_token: z.string(),
-  expires_in: z.number()
+const RedditTokenResponse = object({
+  access_token: string(),
+  refresh_token: string(),
+  expires_in: number()
 });
 
-const WeirdRedditResponse = z.literal("0");
+const WeirdRedditResponse = literal("0");
 
 const base64Creds = Buffer.from(`${env.REDDIT_CLIENTID}:${env.REDDIT_CLIENT_SECRET}`).toString(
   "base64"
@@ -81,7 +81,7 @@ export async function toggleBookmark(access_token: string, state: "unsave" | "sa
   });
 
   if (res.ok) {
-    return z.object({}).parse(await res.json());
+    return object({}).parse(await res.json());
   } else {
     throw createError(res.status, res.statusText);
   }

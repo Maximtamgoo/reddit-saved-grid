@@ -1,11 +1,11 @@
 import { env } from "./envConfig.js";
+import { ValitaError } from "@badrap/valita";
 import morgan from "morgan";
 import helmet from "helmet";
-import routes from "./routes.js";
 import createError from "http-errors";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
 import compression from "compression";
+import routes from "./routes.js";
+
 import express, { ErrorRequestHandler } from "express";
 const app = express();
 
@@ -38,9 +38,10 @@ app.get("/*", (_req, res, next) => {
   }
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(((error, _req, res, _next) => {
-  if (error instanceof ZodError) {
-    console.log(fromZodError(error).message);
+  if (error instanceof ValitaError) {
+    console.log(error.message);
     res.sendStatus(400);
   } else if (createError.isHttpError(error)) {
     console.log(`${error.name}: ${error.message}`);
@@ -51,7 +52,6 @@ app.use(((error, _req, res, _next) => {
   }
 }) as ErrorRequestHandler);
 
-const port = env.PORT || 5000;
-app.listen(port, () => {
-  console.log("server started on port:", port);
+app.listen(env.PORT, () => {
+  console.log("server started on port:", env.PORT);
 });
