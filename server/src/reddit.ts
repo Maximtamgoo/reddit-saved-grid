@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import createError from "http-errors";
 import { env } from "./envConfig.js";
 import { object, string, number, literal } from "@badrap/valita";
@@ -6,7 +5,9 @@ import { object, string, number, literal } from "@badrap/valita";
 const RedditTokenResponse = object({
   access_token: string(),
   refresh_token: string(),
-  expires_in: number()
+  expires_in: number(),
+  token_type: string(),
+  scope: string()
 });
 
 const WeirdRedditResponse = literal("0");

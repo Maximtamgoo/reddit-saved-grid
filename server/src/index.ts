@@ -1,17 +1,19 @@
 import { env } from "./envConfig.js";
 import { ValitaError } from "@badrap/valita";
-import morgan from "morgan";
-import helmet from "helmet";
 import createError from "http-errors";
 import compression from "compression";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
+import helmet from "helmet";
 import routes from "./routes.js";
-
 import express, { ErrorRequestHandler } from "express";
 const app = express();
 
 console.log("NODE_ENV:", env.NODE_ENV);
 
+app.use(express.json());
 app.use(compression());
+app.use(cookieParser());
 app.use(morgan("[:date] :method :url - :status"));
 app.use(
   helmet({
@@ -24,7 +26,6 @@ app.use(
     }
   })
 );
-app.use(express.json());
 app.use(routes);
 
 const folderPath = `${new URL("../../client", import.meta.url).pathname}/dist`;
@@ -52,6 +53,4 @@ app.use(((error, _req, res, _next) => {
   }
 }) as ErrorRequestHandler);
 
-app.listen(env.PORT, () => {
-  console.log("server started on port:", env.PORT);
-});
+app.listen(env.PORT, () => console.log("server started on port:", env.PORT));
