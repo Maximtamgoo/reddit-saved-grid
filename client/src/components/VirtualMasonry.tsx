@@ -3,7 +3,7 @@ import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import useWindowWidth from "@src/hooks/useWindowWidth";
 import { Post } from "@src/schema/Post";
 
-const ITEM_SIZE = 350;
+const ITEM_SIZE = 400;
 const MAX_LANES = 3;
 const MIN_LANES = 1;
 
