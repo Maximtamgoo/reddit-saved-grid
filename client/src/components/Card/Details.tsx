@@ -11,7 +11,7 @@ export default function Details({ post }: Props) {
   const authorLink = `https://www.reddit.com/u/${author}`;
 
   return (
-    <div className="truncate">
+    <div className="truncate bg-zinc-800 px-2 py-1">
       <a className="hover:underline" href={subredditLink} target="_blank" rel="noreferrer">
         r/{subreddit}
       </a>
@@ -23,7 +23,7 @@ export default function Details({ post }: Props) {
         <a className="block truncate text-xl">Comment</a>
       ) : (
         <a className="block truncate text-xl" href={postLink} target="_blank" rel="noreferrer">
-          {post.title} {post.title} {post.title}
+          {post.title}
         </a>
       )}
     </div>
