@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useGallery from "@src/hooks/useGallery";
 import Left from "@src/svg/chevron-left.svg?react";
 import Right from "@src/svg/chevron-right.svg?react";
-import Source from "./Source";
 
 type Props = {
   urls: string[];
@@ -10,6 +9,7 @@ type Props = {
 
 export function Gallery({ urls }: Props) {
   const { index, prevIndex, nextIndex } = useGallery(urls.length);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     function handleArrowKey(e: KeyboardEvent) {
@@ -22,9 +22,19 @@ export function Gallery({ urls }: Props) {
     }
   }, [urls.length, prevIndex, nextIndex]);
 
+  if (isError) {
+    return <div className="grid h-full w-full place-items-center text-8xl text-blue-500">?</div>;
+  }
+
   return (
     <div className="grid h-full w-full grid-rows-1 gap-2">
-      <Source url={urls[index]} />
+      <img
+        className="relative h-full w-full object-scale-down"
+        key={urls[index]}
+        src={urls[index]}
+        onError={() => setIsError(true)}
+        alt="Reddit Content"
+      />
       {urls.length > 1 && (
         <div className="flex justify-center text-blue-500">
           <button
