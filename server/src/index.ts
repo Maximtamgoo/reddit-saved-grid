@@ -28,16 +28,18 @@ app.use(
 );
 app.use(routes);
 
-const folderPath = `${new URL("../../client", import.meta.url).pathname}/dist`;
-app.use(express.static(folderPath));
+if (env.NODE_ENV === "production") {
+  const clientDist = `${new URL("../../client", import.meta.url).pathname}/dist`;
+  app.use(express.static(clientDist));
 
-app.get("/*", (_req, res, next) => {
-  try {
-    res.sendFile(`${folderPath}/index.html`);
-  } catch (error) {
-    next(error);
-  }
-});
+  app.get("/*", (_req, res, next) => {
+    try {
+      res.sendFile(`${clientDist}/index.html`);
+    } catch (error) {
+      next(error);
+    }
+  });
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(((error, _req, res, _next) => {
