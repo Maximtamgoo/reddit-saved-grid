@@ -19,8 +19,7 @@ export async function authorize(authorization_code: string) {
 
 export async function getNewAccessToken() {
   const res = await fetch("/api/access_token", {
-    method: "POST",
-    credentials: "include"
+    method: "POST"
   });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
 }
