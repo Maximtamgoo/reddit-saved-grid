@@ -1,6 +1,6 @@
 import { useGetSignedInUser } from "./services/queries";
 import LoginPage from "./pages/LoginPage";
-import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
 
 export default function App() {
@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <>
-      <Navbar username={username} />
+      <Header username={username} />
       <MainPage username={username} />
     </>
   );

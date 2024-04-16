@@ -33,7 +33,7 @@ export default function VirtualMasonry({ items, children }: Props) {
   }, [lanes, winVirtualizer]);
 
   return (
-    <div
+    <ul
       className="relative mx-auto"
       style={{
         height: `${winVirtualizer.getTotalSize()}px`,
@@ -42,7 +42,7 @@ export default function VirtualMasonry({ items, children }: Props) {
     >
       {winVirtualizer.getVirtualItems().map(({ index, lane, start, key }) => {
         return (
-          <div
+          <li
             className="absolute top-0 p-2"
             key={key}
             ref={winVirtualizer.measureElement}
@@ -54,9 +54,9 @@ export default function VirtualMasonry({ items, children }: Props) {
             }}
           >
             {children(items[index])}
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
