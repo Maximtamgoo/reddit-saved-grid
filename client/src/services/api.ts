@@ -1,3 +1,4 @@
+import { object, string } from "@badrap/valita";
 import { Listing } from "@src/schema/Listing";
 import HttpError from "@src/utils/HttpError";
 
@@ -33,7 +34,9 @@ export async function getMe() {
     }
   });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return (await res.json()) as { name: string };
+  return object({
+    name: string()
+  }).parse(await res.json(), { mode: "strip" });
 }
 
 export async function getSavedContent(username: string, after: string | null, limit = 50) {

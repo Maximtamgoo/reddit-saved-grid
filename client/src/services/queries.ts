@@ -16,9 +16,8 @@ export function useGetSignedInUser() {
       if (urlError) throw urlError;
       const urlCode = urlParams.get("code");
       if (urlCode) await api.authorize(urlCode);
-      return await api.getMe();
+      return (await api.getMe()).name;
     },
-    select: (data) => data.name,
     retry: false
   });
 }

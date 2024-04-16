@@ -32,10 +32,10 @@ export default function Details({ post }: Props) {
         )}
       </div>
       <button
-        className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-md bg-zinc-900"
+        className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-md bg-zinc-900 hover:bg-zinc-700"
         onClick={() => mutate({ id: post.id, saved: !post.saved })}
       >
-        <Bookmark className={`${post.saved ? "fill-current" : ""} hover:fill-blue-600`} />
+        <Bookmark className={`${post.saved ? "fill-current" : ""}`} />
       </button>
     </div>
   );
