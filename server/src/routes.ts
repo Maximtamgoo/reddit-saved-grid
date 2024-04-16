@@ -69,11 +69,11 @@ router.post("/api/signout", async (req, res, next) => {
 router.post("/api/bookmark/:state", async (req, res, next) => {
   try {
     const state = union(literal("unsave"), literal("save")).parse(req.params.state);
-    const id = string().parse(req.query.id);
+    const id = string().parse(req.body.id);
     const bearerAccessToken = string().parse(req.headers.authorization);
     const access_token = bearerAccessToken.split(" ")[1];
-    const data = await toggleBookmark(access_token, state, id);
-    res.send(data);
+    await toggleBookmark(access_token, state, id);
+    res.send({ saved: state === "save" });
   } catch (error) {
     next(error);
   }

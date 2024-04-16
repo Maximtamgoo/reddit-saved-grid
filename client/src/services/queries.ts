@@ -1,8 +1,9 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as api from "./api";
 import { Post } from "@src/schema/Post";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { ListingItem } from "@src/schema/Listing";
+import { produce } from "immer";
 
 const urlParams = new URLSearchParams(window.location.search);
 window.history.replaceState(null, "", "/");
@@ -24,7 +25,7 @@ export function useGetSignedInUser() {
 
 export function useGetSavedContent(username: string) {
   return useInfiniteQuery({
-    queryKey: ["posts", "username", username],
+    queryKey: ["posts", username],
     initialPageParam: "initial",
     queryFn: async ({ pageParam: after }) => {
       const listing = await api.getSavedContent(username, after);
@@ -46,5 +47,28 @@ export function useGetSavedContent(username: string) {
     },
     getNextPageParam: (lastPage) => lastPage.after,
     retry: false
+  });
+}
+
+export function useToggleBookmark() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationKey: ["toggleBookmark"],
+    mutationFn: ({ id, saved }: { id: string; saved: boolean }) => api.toggleBookmark(id, saved),
+    onSuccess: (_, { id, saved }) => {
+      const username = qc.getQueryData<string>(["username"]);
+      type QueryData = ReturnType<typeof useGetSavedContent>["data"];
+      qc.setQueryData<QueryData>(["posts", username], (oldData) => {
+        if (oldData) {
+          return produce(oldData, (draft) => {
+            for (const page of draft.pages) {
+              const postIndex = page.posts.findIndex((post) => post.id === id);
+              if (postIndex !== -1) page.posts[postIndex].saved = saved;
+              break;
+            }
+          });
+        }
+      });
+    }
   });
 }

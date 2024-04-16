@@ -51,17 +51,19 @@ export async function getSavedContent(username: string, after: string | null, li
   return Listing.parse(await res.json(), { mode: "strip" });
 }
 
-export async function toggleBookmark(id: string, state: "unsave" | "save") {
+export async function toggleBookmark(id: string, state: boolean) {
   const token = getCookie("access_token");
   if (!token) await getNewAccessToken();
-  const res = await fetch(`/api/bookmark/${state}?id=${id}`, {
+  const res = await fetch(`/api/bookmark/${state ? "save" : "unsave"}`, {
+    method: "POST",
     headers: {
-      method: "POST",
-      Authorization: `Bearer ${getCookie("access_token")}`
-    }
+      Authorization: `Bearer ${getCookie("access_token")}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id })
   });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return await res.json();
+  return (await res.json()) as { saved: boolean };
 }
 
 export async function signOut() {
