@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useLayoutEffect, ReactNode } from "react";
+import { useMemo, useCallback, useLayoutEffect, ReactNode, memo } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import useWindowWidth from "@src/hooks/useWindowWidth";
 import { Post } from "@src/schema/Post";
@@ -12,7 +12,7 @@ type Props = {
   children: (item: Post) => ReactNode;
 };
 
-export default function VirtualMasonry({ items, children }: Props) {
+export default memo(function VirtualMasonry({ items, children }: Props) {
   const width = useWindowWidth();
   const lanes = useMemo(
     () => Math.max(MIN_LANES, Math.min(MAX_LANES, Math.floor(width / ITEM_SIZE))),
@@ -59,4 +59,4 @@ export default function VirtualMasonry({ items, children }: Props) {
       })}
     </ul>
   );
-}
+});

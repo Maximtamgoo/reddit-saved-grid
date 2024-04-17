@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 import { Post } from "@src/schema/Post";
 import Details from "./Details";
 import Preview from "./Preview";
@@ -9,7 +9,7 @@ type Props = {
   onClickPreview: (post: Post) => void;
 };
 
-export default function Card({ post, onClickPreview }: Props) {
+export default memo(function Card({ post, onClickPreview }: Props) {
   let Post: ReactNode = null;
 
   // if (post.type === "text") {
@@ -34,12 +34,12 @@ export default function Card({ post, onClickPreview }: Props) {
   }
 
   return (
-    <div className="relative grid gap-1 overflow-hidden rounded-xl">
+    <section className="relative overflow-hidden rounded-md bg-zinc-800">
       <Details post={post} />
       {Post}
-    </div>
+    </section>
   );
-}
+});
 
 function CornerInfo({ data }: { data: string | number }) {
   return (
