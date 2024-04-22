@@ -16,14 +16,11 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
   }
 
   if (isError) {
-    return <div className="grid aspect-square place-items-center bg-zinc-800 text-8xl">?</div>;
+    return <div className="grid aspect-square place-items-center bg-zinc-700 text-8xl">?</div>;
   }
 
   return (
-    <div
-      className="relative cursor-pointer overflow-hidden rounded-b-xl border-4 border-zinc-800 bg-zinc-700"
-      onClick={onClick}
-    >
+    <div className="relative m-1 cursor-pointer overflow-hidden rounded-b-md" onClick={onClick}>
       <img className="absolute h-full w-full object-cover opacity-40 blur-xl" src={url} />
       <img
         className="relative m-auto object-contain"
@@ -34,7 +31,7 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
         alt="Reddit Content"
         style={{
           minHeight: "300px",
-          maxHeight: "calc(100vh - 14rem)",
+          maxHeight: "calc(100vh - 12rem)",
           visibility: loading ? "hidden" : "visible"
         }}
       />
