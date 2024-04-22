@@ -4,19 +4,19 @@ import { string, literal, union } from "@badrap/valita";
 import express from "express";
 const router = express.Router();
 
-// const isProduction = env.NODE_ENV === "production";
+const isProduction = env.NODE_ENV === "production";
 
 const accessTokenOptions = (maxAge: number) =>
   ({
     maxAge,
     sameSite: "lax",
-    secure: true
+    secure: isProduction
   }) as const;
 
 const refreshTokenOptions = {
   maxAge: 2629800 * 1000,
   sameSite: "strict",
-  secure: true,
+  secure: isProduction,
   httpOnly: true
 } as const;
 
@@ -34,7 +34,6 @@ router.post("/api/authorize", async (req, res, next) => {
   try {
     const authorization_code = string().parse(req.body.authorization_code);
     const token = await authorize(authorization_code);
-    console.log("token:", token);
     res.cookie("access_token", token.access_token, accessTokenOptions(token.expires_in * 1000));
     res.cookie("refresh_token", token.refresh_token, refreshTokenOptions);
     res.send();
@@ -47,7 +46,6 @@ router.post("/api/access_token", async (req, res, next) => {
   try {
     const refresh_token = string().parse(req.cookies.refresh_token);
     const token = await getNewAccessToken(refresh_token);
-    console.log("token:", token);
     res.cookie("access_token", token.access_token, accessTokenOptions(token.expires_in * 1000));
     res.send();
   } catch (error) {
