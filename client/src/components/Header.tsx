@@ -1,38 +1,40 @@
+import User from "@src/svg/user.svg?react";
 import Github from "@src/svg/github.svg?react";
+import LogOut from "@src/svg/log-out.svg?react";
+import DropdownMenu from "./DropdownMenu";
 import { signOut } from "@src/services/api";
 
 export default function Header({ username }: { username: string }) {
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center gap-2 border-b-2 border-blue-500 bg-zinc-900 px-2 text-blue-500">
-      <div className="grid grow">
-        <div className="truncate text-2xl">Reddit Saved Masonry</div>
+    <header className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-blue-500 bg-zinc-900 px-2 py-1 text-blue-500">
+      <div className="truncate text-3xl">Reddit Saved Masonry</div>
+      <DropdownMenu>
         <a
-          className="w-fit truncate hover:underline"
+          className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
+          href="https://github.com/Maximtamgoo/reddit-saved-masonry"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Github /> Github
+        </a>
+        <a
+          className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
           href={`https://www.reddit.com/user/${username}/saved/`}
           target="_blank"
           rel="noreferrer"
         >
-          u/{username}
+          <User /> Profile
         </a>
-      </div>
-
-      <a
-        className="grid h-12 w-12 shrink-0 place-items-center rounded-md border-2 border-inherit"
-        href="https://github.com/Maximtamgoo/reddit-saved-masonry"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Github />
-      </a>
-      <button
-        className="h-12 w-24 shrink-0 rounded-md border-2 border-inherit"
-        onClick={async () => {
-          await signOut();
-          window.location.reload();
-        }}
-      >
-        Sign Out
-      </button>
+        <button
+          className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
+          onClick={async () => {
+            await signOut();
+            window.location.reload();
+          }}
+        >
+          <LogOut /> Sign Out
+        </button>
+      </DropdownMenu>
     </header>
   );
 }
