@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useGallery from "@src/hooks/useGallery";
 import Left from "@src/svg/chevron-left.svg?react";
 import Right from "@src/svg/chevron-right.svg?react";
@@ -10,17 +10,6 @@ type Props = {
 export function Gallery({ urls }: Props) {
   const { index, prevIndex, nextIndex } = useGallery(urls.length);
   const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    function handleArrowKey(e: KeyboardEvent) {
-      if (e.code === "ArrowLeft") prevIndex();
-      if (e.code === "ArrowRight") nextIndex();
-    }
-    if (urls.length > 1) {
-      window.addEventListener("keydown", handleArrowKey);
-      return () => window.removeEventListener("keydown", handleArrowKey);
-    }
-  }, [urls.length, prevIndex, nextIndex]);
 
   if (isError) {
     return <div className="grid h-full w-full place-items-center text-8xl text-blue-500">?</div>;
