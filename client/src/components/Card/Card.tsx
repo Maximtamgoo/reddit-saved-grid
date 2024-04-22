@@ -6,10 +6,11 @@ import Preview from "./Preview";
 
 type Props = {
   post: Post;
+  pageParam: string;
   onClickPreview: (post: Post) => void;
 };
 
-export default memo(function Card({ post, onClickPreview }: Props) {
+export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
   let Post: ReactNode = null;
 
   // if (post.type === "text") {
@@ -35,7 +36,7 @@ export default memo(function Card({ post, onClickPreview }: Props) {
 
   return (
     <section className="relative overflow-hidden rounded-md bg-zinc-800">
-      <Details post={post} />
+      <Details post={post} pageParam={pageParam} />
       {Post}
     </section>
   );

@@ -4,10 +4,11 @@ import Bookmark from "@src/svg/bookmark.svg?react";
 
 type Props = {
   post: Post;
+  pageParam: string;
 };
 
-export default function Details({ post }: Props) {
-  const { mutate } = useToggleBookmark();
+export default function Details({ post, pageParam }: Props) {
+  const { mutate } = useToggleBookmark(post.id, pageParam);
   const { permalink, subreddit, author } = post;
   const postLink = `https://www.reddit.com${permalink}`;
   const subredditLink = `https://www.reddit.com/r/${subreddit}`;
@@ -33,7 +34,7 @@ export default function Details({ post }: Props) {
       </div>
       <button
         className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-md bg-zinc-900 hover:bg-zinc-700"
-        onClick={() => mutate({ id: post.id, saved: !post.saved })}
+        onClick={() => mutate({ saved: !post.saved })}
       >
         <Bookmark className={`${post.saved ? "fill-current" : ""}`} />
       </button>

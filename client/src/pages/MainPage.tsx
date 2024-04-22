@@ -17,8 +17,16 @@ export default function MainPage({ username }: { username: string }) {
   const { data, isLoading, isError, error, hasNextPage, fetchNextPage, isFetched } =
     useGetSavedContent(username);
 
-  const allItems = useMemo(() => {
-    return data?.pages.flatMap((page) => page.posts) ?? [];
+  const { posts, pageParams } = useMemo(() => {
+    const pageParams: string[] = [];
+    const posts =
+      data?.pages.flatMap((page, i) => {
+        return page.posts.map((post) => {
+          pageParams.push(data.pageParams[i] as string);
+          return post;
+        });
+      }) ?? [];
+    return { posts, pageParams };
   }, [data]);
 
   const onClickPreview = useCallback((post: Post) => {
@@ -44,14 +52,16 @@ export default function MainPage({ username }: { username: string }) {
   }
 
   return (
-    <main className="bg-zinc-900 text-zinc-300">
+    <main className="text-blue-500">
       {isOpen && modalDataRef.current && (
         <Dialog onClose={() => setIsOpen(false)}>
           <Modal post={modalDataRef.current} />
         </Dialog>
       )}
-      <VirtualMasonry items={allItems}>
-        {(item) => <Card post={item} onClickPreview={onClickPreview} />}
+      <VirtualMasonry items={posts}>
+        {(item, i) => (
+          <Card post={item} pageParam={pageParams[i]} onClickPreview={onClickPreview} />
+        )}
       </VirtualMasonry>
       {isFetched && (
         <div ref={ref} className="grid h-20 place-items-center text-lg">

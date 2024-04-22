@@ -3,7 +3,6 @@ import * as api from "./api";
 import { Post } from "@src/schema/Post";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { ListingItem } from "@src/schema/Listing";
-import { produce } from "immer";
 
 const urlParams = new URLSearchParams(window.location.search);
 window.history.replaceState(null, "", "/");
@@ -49,23 +48,31 @@ export function useGetSavedContent(username: string) {
   });
 }
 
-export function useToggleBookmark() {
+export function useToggleBookmark(id: string, pageParam: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationKey: ["toggleBookmark"],
-    mutationFn: ({ id, saved }: { id: string; saved: boolean }) => api.toggleBookmark(id, saved),
-    onSuccess: (_, { id, saved }) => {
+    mutationKey: ["toggleBookmark", id],
+    mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
+    onSuccess: (_, { saved }) => {
       const username = qc.getQueryData<string>(["username"]);
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
       qc.setQueryData<QueryData>(["posts", username], (oldData) => {
         if (oldData) {
-          return produce(oldData, (draft) => {
-            for (const page of draft.pages) {
+          const newPages = oldData.pages.map((page, i) => {
+            if (oldData.pageParams[i] === pageParam) {
               const postIndex = page.posts.findIndex((post) => post.id === id);
-              if (postIndex !== -1) page.posts[postIndex].saved = saved;
-              break;
+              if (postIndex !== -1) {
+                page.posts[postIndex].saved = saved;
+                return page;
+              }
             }
+            return page;
           });
+
+          return {
+            pages: newPages,
+            pageParams: oldData.pageParams
+          };
         }
       });
     }

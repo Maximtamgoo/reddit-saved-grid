@@ -9,7 +9,7 @@ const MIN_LANES = 1;
 
 type Props = {
   items: Post[];
-  children: (item: Post) => ReactNode;
+  children: (item: Post, index: number) => ReactNode;
 };
 
 export default memo(function VirtualMasonry({ items, children }: Props) {
@@ -34,10 +34,9 @@ export default memo(function VirtualMasonry({ items, children }: Props) {
 
   return (
     <ul
-      className="relative mx-auto"
+      className="relative"
       style={{
-        height: `${winVirtualizer.getTotalSize()}px`,
-        maxWidth: lanes < MAX_LANES ? "100%" : "90%"
+        height: `${winVirtualizer.getTotalSize()}px`
       }}
     >
       {winVirtualizer.getVirtualItems().map(({ index, lane, start, key }) => {
@@ -53,7 +52,7 @@ export default memo(function VirtualMasonry({ items, children }: Props) {
               transform: `translateY(${start}px)`
             }}
           >
-            {children(items[index])}
+            {children(items[index], index)}
           </li>
         );
       })}
