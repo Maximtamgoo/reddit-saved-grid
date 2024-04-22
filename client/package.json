@@ -10,10 +10,8 @@
   },
   "dependencies": {
     "@badrap/valita": "^0.3.8",
-    "@tanstack/react-query": "^5.29.2",
-    "@tanstack/react-query-devtools": "^5.29.2",
-    "@tanstack/react-virtual": "^3.3.0",
-    "immer": "^10.0.4",
+    "@tanstack/react-query": "^5.31.0",
+    "@tanstack/react-virtual": "^3.4.0",
     "preact": "^10.20.2",
     "react-intersection-observer": "^9.8.2"
   },
@@ -24,7 +22,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.9",
+    "vite": "^5.2.10",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-svgr": "^4.2.0"
   }
