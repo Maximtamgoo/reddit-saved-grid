@@ -17,7 +17,7 @@ export default function Modal({ post }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/90 p-2">
+    <div className="fixed inset-0 bg-black/90">
       {Post}
       <form method="dialog">
         <button

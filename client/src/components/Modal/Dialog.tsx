@@ -23,6 +23,7 @@ export default function Dialog({ onClose, children }: PropsWithChildren<Props>) 
   return createPortal(
     <dialog
       ref={ref}
+      onClick={onClose}
       onClose={onClose}
       className="h-full max-h-full w-full max-w-full bg-transparent"
     >

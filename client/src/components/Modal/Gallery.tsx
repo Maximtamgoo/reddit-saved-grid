@@ -16,16 +16,19 @@ export function Gallery({ urls }: Props) {
   }
 
   return (
-    <div className="grid h-full w-full grid-rows-1 gap-2">
-      <img
-        className="relative h-full w-full object-scale-down"
-        key={urls[index]}
-        src={urls[index]}
-        onError={() => setIsError(true)}
-        alt="Reddit Content"
-      />
+    <div className="grid h-full grid-rows-1 gap-1 p-1">
+      <div className="flex items-center justify-center">
+        <img
+          className="max-h-full max-w-full"
+          key={urls[index]}
+          src={urls[index]}
+          onClick={(e) => e.stopPropagation()}
+          onError={() => setIsError(true)}
+          alt="Reddit Content"
+        />
+      </div>
       {urls.length > 1 && (
-        <div className="flex justify-center text-blue-500">
+        <div className="flex justify-center text-blue-500" onClick={(e) => e.stopPropagation()}>
           <button
             className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full"
             onClick={prevIndex}
