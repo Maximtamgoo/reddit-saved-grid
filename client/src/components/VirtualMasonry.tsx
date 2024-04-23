@@ -2,10 +2,7 @@ import { useMemo, useCallback, useLayoutEffect, ReactNode, memo } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import useWindowWidth from "@src/hooks/useWindowWidth";
 import { Post } from "@src/schema/Post";
-
-const ITEM_SIZE = 400;
-const MAX_LANES = 3;
-const MIN_LANES = 1;
+import { ITEM_SIZE, MIN_LANES, MAX_LANES } from "@src/constant";
 
 type Props = {
   items: Post[];
@@ -34,9 +31,10 @@ export default memo(function VirtualMasonry({ items, children }: Props) {
 
   return (
     <ul
-      className="relative"
+      className="relative mx-auto"
       style={{
-        height: `${winVirtualizer.getTotalSize()}px`
+        height: `${winVirtualizer.getTotalSize()}px`,
+        maxWidth: width < ITEM_SIZE * MAX_LANES ? "100%" : "90%"
       }}
     >
       {winVirtualizer.getVirtualItems().map(({ index, lane, start, key }) => {
