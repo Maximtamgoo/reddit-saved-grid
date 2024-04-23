@@ -4,6 +4,8 @@ import svgr from "vite-plugin-svgr";
 import checker from "vite-plugin-checker";
 import { visualizer } from "rollup-plugin-visualizer";
 
+const isHostRender = !!process.env.RENDER;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -15,9 +17,9 @@ export default defineConfig({
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
       }
     }),
-    visualizer({ open: true, gzipSize: true, sourcemap: true })
+    !isHostRender && visualizer({ open: true, gzipSize: true, sourcemap: true })
   ],
-  build: { sourcemap: true },
+  build: { sourcemap: !isHostRender },
   server: {
     open: true,
     port: 3000,
