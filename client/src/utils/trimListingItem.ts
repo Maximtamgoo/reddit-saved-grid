@@ -24,8 +24,6 @@ export function trimListingItem(item: ListingItem): Post {
       };
     } else if (is_gallery && gallery_data && media_metadata) {
       const resolutions = media_metadata[gallery_data.items[0].media_id].p;
-      const previewUrl = resolutions && resolutions[resolutions.length - 1].u;
-
       const urlGallery: string[] = [];
       for (const item of gallery_data.items) {
         const resolutions = media_metadata[item.media_id].p;
@@ -35,19 +33,18 @@ export function trimListingItem(item: ListingItem): Post {
       return {
         ...post,
         type: "gallery",
-        preview: previewUrl,
+        preview: resolutions && resolutions[resolutions.length - 1].u,
         gallery: urlGallery
       };
     } else if (preview && preview.images) {
       const resolutions = preview.images[0].resolutions;
-      const previewUrl = resolutions[resolutions.length - 1].url;
       const gifSource = preview.images[0].variants.gif?.source.url;
       const sourceUrl = gifSource ? gifSource : preview.images[0].source.url;
 
       return {
         ...post,
         type: "image",
-        preview: previewUrl,
+        preview: resolutions[resolutions.length - 1].url,
         source: sourceUrl,
         isGif: !!gifSource
       };
