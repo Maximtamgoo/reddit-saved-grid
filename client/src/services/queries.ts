@@ -16,8 +16,7 @@ export function useGetSignedInUser() {
       const urlCode = urlParams.get("code");
       if (urlCode) await api.authorize(urlCode);
       return (await api.getMe()).name;
-    },
-    retry: false
+    }
   });
 }
 
@@ -43,8 +42,7 @@ export function useGetSavedContent(username: string) {
         posts
       };
     },
-    getNextPageParam: (lastPage) => lastPage.after,
-    retry: false
+    getNextPageParam: (lastPage) => lastPage.after
   });
 }
 
