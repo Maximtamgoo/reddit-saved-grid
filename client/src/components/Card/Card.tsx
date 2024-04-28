@@ -2,7 +2,7 @@ import { ReactNode, memo } from "react";
 import { Post } from "@src/schema/Post";
 import Details from "./Details";
 import Preview from "./Preview";
-// import Comment from "./Comment";
+import Text from "./Text";
 
 type Props = {
   post: Post;
@@ -13,10 +13,11 @@ type Props = {
 export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
   let Post: ReactNode = null;
 
-  // if (post.type === "text") {
-  //   Post = <div className="line-clamp-6 aspect-square">{post.text}</div>;
-  // } else
-  if (post.type === "gallery") {
+  if (post.type === "text") {
+    Post = <Text text={post.text} />;
+  } else if (post.type === "comment") {
+    Post = <Text text={post.comment} />;
+  } else if (post.type === "gallery") {
     Post = (
       <Preview url={post.preview} onClick={() => onClickPreview(post)}>
         {post.gallery.length > 1 && <CornerInfo data={post.gallery.length} />}
@@ -28,14 +29,12 @@ export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
         {post.isGif && <CornerInfo data="GIF" />}
       </Preview>
     );
-    // } else if (post.type === "comment") {
-    //   Post = <Comment permalink={post.permalink} comment={post.comment} />;
   } else {
     Post = <div className="grid aspect-square place-items-center bg-zinc-800 text-8xl">?</div>;
   }
 
   return (
-    <section className="relative overflow-hidden rounded-md bg-zinc-800">
+    <section className="overflow-hidden rounded-md bg-zinc-800 ring-2 ring-zinc-600">
       <Details post={post} pageParam={pageParam} />
       {Post}
     </section>
