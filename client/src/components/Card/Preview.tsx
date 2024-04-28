@@ -1,5 +1,6 @@
 import { PropsWithChildren, useState } from "react";
-import Oval from "@src/svg/oval.svg?react";
+import { CARD_MAX_HEIGHT, CARD_MIN_HEIGHT } from "@src/constant";
+import LoaderCircle from "@src/svg/loader-circle.svg?react";
 
 type Props = {
   url?: string;
@@ -20,7 +21,7 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
   }
 
   return (
-    <div className="relative m-1 cursor-pointer overflow-hidden rounded-b-md" onClick={onClick}>
+    <div className="relative cursor-pointer overflow-hidden" onClick={onClick}>
       <img className="absolute h-full w-full object-cover opacity-40 blur-xl" src={url} />
       <img
         className="relative m-auto object-contain"
@@ -30,14 +31,13 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
         onError={() => setIsError(true)}
         alt="Reddit Content"
         style={{
-          minHeight: "300px",
-          maxHeight: "calc(100vh - 12rem)",
-          visibility: loading ? "hidden" : "visible"
+          minHeight: CARD_MIN_HEIGHT,
+          maxHeight: CARD_MAX_HEIGHT
         }}
       />
       {loading && (
         <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <Oval className="h-14 w-14" />
+          <LoaderCircle className="size-14 animate-spin rounded-full" />
         </div>
       )}
       {children}

@@ -12,7 +12,7 @@ export function Gallery({ urls }: Props) {
   const [isError, setIsError] = useState(false);
 
   if (isError) {
-    return <div className="grid h-full w-full place-items-center text-8xl text-blue-500">?</div>;
+    return <div className="grid size-full place-items-center text-8xl text-blue-500">?</div>;
   }
 
   return (
@@ -29,20 +29,14 @@ export function Gallery({ urls }: Props) {
       </div>
       {urls.length > 1 && (
         <div className="flex justify-center text-blue-500" onClick={(e) => e.stopPropagation()}>
-          <button
-            className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full"
-            onClick={prevIndex}
-          >
-            <Left className="h-full w-full" />
+          <button className="size-10 overflow-hidden rounded-full" onClick={prevIndex}>
+            <Left className="size-full" />
           </button>
-          <div className="grid max-w-[50%] grow place-items-center text-xl">
+          <div className="grid max-w-[50%] grow place-items-center text-2xl">
             {index + 1}/{urls.length}
           </div>
-          <button
-            className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full"
-            onClick={nextIndex}
-          >
-            <Right className="h-full w-full" />
+          <button className="size-10 overflow-hidden rounded-full" onClick={nextIndex}>
+            <Right className="size-full" />
           </button>
         </div>
       )}
