@@ -31,16 +31,15 @@ export default memo(function VirtualMasonry({ items, children }: Props) {
 
   return (
     <ul
-      className="relative mx-auto"
+      className="relative m-auto max-w-full 2xl:max-w-[90%]"
       style={{
-        height: `${winVirtualizer.getTotalSize()}px`,
-        maxWidth: width < ITEM_SIZE * MAX_LANES ? "100%" : "90%"
+        height: `${winVirtualizer.getTotalSize()}px`
       }}
     >
       {winVirtualizer.getVirtualItems().map(({ index, lane, start, key }) => {
         return (
           <li
-            className="absolute top-0 p-2"
+            className="absolute top-0 p-2 2xl:p-4"
             key={key}
             ref={winVirtualizer.measureElement}
             data-index={index}
