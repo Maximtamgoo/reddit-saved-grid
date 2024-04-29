@@ -22,7 +22,7 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
 
   return (
     <div className="relative cursor-pointer overflow-hidden" onClick={onClick}>
-      <img className="absolute h-full w-full object-cover opacity-40 blur-xl" src={url} />
+      <img className="absolute size-full object-cover opacity-40 blur-xl" src={url} />
       <img
         className="relative m-auto object-contain"
         loading="lazy"

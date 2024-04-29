@@ -25,7 +25,7 @@ export default function Dialog({ onClose, children }: PropsWithChildren<Props>) 
       ref={ref}
       onClick={onClose}
       onClose={onClose}
-      className="h-full max-h-full w-full max-w-full bg-transparent"
+      className="size-full max-h-full max-w-full bg-transparent"
     >
       {children}
     </dialog>,

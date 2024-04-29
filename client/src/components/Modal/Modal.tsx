@@ -24,7 +24,7 @@ export default function Modal({ post }: Props) {
           autoFocus
           className="absolute right-2 top-2 grid size-12 place-items-center overflow-hidden rounded-full bg-black/40 text-blue-500"
         >
-          <X className="h-full w-full" />
+          <X className="size-full" />
         </button>
       </form>
     </div>
