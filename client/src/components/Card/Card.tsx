@@ -1,16 +1,19 @@
-import { ReactNode, memo } from "react";
+import { ReactNode, memo, useState } from "react";
 import { Post } from "@src/schema/Post";
 import Details from "./Details";
 import Preview from "./Preview";
 import Text from "./Text";
+import Dialog from "@src/components/Modal/Dialog";
+import Modal from "@src/components/Modal/Modal";
 
 type Props = {
   post: Post;
   pageParam: string;
-  onClickPreview: (post: Post) => void;
 };
 
-export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
+export default memo(function Card({ post, pageParam }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+
   let Post: ReactNode = null;
 
   if (post.type === "text") {
@@ -19,13 +22,13 @@ export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
     Post = <Text text={post.comment} />;
   } else if (post.type === "gallery") {
     Post = (
-      <Preview url={post.preview} onClick={() => onClickPreview(post)}>
+      <Preview url={post.preview} onClick={() => setIsOpen(true)}>
         {post.gallery.length > 1 && <CornerInfo data={post.gallery.length} />}
       </Preview>
     );
   } else if (post.type === "image") {
     Post = (
-      <Preview url={post.preview} onClick={() => onClickPreview(post)}>
+      <Preview url={post.preview} onClick={() => setIsOpen(true)}>
         {post.isGif && <CornerInfo data="GIF" />}
       </Preview>
     );
@@ -37,6 +40,11 @@ export default memo(function Card({ post, pageParam, onClickPreview }: Props) {
     <section className="overflow-hidden rounded-md bg-zinc-800 ring-2 ring-zinc-600">
       <Details post={post} pageParam={pageParam} />
       {Post}
+      {isOpen && (
+        <Dialog onClose={() => setIsOpen(false)}>
+          <Modal post={post} />
+        </Dialog>
+      )}
     </section>
   );
 });

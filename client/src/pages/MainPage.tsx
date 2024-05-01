@@ -1,17 +1,11 @@
-import { useMemo, useState, useEffect, useCallback, useRef } from "react";
+import { useMemo, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useGetSavedContent } from "@src/services/queries";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import Card from "@src/components/Card/Card";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
-import { Post } from "@src/schema/Post";
-import Dialog from "@src/components/Modal/Dialog";
-import Modal from "@src/components/Modal/Modal";
 
 export default function MainPage({ username }: { username: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const modalDataRef = useRef<Post>();
-
   const { ref, inView } = useInView();
 
   const { data, isLoading, isError, error, hasNextPage, fetchNextPage, isFetched } =
@@ -28,11 +22,6 @@ export default function MainPage({ username }: { username: string }) {
       }) ?? [];
     return { posts, pageParams };
   }, [data]);
-
-  const onClickPreview = useCallback((post: Post) => {
-    modalDataRef.current = post;
-    setIsOpen(true);
-  }, []);
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -54,15 +43,8 @@ export default function MainPage({ username }: { username: string }) {
 
   return (
     <main className="text-blue-500">
-      {isOpen && modalDataRef.current && (
-        <Dialog onClose={() => setIsOpen(false)}>
-          <Modal post={modalDataRef.current} />
-        </Dialog>
-      )}
       <VirtualMasonry items={posts}>
-        {(item, i) => (
-          <Card post={item} pageParam={pageParams[i]} onClickPreview={onClickPreview} />
-        )}
+        {(item, i) => <Card post={item} pageParam={pageParams[i]} />}
       </VirtualMasonry>
       {isFetched && (
         <div ref={ref} className="grid h-20 place-items-center text-lg">
