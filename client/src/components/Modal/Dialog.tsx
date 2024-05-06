@@ -1,4 +1,5 @@
-import { PropsWithChildren, createPortal, useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 type Props = {
   onClose: () => void;
