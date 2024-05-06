@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import { useInView } from "@src/hooks/useInView";
 import { useGetSavedContent } from "@src/services/queries";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import Card from "@src/components/Card/Card";
@@ -29,7 +29,7 @@ export default function MainPage({ username }: { username: string }) {
 
   if (isError) {
     console.log("error:", error);
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
 
   if (isLoading) {
