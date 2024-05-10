@@ -1,41 +1,40 @@
 import User from "@src/svg/user.svg?react";
 import Github from "@src/svg/github.svg?react";
 import LogOut from "@src/svg/log-out.svg?react";
-import DropdownMenu from "./DropdownMenu";
 import { signOut } from "@src/services/api";
 
 export default function Header({ username }: { username: string }) {
   return (
-    <header className="sticky top-0 z-10 border-b-2 border-blue-500 bg-zinc-900 text-blue-500">
-      <div className="m-auto flex max-w-full items-center justify-between px-2 py-1 2xl:max-w-[90%]">
-        <div className="truncate text-3xl">Reddit Saved Masonry</div>
-        <DropdownMenu>
+    <header className="sticky top-0 z-10 border-b-2 border-blue-500 bg-zinc-900 p-2 text-blue-500 2xl:px-4">
+      <div className="m-auto flex max-w-full justify-between gap-2 2xl:max-w-[90%]">
+        <div className="self-center truncate text-3xl">Reddit Saved Masonry</div>
+        <nav className="flex gap-2">
           <a
-            className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
+            className="size-10 rounded-full bg-zinc-800 hover:bg-zinc-700"
             href="https://github.com/Maximtamgoo/reddit-saved-masonry"
             target="_blank"
             rel="noreferrer"
           >
-            <Github /> Github
+            <Github className="size-full p-2" />
           </a>
           <a
-            className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
+            className="size-10 rounded-full bg-zinc-800 hover:bg-zinc-700"
             href={`https://www.reddit.com/user/${username}/saved/`}
             target="_blank"
             rel="noreferrer"
           >
-            <User /> Profile
+            <User className="size-full p-2" />
           </a>
           <button
-            className="flex items-center gap-2 rounded-md bg-zinc-900 p-2"
+            className="size-10 rounded-full bg-zinc-800 hover:bg-zinc-700"
             onClick={async () => {
               await signOut();
               window.location.reload();
             }}
           >
-            <LogOut /> Sign Out
+            <LogOut className="size-full p-2" />
           </button>
-        </DropdownMenu>
+        </nav>
       </div>
     </header>
   );
