@@ -15,8 +15,8 @@ export default function Details({ post, pageParam }: Props) {
   const authorLink = `https://www.reddit.com/u/${author}`;
 
   return (
-    <div className="flex items-center gap-2 p-2">
-      <div className="grow overflow-hidden">
+    <div className="flex gap-2 p-2">
+      <div className="min-w-0 grow">
         <div className="truncate">
           <a className="hover:underline" href={subredditLink} target="_blank" rel="noreferrer">
             <span className="text-sm">r</span>/{subreddit}
@@ -31,10 +31,10 @@ export default function Details({ post, pageParam }: Props) {
         </a>
       </div>
       <button
-        className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-md bg-zinc-900 hover:bg-zinc-700"
+        className="size-10 shrink-0 rounded-md bg-zinc-900 hover:bg-zinc-700"
         onClick={() => mutate({ saved: !post.saved })}
       >
-        <Bookmark className={`${post.saved ? "fill-current" : ""}`} />
+        <Bookmark className={`size-full p-2 ${post.saved ? "fill-current" : ""}`} />
       </button>
     </div>
   );
