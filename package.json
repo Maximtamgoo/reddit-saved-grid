@@ -18,7 +18,7 @@
     "server"
   ],
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.32.1",
+    "@tanstack/eslint-plugin-query": "^5.35.6",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.34.1",
