@@ -10,6 +10,7 @@ window.history.replaceState(null, "", "/");
 export function useGetSignedInUser() {
   return useQuery({
     queryKey: ["username"],
+    retry: false,
     queryFn: async () => {
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
@@ -23,6 +24,7 @@ export function useGetSignedInUser() {
 export function useGetSavedContent(username: string) {
   return useInfiniteQuery({
     queryKey: ["posts", username],
+    retry: false,
     initialPageParam: "initial",
     queryFn: async ({ pageParam: after }) => {
       const listing = await api.getSavedContent(username, after);
@@ -50,6 +52,7 @@ export function useToggleBookmark(id: string, pageParam: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["toggleBookmark", id],
+    retry: false,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
       const username = qc.getQueryData<string>(["username"]);
