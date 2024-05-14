@@ -70,11 +70,6 @@ export async function toggleBookmark(id: string, state: boolean) {
 }
 
 export async function signOut() {
-  const res = await fetch("/api/signout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refresh_token: getCookie("refresh_token") })
-  });
+  const res = await fetch("/api/signout", { method: "POST" });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return await res.text();
 }

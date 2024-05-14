@@ -56,9 +56,9 @@ router.post("/api/access_token", async (req, res, next) => {
 router.post("/api/signout", async (req, res, next) => {
   try {
     const refresh_token = string().parse(req.cookies.refresh_token);
-    const WeirdRedditResponse = await revokeToken("refresh_token", refresh_token);
+    await revokeToken("refresh_token", refresh_token);
     res.clearCookie("refresh_token", refreshTokenOptions);
-    res.send(WeirdRedditResponse);
+    res.send();
   } catch (error) {
     next(error);
   }
