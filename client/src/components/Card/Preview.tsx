@@ -17,11 +17,11 @@ export default function Preview({ url, onClick, children }: PropsWithChildren<Pr
   }
 
   if (isError) {
-    return <div className="grid aspect-square place-items-center bg-zinc-700 text-8xl">?</div>;
+    return <div className="grid aspect-square place-items-center text-8xl">?</div>;
   }
 
   return (
-    <div className="relative cursor-pointer overflow-hidden" onClick={onClick}>
+    <div className="relative cursor-pointer overflow-hidden rounded-b-lg" onClick={onClick}>
       <img className="absolute size-full object-cover opacity-40 blur-xl" src={url} />
       <img
         className="relative m-auto object-contain"

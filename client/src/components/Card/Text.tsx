@@ -7,7 +7,7 @@ type Props = {
 export default function Text({ text }: Props) {
   return (
     <div
-      className="overflow-hidden whitespace-break-spaces break-words p-2"
+      className="overflow-hidden whitespace-break-spaces break-words px-4"
       style={{
         minHeight: CARD_MIN_HEIGHT,
         maxHeight: CARD_MAX_HEIGHT

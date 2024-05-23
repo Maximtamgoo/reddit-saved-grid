@@ -17,14 +17,14 @@ export default function Modal({ post }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/90">
+    <div className="fixed inset-0 bg-slate-100/95">
       {Post}
       <form method="dialog">
         <button
           autoFocus
-          className="absolute right-2 top-2 grid size-12 place-items-center overflow-hidden rounded-full bg-black/40 text-blue-500"
+          className="absolute right-2 top-2 grid size-10 place-items-center overflow-hidden rounded-full bg-slate-200/50 text-slate-800 hover:ring-2 hover:ring-slate-300"
         >
-          <X className="size-full" />
+          <X />
         </button>
       </form>
     </div>

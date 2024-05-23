@@ -31,7 +31,7 @@ export default memo(function VirtualMasonry({ items, children }: Props) {
 
   return (
     <ul
-      className="relative m-auto max-w-full 2xl:max-w-[90%]"
+      className="relative mx-auto max-w-full 2xl:max-w-[90%]"
       style={{
         height: `${winVirtualizer.getTotalSize()}px`
       }}

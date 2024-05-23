@@ -1,6 +1,7 @@
 import { Post } from "@src/schema/Post";
 import { useToggleBookmark } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
+import Link from "@src/components/Link";
 
 type Props = {
   post: Post;
@@ -15,27 +16,31 @@ export default function Details({ post, pageParam }: Props) {
   const authorLink = `https://www.reddit.com/u/${author}`;
 
   return (
-    <div className="flex gap-2 p-2">
-      <div className="min-w-0 grow">
-        <div className="truncate">
-          <a className="hover:underline" href={subredditLink} target="_blank" rel="noreferrer">
+    <div className="grid gap-2 p-4">
+      <div className="flex min-w-0">
+        <div className="grow truncate text-slate-600">
+          <Link className="hover:text-slate-900 hover:underline" href={subredditLink}>
             <span className="text-sm">r</span>/{subreddit}
-          </a>
+          </Link>
           <span className="px-1">&bull;</span>
-          <a className="hover:underline" href={authorLink} target="_blank" rel="noreferrer">
-            <span className="text-sm">u</span>/{author}
-          </a>
+          <Link className="hover:text-slate-900 hover:underline" href={authorLink}>
+            <span className="text-sm">r</span>/{author}
+          </Link>
         </div>
-        <a className="line-clamp-2 text-xl" href={postLink} target="_blank" rel="noreferrer">
-          {post.type === "comment" ? "Comment" : post.title}
-        </a>
+        <div className="relative w-12 shrink-0">
+          <button
+            className="absolute -top-7 size-12"
+            onClick={() => mutate({ saved: !post.saved })}
+          >
+            <Bookmark
+              className={`size-full stroke-sky-500 stroke-1 hover:stroke-sky-600 ${post.saved ? "fill-sky-500" : "fill-slate-100"}`}
+            />
+          </button>
+        </div>
       </div>
-      <button
-        className="size-10 shrink-0 rounded-md bg-zinc-900 hover:bg-zinc-700"
-        onClick={() => mutate({ saved: !post.saved })}
-      >
-        <Bookmark className={`size-full p-2 ${post.saved ? "fill-current" : ""}`} />
-      </button>
+      <Link className="line-clamp-2 text-xl font-medium hover:text-slate-900" href={postLink}>
+        {post.type === "comment" ? "Comment" : post.title}
+      </Link>
     </div>
   );
 }

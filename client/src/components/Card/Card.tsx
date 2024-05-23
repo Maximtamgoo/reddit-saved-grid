@@ -33,11 +33,11 @@ export default memo(function Card({ post, pageParam }: Props) {
       </Preview>
     );
   } else {
-    Post = <div className="grid aspect-square place-items-center bg-zinc-800 text-8xl">?</div>;
+    Post = <div className="grid aspect-square place-items-center text-8xl">?</div>;
   }
 
   return (
-    <section className="overflow-hidden rounded-md bg-zinc-800 ring-2 ring-zinc-600">
+    <section className="rounded-lg bg-slate-100 ring-2 ring-slate-300">
       <Details post={post} pageParam={pageParam} />
       {Post}
       {isOpen && (
@@ -51,7 +51,7 @@ export default memo(function Card({ post, pageParam }: Props) {
 
 function CornerInfo({ data }: { data: string | number }) {
   return (
-    <div className="absolute right-2 top-2 grid h-8 min-w-8 place-items-center rounded-md bg-zinc-900 px-2 font-semibold">
+    <div className="ring-3 absolute right-2 top-2 grid h-7 min-w-7 place-items-center rounded-md bg-slate-100 px-2 font-semibold ring-2 ring-slate-300">
       {data}
     </div>
   );
