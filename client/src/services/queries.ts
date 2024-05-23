@@ -9,14 +9,14 @@ window.history.replaceState(null, "", "/");
 
 export function useGetSignedInUser() {
   return useQuery({
-    queryKey: ["username"],
+    queryKey: ["userData"],
     retry: false,
     queryFn: async () => {
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
       const urlCode = urlParams.get("code");
       if (urlCode) await api.authorize(urlCode);
-      return (await api.getMe()).name;
+      return await api.getMe();
     }
   });
 }
@@ -55,9 +55,10 @@ export function useToggleBookmark(id: string, pageParam: string) {
     retry: false,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
-      const username = qc.getQueryData<string>(["username"]);
+      type UserData = ReturnType<typeof useGetSignedInUser>["data"];
+      const userData = qc.getQueryData<UserData>(["userData"]);
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
-      qc.setQueryData<QueryData>(["posts", username], (oldData) => {
+      qc.setQueryData<QueryData>(["posts", userData?.name], (oldData) => {
         if (oldData) {
           const newPages = oldData.pages.map((page, i) => {
             if (oldData.pageParams[i] === pageParam) {

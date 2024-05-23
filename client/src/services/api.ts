@@ -34,9 +34,7 @@ export async function getMe() {
     }
   });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return object({
-    name: string()
-  }).parse(await res.json(), { mode: "strip" });
+  return object({ name: string(), icon_img: string() }).parse(await res.json(), { mode: "strip" });
 }
 
 export async function getSavedContent(username: string, after: string | null, limit = 50) {
