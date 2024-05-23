@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@badrap/valita": "^0.3.8",
-    "@tanstack/react-query": "^5.36.0",
+    "@tanstack/react-query": "^5.37.1",
     "@tanstack/react-virtual": "^3.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
