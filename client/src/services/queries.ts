@@ -21,13 +21,21 @@ export function useGetSignedInUser() {
   });
 }
 
-export function useGetSavedContent(username: string) {
+export function useUser() {
+  const qc = useQueryClient();
+  type UserData = ReturnType<typeof useGetSignedInUser>["data"];
+  return qc.getQueryData<UserData>(["userData"]);
+}
+
+export function useGetSavedContent() {
+  const username = useUser()?.name;
   return useInfiniteQuery({
     queryKey: ["posts", username],
+    enabled: !!username,
     retry: false,
     initialPageParam: "initial",
     queryFn: async ({ pageParam: after }) => {
-      const listing = await api.getSavedContent(username, after);
+      const listing = await api.getSavedContent(username!, after);
       const posts: Post[] = [];
       for (const item of listing.data.children) {
         const result = ListingItem.try(item, { mode: "strip" });
@@ -50,15 +58,14 @@ export function useGetSavedContent(username: string) {
 
 export function useToggleBookmark(id: string, pageParam: string) {
   const qc = useQueryClient();
+  const username = useUser()?.name;
   return useMutation({
     mutationKey: ["toggleBookmark", id],
     retry: false,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
-      type UserData = ReturnType<typeof useGetSignedInUser>["data"];
-      const userData = qc.getQueryData<UserData>(["userData"]);
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
-      qc.setQueryData<QueryData>(["posts", userData?.name], (oldData) => {
+      qc.setQueryData<QueryData>(["posts", username], (oldData) => {
         if (oldData) {
           const newPages = oldData.pages.map((page, i) => {
             if (oldData.pageParams[i] === pageParam) {

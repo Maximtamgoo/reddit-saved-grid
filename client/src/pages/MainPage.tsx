@@ -5,11 +5,9 @@ import VirtualMasonry from "@src/components/VirtualMasonry";
 import Card from "@src/components/Card/Card";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 
-export default function MainPage({ username }: { username: string }) {
+export default function MainPage() {
   const { ref, inView } = useInView();
-
-  const { data, isLoading, isError, error, hasNextPage, fetchNextPage } =
-    useGetSavedContent(username);
+  const { data, isLoading, isError, error, hasNextPage, fetchNextPage } = useGetSavedContent();
 
   const { posts, pageParams } = useMemo(() => {
     const pageParams: string[] = [];
@@ -42,7 +40,7 @@ export default function MainPage({ username }: { username: string }) {
   }
 
   return (
-    <main className="p-2">
+    <main className="bg-slate-50 p-2 text-slate-800">
       <VirtualMasonry items={posts}>
         {(item, i) => <Card post={item} pageParam={pageParams[i]} />}
       </VirtualMasonry>
