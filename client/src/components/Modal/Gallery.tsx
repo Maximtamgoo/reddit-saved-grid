@@ -11,32 +11,38 @@ export function Gallery({ urls }: Props) {
   const { index, prevIndex, nextIndex } = useGallery(urls.length);
   const [isError, setIsError] = useState(false);
 
-  if (isError) {
-    return <div className="grid size-full place-items-center text-8xl">?</div>;
-  }
+  const className =
+    "grid place-items-center size-10 shrink-0 rounded-full hover:ring-2 hover:ring-slate-300";
 
   return (
     <div className="grid h-full grid-rows-1 gap-1 p-1">
       <div className="flex items-center justify-center">
-        <img
-          className="max-h-full max-w-full"
-          key={urls[index]}
-          src={urls[index]}
-          onClick={(e) => e.stopPropagation()}
-          onError={() => setIsError(true)}
-          alt="Reddit Content"
-        />
+        {isError ? (
+          <div className="text-8xl">?</div>
+        ) : (
+          <img
+            className="max-h-full max-w-full"
+            key={urls[index]}
+            src={urls[index]}
+            onClick={(e) => e.stopPropagation()}
+            onError={() => setIsError(true)}
+            alt="Reddit Content"
+          />
+        )}
       </div>
       {urls.length > 1 && (
-        <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
-          <button className="size-10 overflow-hidden rounded-full" onClick={prevIndex}>
-            <Left className="size-full" />
+        <div
+          className="mx-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className={className} onClick={prevIndex}>
+            <Left />
           </button>
-          <div className="grid max-w-[50%] grow place-items-center text-2xl">
+          <div className="mx-auto min-w-16 text-center text-xl">
             {index + 1}/{urls.length}
           </div>
-          <button className="size-10 overflow-hidden rounded-full" onClick={nextIndex}>
-            <Right className="size-full" />
+          <button className={className} onClick={nextIndex}>
+            <Right />
           </button>
         </div>
       )}

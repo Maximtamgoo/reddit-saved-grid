@@ -12,8 +12,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 border-b-2 border-slate-300 bg-slate-50 p-2 text-slate-800 2xl:px-4">
       <div className="mx-auto flex max-w-full items-center justify-between 2xl:max-w-[90%]">
-        <Bookmark className="size-10 shrink-0 fill-sky-500 stroke-sky-500" />
-        <span className="grow truncate text-3xl">Reddit Saved Masonry</span>
+        <Bookmark className="size-10 shrink-0" />
+        <span className="grow truncate text-xl sm:text-3xl">Reddit Saved Masonry</span>
         <nav className="flex gap-2 px-2">
           <Link className={className} href={`https://www.reddit.com/user/${user?.name}/saved/`}>
             <img src={user?.icon_img} />

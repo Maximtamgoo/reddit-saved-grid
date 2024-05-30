@@ -32,7 +32,7 @@ export default function MainPage() {
 
   if (isLoading) {
     return (
-      <main className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-slate-50 text-slate-800">
         <LoaderCircle className="size-14 animate-spin rounded-full" />
         <div className="text-xl">Getting Posts</div>
       </main>
