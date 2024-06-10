@@ -37,7 +37,7 @@ export async function getMe() {
   return object({ name: string(), icon_img: string() }).parse(await res.json(), { mode: "strip" });
 }
 
-export async function getSavedContent(username: string, after: string | null, limit = 50) {
+export async function getSavedContent(username: string, after: string, limit = 50) {
   const token = getCookie("access_token");
   if (!token) await getNewAccessToken();
   const res = await fetch(

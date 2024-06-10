@@ -33,7 +33,7 @@ export function useGetSavedContent() {
     queryKey: ["posts", username],
     enabled: !!username,
     retry: false,
-    initialPageParam: "initial",
+    initialPageParam: "",
     queryFn: async ({ pageParam: after }) => {
       const listing = await api.getSavedContent(username!, after);
       const posts: Post[] = [];
