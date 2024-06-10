@@ -24,7 +24,7 @@ export default function Details({ post, pageParam }: Props) {
           </Link>
           <span className="px-1">&bull;</span>
           <Link className="hover:text-slate-800 hover:underline" href={authorLink}>
-            <span className="text-sm">r</span>/{author}
+            <span className="text-sm">u</span>/{author}
           </Link>
         </div>
         <div className="relative w-12 shrink-0">
