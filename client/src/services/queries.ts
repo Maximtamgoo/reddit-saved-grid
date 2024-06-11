@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as api from "./api";
-import { Post } from "@src/schema/Post";
+import type { Post } from "@src/schema/Post";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { ListingItem } from "@src/schema/Listing";
 
@@ -35,7 +35,7 @@ export function useGetSavedContent() {
     retry: false,
     initialPageParam: "",
     queryFn: async ({ pageParam: after }) => {
-      const listing = await api.getSavedContent(username!, after);
+      const listing = await api.getSavedContent(username ?? "", after);
       const posts: Post[] = [];
       for (const item of listing.data.children) {
         const result = ListingItem.try(item, { mode: "strip" });
