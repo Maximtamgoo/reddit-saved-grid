@@ -1,8 +1,8 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import * as api from "./api";
+import { ListingItem } from "@src/schema/Listing";
 import type { Post } from "@src/schema/Post";
 import { trimListingItem } from "@src/utils/trimListingItem";
-import { ListingItem } from "@src/schema/Listing";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import * as api from "./api";
 
 const urlParams = new URLSearchParams(window.location.search);
 window.history.replaceState(null, "", "/");
@@ -34,15 +34,21 @@ export function useGetSavedContent() {
     enabled: !!username,
     retry: false,
     initialPageParam: "",
-    queryFn: async ({ pageParam: after }) => {
-      const listing = await api.getSavedContent(username ?? "", after);
+    queryFn: async ({ pageParam }) => {
+      const listing = await api.getSavedContent(username ?? "", pageParam);
       const posts: Post[] = [];
       for (const item of listing.data.children) {
         const result = ListingItem.try(item, { mode: "strip" });
         if (result.ok) {
-          posts.push(trimListingItem(result.value));
+          const post = trimListingItem(result.value, pageParam);
+          if (post) {
+            posts.push(post);
+          } else {
+            console.error("problem item:", item);
+          }
         } else {
           console.error(result.message);
+          console.error("problem item:", item);
         }
       }
 
@@ -67,16 +73,21 @@ export function useToggleBookmark(id: string, pageParam: string) {
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
       qc.setQueryData<QueryData>(["posts", username], (oldData) => {
         if (oldData) {
-          const newPages = oldData.pages.map((page, i) => {
-            if (oldData.pageParams[i] === pageParam) {
-              const postIndex = page.posts.findIndex((post) => post.id === id);
-              if (postIndex !== -1) {
-                page.posts[postIndex].saved = saved;
-                return page;
+          let found = false;
+          const newPages = [];
+          for (const i in oldData.pages) {
+            const page = oldData.pages[i];
+            if (!found) {
+              if (oldData.pageParams[i] === pageParam) {
+                const postIndex = page.posts.findIndex((post) => post.id === id);
+                if (postIndex !== -1) {
+                  page.posts[postIndex].saved = saved;
+                  found = true;
+                }
               }
             }
-            return page;
-          });
+            newPages.push(page);
+          }
 
           return {
             pages: newPages,

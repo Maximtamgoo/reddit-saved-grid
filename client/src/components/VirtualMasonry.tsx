@@ -1,58 +1,110 @@
-import { useMemo, useCallback, useLayoutEffect, ReactNode, memo } from "react";
+import { useResizeObserver } from "@src/hooks/useResizeObserver";
+import useWindowHeight from "@src/hooks/useWindowHeight";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import useWindowWidth from "@src/hooks/useWindowWidth";
-import { Post } from "@src/schema/Post";
-import { ITEM_SIZE, MIN_LANES, MAX_LANES } from "@src/constant";
+import { ReactNode, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 
-type Props = {
-  items: Post[];
-  children: (item: Post, index: number) => ReactNode;
+type Props<Item> = {
+  items: Item[];
+  maxLanes: number;
+  laneWidth: number;
+  gap: number | number[];
+  overscan: number;
+  renderLoader: ReactNode;
+  getItemKey: (index: number) => string | number;
+  estimateSize: (index: number, width: number) => number;
+  renderItem: (item: Item, width: number) => ReactNode;
+  loadMore: () => void;
 };
 
-export default memo(function VirtualMasonry({ items, children }: Props) {
-  const width = useWindowWidth();
+export default function VirtualMasonry<Item>({
+  items,
+  maxLanes,
+  laneWidth,
+  gap,
+  overscan,
+  renderLoader,
+  getItemKey,
+  estimateSize,
+  renderItem,
+  loadMore
+}: Props<Item>) {
+  const parentRef = useRef<HTMLDivElement>(null);
+  const parentRect = useResizeObserver(parentRef);
+  const parentWidth = parentRect.width;
+  const deferredWidth = useDeferredValue(parentWidth);
+  const winHeight = useWindowHeight();
+  const deferredWinHeight = useDeferredValue(winHeight);
+
   const lanes = useMemo(
-    () => Math.max(MIN_LANES, Math.min(MAX_LANES, Math.floor(width / ITEM_SIZE))),
-    [width]
+    () => Math.max(1, Math.min(maxLanes, Math.floor(parentWidth / laneWidth))),
+    [parentWidth, maxLanes, laneWidth]
   );
-  const percent = 100 / lanes;
+
+  const chosenGap = useMemo(() => (Array.isArray(gap) ? gap[lanes - 1] : gap), [lanes, gap]);
+
+  const itemWidth = useMemo(() => {
+    const numOfGaps = lanes - 1;
+    const gapTotal = numOfGaps * chosenGap;
+    return (parentWidth - gapTotal) / lanes;
+  }, [parentWidth, lanes, chosenGap]);
+
+  const percent = (100 * itemWidth) / parentWidth;
 
   const winVirtualizer = useWindowVirtualizer({
+    enabled: parentWidth > 0,
     count: items.length,
-    estimateSize: useCallback(() => ITEM_SIZE, []),
-    overscan: 20,
     lanes,
-    getItemKey: useCallback((index: number) => items[index].id, [items])
+    gap: chosenGap,
+    overscan,
+    scrollMargin: parentRef.current?.offsetTop ?? 0,
+    getItemKey,
+    estimateSize: (index) => estimateSize(index, itemWidth)
   });
 
+  const virtualItems = winVirtualizer.getVirtualItems();
+
+  useEffect(() => {
+    const lastItem = virtualItems[virtualItems.length - 1];
+    if (lastItem && lastItem.index === items.length - 1) loadMore();
+  }, [virtualItems, items.length, loadMore]);
+
   useLayoutEffect(() => {
-    if (lanes) winVirtualizer.measure();
-  }, [lanes, winVirtualizer]);
+    if (window.scrollY === 0) return;
+    console.log("useLayoutEffect measure");
+    winVirtualizer.measure();
+  }, [winVirtualizer, deferredWidth, deferredWinHeight]);
 
   return (
-    <ul
-      className="relative mx-auto max-w-full 2xl:max-w-[90%]"
-      style={{
-        height: `${winVirtualizer.getTotalSize()}px`
-      }}
-    >
-      {winVirtualizer.getVirtualItems().map(({ index, lane, start, key }) => {
-        return (
-          <li
-            className="absolute top-0 p-2 2xl:p-4"
-            key={key}
-            ref={winVirtualizer.measureElement}
-            data-index={index}
+    <div ref={parentRef} className="max-w-full">
+      {winVirtualizer.options.enabled && (
+        <>
+          <div
+            className="relative w-full"
             style={{
-              left: `${lane * percent}%`,
-              width: `${percent}%`,
-              transform: `translateY(${start}px)`
+              height: `${winVirtualizer.getTotalSize()}px`
             }}
           >
-            {children(items[index], index)}
-          </li>
-        );
-      })}
-    </ul>
+            {virtualItems.map((item) => {
+              return (
+                <div
+                  key={item.key}
+                  ref={winVirtualizer.measureElement}
+                  data-index={item.index}
+                  className="absolute top-0"
+                  style={{
+                    transform: `translateY(${item.start - winVirtualizer.options.scrollMargin}px)`,
+                    left: `calc(${item.lane} * (${percent}% + ${chosenGap}px))`,
+                    width: `${percent}%`
+                  }}
+                >
+                  {renderItem(items[item.index], itemWidth)}
+                </div>
+              );
+            })}
+          </div>
+          {renderLoader}
+        </>
+      )}
+    </div>
   );
-});
+}

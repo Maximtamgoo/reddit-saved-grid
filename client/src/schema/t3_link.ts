@@ -54,7 +54,11 @@ const media_metadata = record(
         u: string(),
         x: number(),
         y: number()
-      })
+      }).map(({ u, x, y }) => ({
+        url: u,
+        width: x,
+        height: y
+      }))
     ).optional()
   })
 );

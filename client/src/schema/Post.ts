@@ -5,24 +5,31 @@ type Base = {
   subreddit: string;
   permalink: string;
   saved: boolean;
+  pageParam: string;
 };
 
-interface Text extends Base {
-  type: "text";
-  text: string;
-}
+export type ImageData = {
+  url: string;
+  width: number;
+  height: number;
+};
 
 interface Image extends Base {
   type: "image";
-  preview?: string;
-  source: string;
+  preview: ImageData;
+  source: ImageData;
   isGif: boolean;
 }
 
 interface Gallery extends Base {
   type: "gallery";
-  preview?: string;
-  gallery: string[];
+  preview: ImageData;
+  gallery: ImageData[];
+}
+
+interface Text extends Base {
+  type: "text";
+  text: string;
 }
 
 interface Comment extends Omit<Base, "title"> {
@@ -30,8 +37,8 @@ interface Comment extends Omit<Base, "title"> {
   comment: string;
 }
 
-export interface Unknown extends Base {
-  type: "unknown";
-}
+// export interface Unknown extends Base {
+//   type: "unknown";
+// }
 
-export type Post = Text | Image | Gallery | Comment | Unknown;
+export type Post = Text | Image | Gallery | Comment;

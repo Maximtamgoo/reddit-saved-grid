@@ -1,9 +1,6 @@
-import { AnchorHTMLAttributes, PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 
-export default function Link<T extends AnchorHTMLAttributes<HTMLAnchorElement>>({
-  children,
-  ...props
-}: PropsWithChildren<T>) {
+export default function Link({ children, ...props }: PropsWithChildren & ComponentProps<"a">) {
   return (
     <a href="#" target="_blank" rel="noreferrer" {...props}>
       {children}

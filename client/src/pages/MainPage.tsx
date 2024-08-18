@@ -1,36 +1,54 @@
-import { useMemo, useEffect } from "react";
-import { useInView } from "@src/hooks/useInView";
-import { useGetSavedContent } from "@src/services/queries";
-import VirtualMasonry from "@src/components/VirtualMasonry";
 import Card from "@src/components/Card/Card";
+import VirtualMasonry from "@src/components/VirtualMasonry";
+import { useGetSavedContent } from "@src/services/queries";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
+import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
+import { useCallback, useMemo, useRef } from "react";
 
 export default function MainPage() {
-  const { ref, inView } = useInView();
-  const { data, isLoading, isError, error, hasNextPage, fetchNextPage } = useGetSavedContent();
+  const isBusyRef = useRef(false);
+  const { data, isPending, isError, error, hasNextPage, fetchNextPage } = useGetSavedContent();
 
-  const { posts, pageParams } = useMemo(() => {
-    const pageParams: string[] = [];
-    const posts =
-      data?.pages.flatMap((page, i) => {
-        return page.posts.map((post) => {
-          pageParams.push(data.pageParams[i] as string);
-          return post;
-        });
-      }) ?? [];
-    return { posts, pageParams };
-  }, [data]);
+  const posts = useMemo(() => data?.pages.flatMap((page) => page.posts) ?? [], [data]);
 
-  useEffect(() => {
-    if (inView) fetchNextPage();
-  }, [inView, fetchNextPage]);
+  const estimateSize = useCallback(
+    (index: number, width: number) => {
+      const post = posts[index];
+      const detailsHeight = 96;
+      const minHeight = 350;
+      const maxHeight = window.innerHeight - 90;
+
+      if (post.type === "gallery" || post.type === "image") {
+        const ratioSize = calculateAspectRatioFit(
+          post.preview.width,
+          post.preview.height,
+          width,
+          post.preview.height
+        );
+        const ratioSizeHeight = Math.round(ratioSize.height);
+        return Math.max(minHeight, Math.min(maxHeight, ratioSizeHeight + detailsHeight));
+      }
+      return minHeight;
+    },
+    [posts]
+  );
+
+  const getItemKey = useCallback((index: number) => index, []);
+
+  const loadMore = useCallback(async () => {
+    if (!isBusyRef.current && hasNextPage) {
+      isBusyRef.current = true;
+      await fetchNextPage();
+      isBusyRef.current = false;
+    }
+  }, [hasNextPage, fetchNextPage]);
 
   if (isError) {
     console.log("error:", error);
     return <div>{error.message}</div>;
   }
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-slate-50 text-slate-800">
         <LoaderCircle className="size-14 animate-spin rounded-full" />
@@ -40,12 +58,28 @@ export default function MainPage() {
   }
 
   return (
-    <main className="bg-slate-50 p-2 text-slate-800">
-      <VirtualMasonry items={posts}>
-        {(item, i) => <Card post={item} pageParam={pageParams[i]} />}
-      </VirtualMasonry>
-      <div ref={ref} className="grid h-20 place-items-center text-lg">
-        {hasNextPage ? <LoaderCircle className="size-14 animate-spin rounded-full" /> : "The End?"}
+    <main className="bg-slate-50 text-slate-800">
+      <div className="mx-auto px-2 py-4 2xl:max-w-screen-2xl">
+        <VirtualMasonry
+          items={posts}
+          maxLanes={3}
+          laneWidth={350}
+          gap={[8, 8, 16]}
+          overscan={20}
+          getItemKey={getItemKey}
+          estimateSize={estimateSize}
+          loadMore={loadMore}
+          renderItem={(item, width) => <Card post={item} width={width} />}
+          renderLoader={
+            <div className="grid h-20 place-items-center text-xl">
+              {hasNextPage ? (
+                <LoaderCircle className="size-14 animate-spin" />
+              ) : (
+                "Reached the Reddit limit..."
+              )}
+            </div>
+          }
+        />
       </div>
     </main>
   );

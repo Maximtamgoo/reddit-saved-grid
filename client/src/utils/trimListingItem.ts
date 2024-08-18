@@ -1,19 +1,19 @@
 import { ListingItem } from "@src/schema/Listing";
 import { Post } from "@src/schema/Post";
 
-export function trimListingItem(item: ListingItem): Post {
+export function trimListingItem(item: ListingItem, pageParam: string): Post | undefined {
   const { name: id, author, subreddit, permalink } = item.data;
 
   if (item.kind === "t3") {
     const { is_self, preview, is_gallery, gallery_data, media_metadata, title } = item.data;
-    const post: Post = {
-      type: "unknown",
+    const post = {
       id,
       title,
       author,
       subreddit,
       permalink,
-      saved: true
+      saved: true,
+      pageParam
     };
 
     if (is_self && item.data.selftext) {
@@ -23,33 +23,35 @@ export function trimListingItem(item: ListingItem): Post {
         text: item.data.selftext ?? ""
       };
     } else if (is_gallery && gallery_data && media_metadata) {
-      const resolutions = media_metadata[gallery_data.items[0].media_id].p;
-      const urlGallery: string[] = [];
+      const gallery = [];
       for (const item of gallery_data.items) {
         const resolutions = media_metadata[item.media_id].p;
-        if (resolutions) urlGallery.push(resolutions[resolutions.length - 1].u);
+        if (resolutions) {
+          const { url, width, height } = resolutions[resolutions.length - 1];
+          gallery.push({ url, width, height });
+        }
       }
 
       return {
         ...post,
         type: "gallery",
-        preview: resolutions && resolutions[resolutions.length - 1].u,
-        gallery: urlGallery
+        preview: gallery[0],
+        gallery
       };
     } else if (preview && preview.images) {
       const resolutions = preview.images[0].resolutions;
-      const gifSource = preview.images[0].variants.gif?.source.url;
-      const sourceUrl = gifSource ? gifSource : preview.images[0].source.url;
+      const gifSource = preview.images[0].variants.gif?.resolutions.at(-1);
+      const sourceUrl = gifSource ? gifSource : preview.images[0].source;
 
       return {
         ...post,
         type: "image",
-        preview: resolutions[resolutions.length - 1].url,
+        preview: resolutions[resolutions.length - 1],
         source: sourceUrl,
         isGif: !!gifSource
       };
     } else {
-      return post;
+      return undefined;
     }
   } else {
     return {
@@ -59,7 +61,8 @@ export function trimListingItem(item: ListingItem): Post {
       permalink,
       saved: true,
       type: "comment",
-      comment: item.data.body ?? ""
+      comment: item.data.body ?? "",
+      pageParam
     };
   }
 }

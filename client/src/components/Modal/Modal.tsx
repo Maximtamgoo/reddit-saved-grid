@@ -11,9 +11,10 @@ export default function Modal({ post }: Props) {
   let Post: ReactNode = null;
 
   if (post.type === "gallery") {
-    Post = <Gallery urls={post.gallery} />;
+    const urls = post.gallery.map((e) => e.url);
+    Post = <Gallery urls={urls} />;
   } else if (post.type === "image") {
-    Post = <Gallery urls={[post.source]} />;
+    Post = <Gallery urls={[post.source.url]} />;
   }
 
   return (

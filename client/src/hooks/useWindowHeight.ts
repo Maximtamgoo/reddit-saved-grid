@@ -5,6 +5,6 @@ function handleResize(cb: () => void) {
   return () => window.removeEventListener("resize", cb);
 }
 
-export default function useWindowWidth() {
-  return useSyncExternalStore(handleResize, () => window.innerWidth);
+export default function useWindowHeight() {
+  return useSyncExternalStore(handleResize, () => window.innerHeight);
 }

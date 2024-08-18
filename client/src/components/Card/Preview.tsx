@@ -1,46 +1,64 @@
-import { PropsWithChildren, useState } from "react";
-import { CARD_MAX_HEIGHT, CARD_MIN_HEIGHT } from "@src/constant";
+import { ImageData } from "@src/schema/Post";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
+import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
+import { useMemo, useState } from "react";
 
 type Props = {
-  url?: string;
+  width: number;
+  imageData: ImageData;
+  galleryLength?: number;
+  isGif?: boolean;
   onClick: () => void;
 };
 
-export default function Preview({ url, onClick, children }: PropsWithChildren<Props>) {
+export default function Preview({
+  width,
+  imageData,
+  galleryLength = 0,
+  isGif = false,
+  onClick
+}: Props) {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  async function onLoad() {
-    // await new Promise((r) => setTimeout(r, 2000));
-    setLoading(false);
-  }
-
-  if (isError) {
-    return <div className="grid aspect-square place-items-center text-8xl">?</div>;
-  }
+  const height = useMemo(() => {
+    return Math.round(
+      calculateAspectRatioFit(imageData.width, imageData.height, width, imageData.height).height
+    );
+  }, [imageData, width]);
 
   return (
-    <div className="relative cursor-pointer overflow-hidden rounded-b-lg" onClick={onClick}>
-      <img className="absolute size-full object-cover opacity-40 blur-xl" src={url} />
-      <img
-        className="relative m-auto object-contain"
-        loading="lazy"
-        src={url}
-        onLoad={onLoad}
-        onError={() => setIsError(true)}
-        alt="Reddit Content"
-        style={{
-          minHeight: CARD_MIN_HEIGHT,
-          maxHeight: CARD_MAX_HEIGHT
-        }}
-      />
-      {loading && (
-        <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <LoaderCircle className="size-14 animate-spin rounded-full" />
+    <div
+      onClick={onClick}
+      className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden rounded-b-lg"
+      style={{
+        height: `${height}px`
+      }}
+    >
+      {isError ? (
+        <div className="text-8xl">P?</div>
+      ) : (
+        <img
+          className="max-h-full bg-red-300 object-contain"
+          src={imageData.url}
+          onLoad={() => setLoading(false)}
+          onError={() => {
+            setIsError(true);
+            setLoading(false);
+          }}
+          alt="Reddit Content"
+        />
+      )}
+      {(galleryLength > 0 || isGif) && (
+        <div className="ring-3 absolute right-2 top-2 grid h-7 min-w-7 place-items-center rounded-md bg-slate-100 px-2 font-semibold ring-2 ring-slate-300">
+          {galleryLength || "GIF"}
         </div>
       )}
-      {children}
+      {loading && (
+        <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
+          <LoaderCircle className="size-14 animate-spin rounded-full stroke-slate-100" />
+        </div>
+      )}
     </div>
   );
 }
