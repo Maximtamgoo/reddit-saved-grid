@@ -1,5 +1,5 @@
 import { ListingItem } from "@src/schema/Listing";
-import type { Post } from "@src/schema/Post";
+import { Post } from "@src/schema/Post";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as api from "./api";
@@ -38,18 +38,21 @@ export function useGetSavedContent() {
       const listing = await api.getSavedContent(username ?? "", pageParam);
       const posts: Post[] = [];
       for (const item of listing.data.children) {
-        const result = ListingItem.try(item, { mode: "strip" });
-        if (result.ok) {
-          const post = trimListingItem(result.value, pageParam);
-          if (post) {
-            posts.push(post);
-          } else {
-            console.error("problem item:", item);
-          }
-        } else {
-          console.error(result.message);
-          console.error("problem item:", item);
+        const listingItemResult = ListingItem.try(item, { mode: "strip" });
+        if (!listingItemResult.ok) {
+          console.log("Failed to parse ListingItem:", listingItemResult.message);
+          console.log("Failed ListingItem:", item);
+          continue;
         }
+
+        const postResult = Post.try(trimListingItem(listingItemResult.value, pageParam));
+        if (!postResult.ok) {
+          console.log("Failed to parse Post:", postResult.message);
+          console.log("Failed Post:", listingItemResult.value);
+          continue;
+        }
+        if (postResult.value.type === "unknown") console.log("item:", item);
+        posts.push(postResult.value);
       }
 
       return {

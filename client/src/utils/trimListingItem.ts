@@ -5,7 +5,12 @@ export function trimListingItem(item: ListingItem, pageParam: string): Post | un
   const { name: id, author, subreddit, permalink } = item.data;
 
   if (item.kind === "t3") {
-    const { is_self, preview, is_gallery, gallery_data, media_metadata, title } = item.data;
+    const { is_self, selftext, preview, is_gallery, gallery_data, media_metadata, title, url } =
+      item.data;
+
+    const urlSplit = url?.split(".");
+    const extension = urlSplit && urlSplit[urlSplit.length - 1];
+
     const post = {
       id,
       title,
@@ -16,11 +21,11 @@ export function trimListingItem(item: ListingItem, pageParam: string): Post | un
       pageParam
     };
 
-    if (is_self && item.data.selftext) {
+    if (is_self && selftext) {
       return {
         ...post,
         type: "text",
-        text: item.data.selftext ?? ""
+        text: selftext
       };
     } else if (is_gallery && gallery_data && media_metadata) {
       const gallery = [];
@@ -50,10 +55,26 @@ export function trimListingItem(item: ListingItem, pageParam: string): Post | un
         source: sourceUrl,
         isGif: !!gifSource
       };
+    } else if (url && ["jpeg", "jpg", "png", "gif"].includes(extension ?? "")) {
+      const imageData = {
+        url,
+        width: 350,
+        height: 350
+      };
+      return {
+        ...post,
+        type: "image",
+        preview: imageData,
+        source: imageData,
+        isGif: extension === "gif"
+      };
     } else {
-      return undefined;
+      return {
+        ...post,
+        type: "unknown"
+      };
     }
-  } else {
+  } else if (item.kind === "t1") {
     return {
       id,
       author,

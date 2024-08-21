@@ -1,44 +1,52 @@
-type Base = {
-  id: string;
-  title: string;
-  author: string;
-  subreddit: string;
-  permalink: string;
-  saved: boolean;
-  pageParam: string;
-};
+import { array, boolean, Infer, literal, number, object, string, union } from "@badrap/valita";
 
-export type ImageData = {
-  url: string;
-  width: number;
-  height: number;
-};
+const Base = object({
+  id: string(),
+  title: string(),
+  author: string(),
+  subreddit: string(),
+  permalink: string(),
+  saved: boolean(),
+  pageParam: string()
+});
 
-interface Image extends Base {
-  type: "image";
-  preview: ImageData;
-  source: ImageData;
-  isGif: boolean;
-}
+const ImageData = object({
+  url: string(),
+  width: number(),
+  height: number()
+});
 
-interface Gallery extends Base {
-  type: "gallery";
-  preview: ImageData;
-  gallery: ImageData[];
-}
+export type ImageData = Infer<typeof ImageData>;
 
-interface Text extends Base {
-  type: "text";
-  text: string;
-}
+const Image = object({
+  type: literal("image"),
+  preview: ImageData,
+  source: ImageData,
+  isGif: boolean()
+}).extend(Base.shape);
 
-interface Comment extends Omit<Base, "title"> {
-  type: "comment";
-  comment: string;
-}
+const Gallery = object({
+  type: literal("gallery"),
+  preview: ImageData,
+  gallery: array(ImageData)
+}).extend(Base.shape);
 
-// export interface Unknown extends Base {
-//   type: "unknown";
-// }
+const Text = object({
+  type: literal("text"),
+  text: string()
+}).extend(Base.shape);
 
-export type Post = Text | Image | Gallery | Comment;
+const Comment = object({
+  type: literal("comment"),
+  comment: string()
+})
+  .extend(Base.shape)
+  .omit("title");
+
+const Unknown = object({
+  type: literal("unknown")
+}).extend(Base.shape);
+
+export const Post = union(Image, Gallery, Text, Comment, Unknown);
+
+export type Post = Infer<typeof Post>;
