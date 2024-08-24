@@ -1,45 +1,28 @@
 import { ImageData } from "@src/schema/Post";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
-import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type Props = {
-  width: number;
   imageData: ImageData;
   galleryLength?: number;
   isGif?: boolean;
   onClick: () => void;
 };
 
-export default function Preview({
-  width,
-  imageData,
-  galleryLength = 0,
-  isGif = false,
-  onClick
-}: Props) {
+export default function Preview({ imageData, galleryLength = 0, isGif = false, onClick }: Props) {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-
-  const height = useMemo(() => {
-    return Math.round(
-      calculateAspectRatioFit(imageData.width, imageData.height, width, imageData.height).height
-    );
-  }, [imageData, width]);
 
   return (
     <div
       onClick={onClick}
       className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden rounded-b-lg"
-      style={{
-        height: `${height}px`
-      }}
     >
       {isError ? (
         <div className="text-8xl">P?</div>
       ) : (
         <img
-          className="max-h-full bg-red-300 object-contain"
+          className="max-h-full"
           src={imageData.url}
           onLoad={() => setLoading(false)}
           onError={() => {

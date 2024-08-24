@@ -11,8 +11,8 @@ type Props<Item> = {
   overscan: number;
   renderLoader: ReactNode;
   getItemKey: (index: number) => string | number;
-  estimateSize: (index: number, width: number) => number;
-  renderItem: (item: Item, width: number) => ReactNode;
+  estimateSize: (item: Item, width: number) => number;
+  renderItem: (item: Item) => ReactNode;
   loadMore: () => void;
 };
 
@@ -45,7 +45,7 @@ export default function VirtualMasonry<Item>({
   const itemWidth = useMemo(() => {
     const numOfGaps = lanes - 1;
     const gapTotal = numOfGaps * chosenGap;
-    return (parentWidth - gapTotal) / lanes;
+    return Math.round((parentWidth - gapTotal) / lanes);
   }, [parentWidth, lanes, chosenGap]);
 
   const percent = (100 * itemWidth) / parentWidth;
@@ -58,7 +58,7 @@ export default function VirtualMasonry<Item>({
     overscan,
     scrollMargin: parentRef.current?.offsetTop ?? 0,
     getItemKey,
-    estimateSize: (index) => estimateSize(index, itemWidth)
+    estimateSize: (index) => estimateSize(items[index], itemWidth)
   });
 
   const virtualItems = winVirtualizer.getVirtualItems();
@@ -69,7 +69,6 @@ export default function VirtualMasonry<Item>({
   }, [virtualItems, items.length, loadMore]);
 
   useLayoutEffect(() => {
-    if (window.scrollY === 0) return;
     console.log("useLayoutEffect measure");
     winVirtualizer.measure();
   }, [winVirtualizer, deferredWidth, deferredWinHeight]);
@@ -88,16 +87,16 @@ export default function VirtualMasonry<Item>({
               return (
                 <div
                   key={item.key}
-                  ref={winVirtualizer.measureElement}
                   data-index={item.index}
                   className="absolute top-0"
                   style={{
                     transform: `translateY(${item.start - winVirtualizer.options.scrollMargin}px)`,
                     left: `calc(${item.lane} * (${percent}% + ${chosenGap}px))`,
-                    width: `${percent}%`
+                    width: `${percent}%`,
+                    height: `${item.size}px`
                   }}
                 >
-                  {renderItem(items[item.index], itemWidth)}
+                  {renderItem(items[item.index])}
                 </div>
               );
             })}

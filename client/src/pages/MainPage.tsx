@@ -1,5 +1,6 @@
 import Card from "@src/components/Card/Card";
 import VirtualMasonry from "@src/components/VirtualMasonry";
+import { Post } from "@src/schema/Post";
 import { useGetSavedContent } from "@src/services/queries";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
@@ -11,29 +12,26 @@ export default function MainPage() {
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.posts) ?? [], [data]);
 
-  const estimateSize = useCallback(
-    (index: number, width: number) => {
-      const post = posts[index];
-      const detailsHeight = 96;
-      const minHeight = 350;
-      const maxHeight = window.innerHeight - 90;
+  const estimateSize = useCallback((item: Post, width: number) => {
+    const post = item;
+    const detailsHeight = 96;
+    const minHeight = 350;
+    const maxHeight = window.innerHeight - 90;
 
-      if (post.type === "gallery" || post.type === "image") {
-        const ratioSize = calculateAspectRatioFit(
-          post.preview.width,
-          post.preview.height,
-          width,
-          post.preview.height
-        );
-        const ratioSizeHeight = Math.round(ratioSize.height);
-        return Math.max(minHeight, Math.min(maxHeight, ratioSizeHeight + detailsHeight));
-      }
-      return minHeight;
-    },
-    [posts]
-  );
+    if (post.type === "gallery" || post.type === "image") {
+      const ratioSize = calculateAspectRatioFit(
+        post.preview.width,
+        post.preview.height,
+        width,
+        post.preview.height
+      );
+      const ratioSizeHeight = Math.round(ratioSize.height);
+      return Math.max(minHeight, Math.min(maxHeight, ratioSizeHeight + detailsHeight));
+    }
+    return minHeight;
+  }, []);
 
-  const getItemKey = useCallback((index: number) => index, []);
+  const getItemKey = useCallback((index: number) => posts[index].id ?? index, [posts]);
 
   const loadMore = useCallback(async () => {
     if (!isBusyRef.current && hasNextPage) {
@@ -59,17 +57,17 @@ export default function MainPage() {
 
   return (
     <main className="bg-slate-50 text-slate-800">
-      <div className="mx-auto px-2 py-4 2xl:max-w-screen-2xl">
+      <div className="m-auto max-w-screen-2xl px-2 py-4">
         <VirtualMasonry
           items={posts}
           maxLanes={3}
           laneWidth={350}
-          gap={[8, 8, 16]}
+          gap={16}
           overscan={20}
           getItemKey={getItemKey}
           estimateSize={estimateSize}
           loadMore={loadMore}
-          renderItem={(item, width) => <Card post={item} width={width} />}
+          renderItem={(item) => <Card post={item} />}
           renderLoader={
             <div className="grid h-20 place-items-center text-xl">
               {hasNextPage ? (

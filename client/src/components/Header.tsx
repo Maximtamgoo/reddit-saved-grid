@@ -10,8 +10,8 @@ export default function Header() {
   const className =
     "grid size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300";
   return (
-    <header className="sticky top-0 z-10 border-b-2 border-slate-300 bg-slate-50 p-2 text-slate-800">
-      <div className="m-auto flex max-w-full items-center justify-between 2xl:max-w-screen-2xl">
+    <header className="sticky top-0 z-10 border-b-2 border-slate-300 bg-slate-50 py-2 text-slate-800">
+      <div className="m-auto flex max-w-screen-2xl items-center justify-between">
         <Bookmark className="size-10 shrink-0" />
         <span className="grow truncate text-xl sm:text-3xl">Reddit Saved Masonry</span>
         <nav className="flex gap-2 px-2">
