@@ -8,13 +8,13 @@ import LogOut from "@src/svg/log-out.svg?react";
 export default function Header() {
   const user = useUser();
   const className =
-    "grid size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300";
+    "grid sm:size-12 size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300";
   return (
-    <header className="sticky top-0 z-10 border-b-2 border-slate-300 bg-slate-50 py-2 text-slate-800">
-      <div className="m-auto flex max-w-screen-2xl items-center justify-between">
-        <Bookmark className="size-10 shrink-0" />
-        <span className="grow truncate text-xl sm:text-3xl">Reddit Saved Masonry</span>
-        <nav className="flex gap-2 px-2">
+    <header className="sticky top-0 z-10 h-16 border-b-2 border-slate-300 bg-slate-50 text-slate-800">
+      <div className="m-auto flex h-full max-w-screen-2xl items-center justify-between">
+        <Bookmark className="size-10 shrink-0 sm:size-12" />
+        <span className="grow truncate text-2xl sm:text-3xl">Reddit Saved Masonry</span>
+        <nav className="flex gap-2 pr-2">
           <Link className={className} href={`https://www.reddit.com/user/${user?.name}/saved/`}>
             <img src={user?.icon_img} />
           </Link>

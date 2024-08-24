@@ -19,7 +19,7 @@ export default function Preview({ imageData, galleryLength = 0, isGif = false, o
       className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden rounded-b-lg"
     >
       {isError ? (
-        <div className="text-8xl">P?</div>
+        <div className="text-8xl">?</div>
       ) : (
         <img
           className="max-h-full"

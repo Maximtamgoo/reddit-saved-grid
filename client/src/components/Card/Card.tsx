@@ -15,7 +15,7 @@ export default memo(function Card({ post }: Props) {
   const onClick = () => setIsOpen(true);
 
   return (
-    <section className="relative flex h-full flex-col rounded-lg bg-slate-200 ring-0 ring-slate-300">
+    <section className="relative flex h-full flex-col rounded-lg bg-slate-200 ring-2 ring-slate-300">
       <Details post={post} />
       {post.type === "text" && <Text text={post.text} />}
       {post.type === "comment" && <Text text={post.comment} />}

@@ -57,12 +57,12 @@ export default function MainPage() {
 
   return (
     <main className="bg-slate-50 text-slate-800">
-      <div className="m-auto max-w-screen-2xl px-2 py-4">
+      <div className="m-auto max-w-screen-2xl px-2 py-5">
         <VirtualMasonry
           items={posts}
           maxLanes={3}
           laneWidth={350}
-          gap={16}
+          gap={20}
           overscan={20}
           getItemKey={getItemKey}
           estimateSize={estimateSize}

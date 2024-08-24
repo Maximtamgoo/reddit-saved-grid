@@ -26,9 +26,9 @@ export default function Details({ post }: Props) {
             <span className="text-sm">u</span>/{author}
           </Link>
         </div>
-        <div className="relative w-12 shrink-0">
+        <div className="relative w-14 shrink-0">
           <button
-            className="absolute -top-7 size-12"
+            className="absolute -top-7 size-14"
             onClick={() => mutate({ saved: !post.saved })}
           >
             <Bookmark
