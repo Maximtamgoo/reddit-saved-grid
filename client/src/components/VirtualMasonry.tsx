@@ -69,8 +69,7 @@ export default function VirtualMasonry<Item>({
   }, [virtualItems, items.length, loadMore]);
 
   useLayoutEffect(() => {
-    console.log("useLayoutEffect measure");
-    winVirtualizer.measure();
+    if (deferredWidth > 0) winVirtualizer.measure();
   }, [winVirtualizer, deferredWidth, deferredWinHeight]);
 
   return (
