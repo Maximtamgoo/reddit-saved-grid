@@ -20,10 +20,10 @@ export default memo(function Card({ post }: Props) {
       {post.type === "text" && <Text text={post.text} />}
       {post.type === "comment" && <Text text={post.comment} />}
       {post.type === "gallery" && (
-        <Preview imageData={post.preview} galleryLength={post.gallery.length} onClick={onClick} />
+        <Preview url={post.preview.url} galleryLength={post.gallery.length} onClick={onClick} />
       )}
       {post.type === "image" && (
-        <Preview imageData={post.preview} isGif={post.isGif} onClick={onClick} />
+        <Preview url={post.preview.url} isGif={post.isGif} onClick={onClick} />
       )}
       {post.type === "unknown" && <div className="grid grow place-items-center text-8xl">?</div>}
       {isOpen && (

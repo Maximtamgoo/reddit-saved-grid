@@ -1,15 +1,14 @@
-import { ImageData } from "@src/schema/Post";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 import { useState } from "react";
 
 type Props = {
-  imageData: ImageData;
+  url: string;
   galleryLength?: number;
   isGif?: boolean;
   onClick: () => void;
 };
 
-export default function Preview({ imageData, galleryLength = 0, isGif = false, onClick }: Props) {
+export default function Preview({ url, galleryLength = 0, isGif = false, onClick }: Props) {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -23,7 +22,7 @@ export default function Preview({ imageData, galleryLength = 0, isGif = false, o
       ) : (
         <img
           className="max-h-full"
-          src={imageData.url}
+          src={url}
           onLoad={() => setLoading(false)}
           onError={() => {
             setIsError(true);
@@ -39,7 +38,7 @@ export default function Preview({ imageData, galleryLength = 0, isGif = false, o
       )}
       {loading && (
         <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <LoaderCircle className="size-14 animate-spin rounded-full stroke-slate-100" />
+          <LoaderCircle className="size-14 animate-spin rounded-full" />
         </div>
       )}
     </div>
