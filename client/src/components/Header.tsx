@@ -1,12 +1,12 @@
 import Link from "@src/components/Link";
 import { signOut } from "@src/services/api";
-import { useUser } from "@src/services/queries";
+import { useGetSignedInUser } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
 import Github from "@src/svg/github.svg?react";
 import LogOut from "@src/svg/log-out.svg?react";
 
 export default function Header() {
-  const user = useUser();
+  const { data, isSuccess } = useGetSignedInUser();
   const className =
     "grid sm:size-12 size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300";
   return (
@@ -15,8 +15,8 @@ export default function Header() {
         <Bookmark className="size-10 shrink-0 sm:size-12" />
         <span className="grow truncate text-2xl sm:text-3xl">Reddit Saved Masonry</span>
         <nav className="flex gap-2 pr-2">
-          <Link className={className} href={`https://www.reddit.com/user/${user?.name}/saved/`}>
-            <img src={user?.icon_img} />
+          <Link className={className} href={`https://www.reddit.com/user/${data?.name}/saved/`}>
+            {isSuccess && <img src={data.icon_img} />}
           </Link>
           <Link className={className} href="https://github.com/Maximtamgoo/reddit-saved-masonry">
             <Github />

@@ -11,6 +11,7 @@ export function useGetSignedInUser() {
   return useQuery({
     queryKey: ["userData"],
     retry: false,
+    staleTime: Infinity,
     queryFn: async () => {
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
@@ -21,18 +22,13 @@ export function useGetSignedInUser() {
   });
 }
 
-export function useUser() {
-  const qc = useQueryClient();
-  type UserData = ReturnType<typeof useGetSignedInUser>["data"];
-  return qc.getQueryData<UserData>(["userData"]);
-}
-
 export function useGetSavedContent() {
-  const username = useUser()?.name;
+  const username = useGetSignedInUser().data?.name;
   return useInfiniteQuery({
     queryKey: ["posts", username],
     enabled: !!username,
     retry: false,
+    // staleTime: Infinity, //TODO could this replace isBusyRef?
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const listing = await api.getSavedContent(username ?? "", pageParam);
@@ -65,9 +61,23 @@ export function useGetSavedContent() {
   });
 }
 
+export function useGetSubRedditIcon(subreddit: string) {
+  return useQuery({
+    queryKey: ["subreddit", subreddit, "icon"],
+    retry: false,
+    staleTime: Infinity,
+    queryFn: () => api.getSubRedditIcon(subreddit),
+    select: (data) => {
+      const community_icon = data.data.community_icon;
+      if (community_icon !== "") return community_icon.split("amp;").join("");
+      return data.data.icon_img.split("amp;").join("");
+    }
+  });
+}
+
 export function useToggleBookmark(id: string, pageParam: string) {
   const qc = useQueryClient();
-  const username = useUser()?.name;
+  const username = useGetSignedInUser().data?.name;
   return useMutation({
     mutationKey: ["toggleBookmark", id],
     retry: false,

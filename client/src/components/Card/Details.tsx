@@ -1,13 +1,16 @@
 import Link from "@src/components/Link";
 import { Post } from "@src/schema/Post";
-import { useToggleBookmark } from "@src/services/queries";
+import { useGetSubRedditIcon, useToggleBookmark } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
+import { useState } from "react";
 
 type Props = {
   post: Post;
 };
 
 export default function Details({ post }: Props) {
+  const { data: icon, isSuccess } = useGetSubRedditIcon(post.subreddit);
+  const [isImgError, setIsImgError] = useState(false);
   const { mutate } = useToggleBookmark(post.id, post.pageParam);
   const { permalink, subreddit, author } = post;
   const postLink = `https://www.reddit.com${permalink}`;
@@ -17,9 +20,15 @@ export default function Details({ post }: Props) {
   return (
     <div className="grid h-24 shrink-0 gap-2 p-4">
       <div className="flex min-w-0">
-        <div className="grow truncate pl-0.5 text-slate-600">
+        <Link
+          className="size-6 shrink-0 overflow-hidden rounded-full bg-slate-200"
+          href={subredditLink}
+        >
+          {isSuccess && !isImgError && <img src={icon} onError={() => setIsImgError(true)} />}
+        </Link>
+        <div className="grow truncate text-slate-600">
           <Link className="hover:text-slate-800 hover:underline" href={subredditLink}>
-            <span className="text-sm">r</span>/{subreddit}
+            <span className="pl-2 text-sm">r</span>/{subreddit}
           </Link>
           <span className="px-1">&bull;</span>
           <Link className="hover:text-slate-800 hover:underline" href={authorLink}>
