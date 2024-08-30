@@ -1,17 +1,19 @@
-import { env } from "./envConfig.js";
-import morgan from "morgan";
-import helmet from "helmet";
-import routes from "./routes.js";
-import createError from "http-errors";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
+import { ValitaError } from "@badrap/valita";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import express, { ErrorRequestHandler } from "express";
+import helmet from "helmet";
+import createError from "http-errors";
+import morgan from "morgan";
+import { env } from "./envConfig.js";
+import routes from "./routes.js";
 const app = express();
 
 console.log("NODE_ENV:", env.NODE_ENV);
 
+app.use(express.json());
 app.use(compression());
+app.use(cookieParser());
 app.use(morgan("[:date] :method :url - :status"));
 app.use(
   helmet({
@@ -24,23 +26,25 @@ app.use(
     }
   })
 );
-app.use(express.json());
 app.use(routes);
 
-const folderPath = `${new URL("../../client", import.meta.url).pathname}/dist`;
-app.use(express.static(folderPath));
+if (env.NODE_ENV === "production") {
+  const clientDist = `${new URL("../../client", import.meta.url).pathname}/dist`;
+  app.use(express.static(clientDist));
 
-app.get("/*", (_req, res, next) => {
-  try {
-    res.sendFile(`${folderPath}/index.html`);
-  } catch (error) {
-    next(error);
-  }
-});
+  app.get("/*", (_req, res, next) => {
+    try {
+      res.sendFile(`${clientDist}/index.html`);
+    } catch (error) {
+      next(error);
+    }
+  });
+}
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(((error, _req, res, _next) => {
-  if (error instanceof ZodError) {
-    console.log(fromZodError(error).message);
+  if (error instanceof ValitaError) {
+    console.log(error.message);
     res.sendStatus(400);
   } else if (createError.isHttpError(error)) {
     console.log(`${error.name}: ${error.message}`);
@@ -51,7 +55,4 @@ app.use(((error, _req, res, _next) => {
   }
 }) as ErrorRequestHandler);
 
-const port = env.PORT || 5000;
-app.listen(port, () => {
-  console.log("server started on port:", port);
-});
+app.listen(env.PORT, () => console.log("server started on port:", env.PORT));

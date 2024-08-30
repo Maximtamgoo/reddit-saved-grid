@@ -10,22 +10,21 @@
     "typecheck": "tsc --noEmit || exit 0"
   },
   "dependencies": {
+    "@badrap/valita": "^0.3.9",
     "compression": "^1.7.4",
-    "express": "^4.18.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
-    "morgan": "^1.10.0",
-    "node-fetch": "^3.3.2",
-    "zod": "^3.22.4",
-    "zod-validation-error": "^2.1.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^20.10.4",
-    "eslint": "^8.55.0",
-    "typescript": "^5.3.3"
+    "@types/node": "^22.5.1",
+    "typescript": "^5.5.4"
   }
 }

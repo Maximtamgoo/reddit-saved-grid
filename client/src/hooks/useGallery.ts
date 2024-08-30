@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export default function useGallery(gallerylength: number) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function useGallery(length: number) {
+  const [index, setIndex] = useState(0);
+  const prevIndex = useCallback(() => setIndex((i) => (i === 0 ? length - 1 : i - 1)), [length]);
+  const nextIndex = useCallback(() => setIndex((i) => (i === length - 1 ? 0 : i + 1)), [length]);
 
-  function prevIndex(e: MouseEvent) {
-    e.stopPropagation();
-    if (currentIndex === 0) return;
-    setCurrentIndex(currentIndex - 1);
-  }
+  useEffect(() => {
+    function handleArrowKey(e: KeyboardEvent) {
+      if (e.code === "ArrowLeft") prevIndex();
+      if (e.code === "ArrowRight") nextIndex();
+    }
+    if (length > 1) {
+      window.addEventListener("keydown", handleArrowKey);
+      return () => window.removeEventListener("keydown", handleArrowKey);
+    }
+  }, [length, prevIndex, nextIndex]);
 
-  function nextIndex(e: MouseEvent) {
-    e.stopPropagation();
-    if (currentIndex === gallerylength - 1) return;
-    setCurrentIndex(currentIndex + 1);
-  }
-
-  return { currentIndex, prevIndex, nextIndex };
+  return {
+    index,
+    prevIndex,
+    nextIndex
+  };
 }

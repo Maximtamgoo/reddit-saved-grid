@@ -1,12 +1,16 @@
-import useCheckSignedInUser from "./hooks/useCheckSignedInUser";
-import { LoginPage, MainPage } from "./pages";
+import { useGetSignedInUser } from "./services/queries";
+import LoginPage from "./pages/LoginPage";
+import Header from "./components/Header";
+import MainPage from "./pages/MainPage";
 
 export default function App() {
-  const { username, loading } = useCheckSignedInUser();
-
-  if (loading) {
-    return <div></div>;
-  }
-
-  return <div className="App">{username ? <MainPage /> : <LoginPage />}</div>;
+  const { isPending, isError } = useGetSignedInUser();
+  if (isError) return <LoginPage />;
+  if (isPending) return null;
+  return (
+    <>
+      <Header />
+      <MainPage />
+    </>
+  );
 }

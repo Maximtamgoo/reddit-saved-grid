@@ -1,29 +1,37 @@
-import { defineConfig } from "vite";
-import preact from "@preact/preset-vite";
-import svgr from "vite-plugin-svgr";
-import checker from "vite-plugin-checker";
+import react from "@vitejs/plugin-react-swc";
 import { visualizer } from "rollup-plugin-visualizer";
+import { defineConfig } from "vite";
+import checker from "vite-plugin-checker";
+import svgr from "vite-plugin-svgr";
+
+const isHostRender = !!process.env.RENDER;
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    preact(),
+    react(),
     svgr(),
     checker({
+      overlay: { initialIsOpen: false },
       typescript: true,
       eslint: {
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
       }
     }),
-    visualizer({ open: true, gzipSize: true, sourcemap: true })
+    !isHostRender && visualizer({ open: true, gzipSize: true, sourcemap: true })
   ],
-  build: { sourcemap: true },
+  build: { sourcemap: !isHostRender },
   server: {
     open: true,
     port: 3000,
     strictPort: true,
     proxy: {
       "/api": "http://localhost:5000"
+    }
+  },
+  resolve: {
+    alias: {
+      "@src": new URL("./src", import.meta.url).pathname
     }
   },
   cacheDir: "../node_modules/.vite"
