@@ -1,12 +1,12 @@
-import { env } from "./envConfig.js";
 import { ValitaError } from "@badrap/valita";
-import createError from "http-errors";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import morgan from "morgan";
-import helmet from "helmet";
-import routes from "./routes.js";
 import express, { ErrorRequestHandler } from "express";
+import helmet from "helmet";
+import createError from "http-errors";
+import morgan from "morgan";
+import { env } from "./envConfig.js";
+import routes from "./routes.js";
 const app = express();
 
 console.log("NODE_ENV:", env.NODE_ENV);

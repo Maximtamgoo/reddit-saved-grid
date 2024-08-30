@@ -1,7 +1,7 @@
+import { literal, string, union } from "@badrap/valita";
+import express from "express";
 import { env } from "./envConfig.js";
 import { authorize, getNewAccessToken, revokeToken, toggleBookmark } from "./reddit.js";
-import { string, literal, union } from "@badrap/valita";
-import express from "express";
 const router = express.Router();
 
 const isProduction = env.NODE_ENV === "production";
