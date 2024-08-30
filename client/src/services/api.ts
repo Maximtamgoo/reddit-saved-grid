@@ -52,17 +52,19 @@ export async function getSavedContent(username: string, after: string, limit = 5
   return Listing.parse(await res.json(), { mode: "strip" });
 }
 
-export async function getSubRedditIcon(subreddit: string) {
-  const res = await fetch(`https://api.reddit.com/r/${subreddit}/about`);
+export async function getSubRedditIcon(subreddit: string, signal: AbortSignal) {
+  const res = await fetch(`https://api.reddit.com/r/${subreddit}/about`, { signal });
   if (!res.ok) throw new HttpError(res.status, res.statusText);
   return object({
     data: object({
-      community_icon: string(),
-      icon_img: string()
+      community_icon: string().map((s) => s.split("amp;").join("")),
+      icon_img: string().map((s) => s.split("amp;").join(""))
     })
-  }).parse(await res.json(), {
-    mode: "strip"
-  });
+  })
+    .map((obj) => obj.data)
+    .parse(await res.json(), {
+      mode: "strip"
+    });
 }
 
 export async function toggleBookmark(id: string, state: boolean) {

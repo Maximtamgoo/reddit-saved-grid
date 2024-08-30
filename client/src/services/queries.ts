@@ -1,5 +1,6 @@
 import { ListingItem } from "@src/schema/Listing";
 import { Post } from "@src/schema/Post";
+import { getIconUrlFromLS } from "@src/utils/getIconUrlFromLS";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as api from "./api";
@@ -28,7 +29,7 @@ export function useGetSavedContent() {
     queryKey: ["posts", username],
     enabled: !!username,
     retry: false,
-    // staleTime: Infinity, //TODO could this replace isBusyRef?
+    staleTime: Infinity,
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const listing = await api.getSavedContent(username ?? "", pageParam);
@@ -47,7 +48,7 @@ export function useGetSavedContent() {
           console.log("Failed Post:", listingItemResult.value);
           continue;
         }
-        if (postResult.value.type === "unknown") console.log("item:", item);
+        if (postResult.value.type === "unknown") console.log("unknown item:", item);
         posts.push(postResult.value);
       }
 
@@ -63,14 +64,27 @@ export function useGetSavedContent() {
 
 export function useGetSubRedditIcon(subreddit: string) {
   return useQuery({
-    queryKey: ["subreddit", subreddit, "icon"],
+    queryKey: ["subreddit", "icon", subreddit],
     retry: false,
     staleTime: Infinity,
-    queryFn: () => api.getSubRedditIcon(subreddit),
-    select: (data) => {
-      const community_icon = data.data.community_icon;
-      if (community_icon !== "") return community_icon.split("amp;").join("");
-      return data.data.icon_img.split("amp;").join("");
+    refetchOnMount: false,
+    queryFn: async ({ queryKey, signal }) => {
+      const key = queryKey.join("_");
+      const obj = getIconUrlFromLS(key);
+      if (obj && obj.expires > Date.now()) return obj.url;
+      localStorage.removeItem(key);
+      const data = await api.getSubRedditIcon(subreddit, signal);
+      let url = "";
+      if (data.community_icon !== "") url = data.community_icon;
+      if (data.icon_img !== "") url = data.icon_img;
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          expires: Date.now() + 60 * 60 * 1000 * 24, // 24 hours
+          url
+        })
+      );
+      return url;
     }
   });
 }
