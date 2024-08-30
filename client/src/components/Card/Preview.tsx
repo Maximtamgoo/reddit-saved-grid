@@ -31,7 +31,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
           alt="Reddit Content"
         />
       )}
-      {(galleryLength > 0 || isGif) && (
+      {(galleryLength > 1 || isGif) && (
         <div className="ring-3 absolute right-2 top-2 grid h-7 min-w-7 place-items-center rounded-md bg-slate-100 px-2 font-semibold ring-2 ring-slate-300">
           {galleryLength || "GIF"}
         </div>
