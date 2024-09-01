@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef } from "react";
+import { PropsWithChildren, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 export default function Dialog({ onClose, children }: PropsWithChildren<Props>) {
   const ref = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ref.current) {
       const scrollbarWidth = window.innerWidth - document.body.clientWidth + "px";
       document.body.style.paddingRight = scrollbarWidth;
