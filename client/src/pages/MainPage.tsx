@@ -16,7 +16,7 @@ export default function MainPage() {
     const post = item;
     const detailsHeight = 96;
     const minHeight = 350;
-    const maxHeight = window.innerHeight - 90;
+    const maxHeight = window.outerHeight - 100;
 
     if (post.type === "gallery" || post.type === "image") {
       const ratioSize = calculateAspectRatioFit(

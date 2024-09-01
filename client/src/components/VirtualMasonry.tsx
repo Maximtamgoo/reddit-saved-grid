@@ -1,5 +1,5 @@
 import { useResizeObserver } from "@src/hooks/useResizeObserver";
-import useWindowHeight from "@src/hooks/useWindowHeight";
+import { useWindowOuterHeight } from "@src/hooks/useWindowOuterHeight";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { ReactNode, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 
@@ -32,7 +32,7 @@ export default function VirtualMasonry<Item>({
   const parentRect = useResizeObserver(parentRef);
   const parentWidth = parentRect.width;
   const deferredWidth = useDeferredValue(parentWidth);
-  const winHeight = useWindowHeight();
+  const winHeight = useWindowOuterHeight();
   const deferredWinHeight = useDeferredValue(winHeight);
 
   const lanes = useMemo(
