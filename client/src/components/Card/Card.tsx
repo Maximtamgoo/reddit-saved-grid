@@ -1,7 +1,7 @@
 import Dialog from "@src/components/Modal/Dialog";
 import Modal from "@src/components/Modal/Modal";
 import { Post } from "@src/schema/Post";
-import { memo, useState } from "react";
+import { useState } from "react";
 import Details from "./Details";
 import Preview from "./Preview";
 import Text from "./Text";
@@ -10,7 +10,7 @@ type Props = {
   post: Post;
 };
 
-export default memo(function Card({ post }: Props) {
+export default function Card({ post }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const onClick = () => setIsOpen(true);
 
@@ -33,4 +33,4 @@ export default memo(function Card({ post }: Props) {
       )}
     </section>
   );
-});
+}

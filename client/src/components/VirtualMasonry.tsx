@@ -6,8 +6,8 @@ import { ReactNode, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRe
 type Props<Item> = {
   items: Item[];
   maxLanes: number;
-  laneWidth: number;
-  gap: number | number[];
+  maxLaneWidth: number;
+  gap: number;
   overscan: number;
   renderLoader: ReactNode;
   getItemKey: (index: number) => string | number;
@@ -19,7 +19,7 @@ type Props<Item> = {
 export default function VirtualMasonry<Item>({
   items,
   maxLanes,
-  laneWidth,
+  maxLaneWidth,
   gap,
   overscan,
   renderLoader,
@@ -36,17 +36,15 @@ export default function VirtualMasonry<Item>({
   const deferredWinHeight = useDeferredValue(winHeight);
 
   const lanes = useMemo(
-    () => Math.max(1, Math.min(maxLanes, Math.floor(parentWidth / laneWidth))),
-    [parentWidth, maxLanes, laneWidth]
+    () => Math.max(1, Math.min(maxLanes, Math.floor(parentWidth / maxLaneWidth))),
+    [parentWidth, maxLanes, maxLaneWidth]
   );
-
-  const chosenGap = useMemo(() => (Array.isArray(gap) ? gap[lanes - 1] : gap), [lanes, gap]);
 
   const itemWidth = useMemo(() => {
     const numOfGaps = lanes - 1;
-    const gapTotal = numOfGaps * chosenGap;
+    const gapTotal = numOfGaps * gap;
     return Math.round((parentWidth - gapTotal) / lanes);
-  }, [parentWidth, lanes, chosenGap]);
+  }, [parentWidth, lanes, gap]);
 
   const percent = (100 * itemWidth) / parentWidth;
 
@@ -54,7 +52,7 @@ export default function VirtualMasonry<Item>({
     enabled: parentWidth > 0,
     count: items.length,
     lanes,
-    gap: chosenGap,
+    gap,
     overscan,
     scrollMargin: parentRef.current?.offsetTop ?? 0,
     getItemKey,
@@ -90,7 +88,7 @@ export default function VirtualMasonry<Item>({
                   className="absolute top-0"
                   style={{
                     transform: `translateY(${item.start - winVirtualizer.options.scrollMargin}px)`,
-                    left: `calc(${item.lane} * (${percent}% + ${chosenGap}px))`,
+                    left: `calc(${item.lane} * (${percent}% + ${gap}px))`,
                     width: `${percent}%`,
                     height: `${item.size}px`
                   }}

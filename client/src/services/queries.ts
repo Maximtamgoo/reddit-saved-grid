@@ -11,8 +11,6 @@ window.history.replaceState(null, "", "/");
 export function useGetSignedInUser() {
   return useQuery({
     queryKey: ["userData"],
-    retry: false,
-    staleTime: Infinity,
     queryFn: async () => {
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
@@ -28,8 +26,6 @@ export function useGetSavedContent() {
   return useInfiniteQuery({
     queryKey: ["posts", username],
     enabled: !!username,
-    retry: false,
-    staleTime: Infinity,
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const listing = await api.getSavedContent(username ?? "", pageParam);
@@ -65,8 +61,6 @@ export function useGetSavedContent() {
 export function useGetSubRedditIcon(subreddit: string) {
   return useQuery({
     queryKey: ["subreddit", "icon", subreddit],
-    retry: false,
-    staleTime: Infinity,
     refetchOnMount: false,
     queryFn: async ({ queryKey, signal }) => {
       const key = queryKey.join("_");
@@ -94,7 +88,6 @@ export function useToggleBookmark(id: string, pageParam: string) {
   const username = useGetSignedInUser().data?.name;
   return useMutation({
     mutationKey: ["toggleBookmark", id],
-    retry: false,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];

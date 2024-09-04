@@ -1,16 +1,9 @@
-import { useGetSignedInUser } from "./services/queries";
 import LoginPage from "./pages/LoginPage";
-import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
+import { useGetSignedInUser } from "./services/queries";
 
 export default function App() {
-  const { isPending, isError } = useGetSignedInUser();
-  if (isError) return <LoginPage />;
+  const { isSuccess, isPending } = useGetSignedInUser();
   if (isPending) return null;
-  return (
-    <>
-      <Header />
-      <MainPage />
-    </>
-  );
+  return isSuccess ? <MainPage /> : <LoginPage />;
 }
