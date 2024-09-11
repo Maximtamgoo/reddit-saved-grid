@@ -2,6 +2,7 @@ import Card from "@src/components/Card/Card";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import { Post } from "@src/schema/Post";
 import { useGetSavedContent } from "@src/services/queries";
+import ChevronLeft from "@src/svg/chevron-left.svg?react";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
 import { useCallback, useMemo, useRef } from "react";
@@ -9,6 +10,7 @@ import { useCallback, useMemo, useRef } from "react";
 const isMaybeMobile = "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
 
 export default function MainPage() {
+  const showRef = useRef(false);
   const isBusyRef = useRef(false);
   const { data, isPending, isError, error, isLoadingError, hasNextPage, fetchNextPage } =
     useGetSavedContent();
@@ -87,6 +89,18 @@ export default function MainPage() {
               )}
             </div>
           }
+          renderScrollTo={(scrollDirection) => {
+            if (scrollDirection !== null) showRef.current = scrollDirection === "backward";
+            return (
+              <button
+                className="fixed bottom-5 right-5 grid size-10 rotate-90 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300"
+                style={{ visibility: showRef.current ? "visible" : "hidden" }}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              >
+                <ChevronLeft />
+              </button>
+            );
+          }}
         />
       </div>
     </main>

@@ -1,6 +1,5 @@
 import useGallery from "@src/hooks/useGallery";
-import Left from "@src/svg/chevron-left.svg?react";
-import Right from "@src/svg/chevron-right.svg?react";
+import ChevronLeft from "@src/svg/chevron-left.svg?react";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 import { useRef, useState } from "react";
 
@@ -18,22 +17,21 @@ export function Gallery({ urls }: Props) {
   const className =
     "grid place-items-center size-10 shrink-0 rounded-full hover:ring-2 hover:ring-slate-300";
 
+  const ChevronRight = () => <ChevronLeft className="rotate-180" />;
+
   return (
     <div className="grid h-full grid-rows-1 gap-1 p-1">
       <Item key={urls[index]} url={urls[index]} isLoaded={isLoaded} addToCache={addToCache} />
       {urls.length > 1 && (
-        <div
-          className="m-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="m-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200">
           <button className={className} onClick={prevIndex}>
-            <Left />
+            <ChevronLeft />
           </button>
           <div className="mx-auto min-w-16 text-center text-xl">
             {index + 1}/{urls.length}
           </div>
           <button className={className} onClick={nextIndex}>
-            <Right />
+            <ChevronRight />
           </button>
         </div>
       )}
@@ -59,7 +57,6 @@ function Item({ url, isLoaded, addToCache }: ItemProps) {
         <img
           className="max-h-full max-w-full"
           src={url}
-          onClick={(e) => e.stopPropagation()}
           onLoad={() => {
             addToCache(url);
             setLoading(false);
