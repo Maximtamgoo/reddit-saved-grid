@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function Modal({ post }: Props) {
-  const subredditLink = `https://www.reddit.com/r/${post.subreddit}`;
+  const postLink = `https://www.reddit.com${post.permalink}`;
   return (
     <div className="fixed inset-0 bg-slate-50">
       {post.type === "gallery" && <Gallery urls={post.gallery.map((e) => e.url)} />}
@@ -22,7 +22,7 @@ export default function Modal({ post }: Props) {
       </form>
       <Link
         className="absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300"
-        href={subredditLink}
+        href={postLink}
       >
         <ArrowRedirect />
       </Link>
