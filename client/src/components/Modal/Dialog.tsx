@@ -15,7 +15,6 @@ export default function Dialog({ onClose, children }: PropsWithChildren<Props>) 
       document.body.style.overflow = "hidden";
       ref.current.showModal();
       ref.current.focus();
-      ref.current.blur();
     }
     return () => {
       document.body.style.paddingRight = "0";
@@ -24,12 +23,7 @@ export default function Dialog({ onClose, children }: PropsWithChildren<Props>) 
   }, []);
 
   return createPortal(
-    <dialog
-      ref={ref}
-      onClick={onClose}
-      onClose={onClose}
-      className="size-full max-h-full max-w-full"
-    >
+    <dialog ref={ref} onClose={onClose} className="size-full max-h-full max-w-full">
       {children}
     </dialog>,
     document.body

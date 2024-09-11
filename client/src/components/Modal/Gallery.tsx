@@ -23,7 +23,7 @@ export function Gallery({ urls }: Props) {
       <Item key={urls[index]} url={urls[index]} isLoaded={isLoaded} addToCache={addToCache} />
       {urls.length > 1 && (
         <div
-          className="mx-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200"
+          className="m-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200"
           onClick={(e) => e.stopPropagation()}
         >
           <button className={className} onClick={prevIndex}>

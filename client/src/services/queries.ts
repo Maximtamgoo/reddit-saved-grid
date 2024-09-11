@@ -3,15 +3,16 @@ import { Post } from "@src/schema/Post";
 import { getIconUrlFromLS } from "@src/utils/getIconUrlFromLS";
 import { trimListingItem } from "@src/utils/trimListingItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useBrowserLocation } from "wouter/use-browser-location";
 import * as api from "./api";
 
-const urlParams = new URLSearchParams(window.location.search);
-window.history.replaceState(null, "", "/");
-
 export function useGetSignedInUser() {
+  const navigate = useBrowserLocation()[1];
   return useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (location.pathname === "/auth_callback") navigate("/", { replace: true });
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
       const urlCode = urlParams.get("code");
@@ -25,6 +26,7 @@ export function useGetSavedContent() {
   const username = useGetSignedInUser().data?.name;
   return useInfiniteQuery({
     queryKey: ["posts", username],
+    retry: 1,
     enabled: !!username,
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {

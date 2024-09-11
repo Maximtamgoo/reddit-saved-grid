@@ -1,5 +1,6 @@
 import { Post } from "@src/schema/Post";
-import X from "@src/svg/x.svg?react";
+import ArrowLeft from "@src/svg/arrow-left.svg?react";
+
 import { Gallery } from "./Gallery";
 
 type Props = {
@@ -12,8 +13,8 @@ export default function Modal({ post }: Props) {
       {post.type === "gallery" && <Gallery urls={post.gallery.map((e) => e.url)} />}
       {post.type === "image" && <Gallery urls={[post.source.url]} />}
       <form method="dialog">
-        <button className="absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300">
-          <X />
+        <button className="absolute left-2 top-2 grid size-10 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300">
+          <ArrowLeft />
         </button>
       </form>
     </div>

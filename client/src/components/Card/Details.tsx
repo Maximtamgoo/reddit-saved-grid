@@ -11,7 +11,7 @@ type Props = {
 export default function Details({ post }: Props) {
   const { data: icon, isSuccess } = useGetSubRedditIcon(post.subreddit);
   const [isImgError, setIsImgError] = useState(false);
-  const { mutate } = useToggleBookmark(post.id, post.pageParam);
+  const { mutate, isPending } = useToggleBookmark(post.id, post.pageParam);
   const { permalink, subreddit, author } = post;
   const postLink = `https://www.reddit.com${permalink}`;
   const subredditLink = `https://www.reddit.com/r/${subreddit}`;
@@ -38,6 +38,7 @@ export default function Details({ post }: Props) {
         <div className="relative w-14 shrink-0">
           <button
             className="absolute -top-7 size-14"
+            disabled={isPending}
             onClick={() => mutate({ saved: !post.saved })}
           >
             <Bookmark

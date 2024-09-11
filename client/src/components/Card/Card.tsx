@@ -1,7 +1,6 @@
-import Dialog from "@src/components/Modal/Dialog";
-import Modal from "@src/components/Modal/Modal";
 import { Post } from "@src/schema/Post";
-import { useState } from "react";
+import { memo } from "react";
+import { useBrowserLocation } from "wouter/use-browser-location";
 import Details from "./Details";
 import Preview from "./Preview";
 import Text from "./Text";
@@ -10,9 +9,9 @@ type Props = {
   post: Post;
 };
 
-export default function Card({ post }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const onClick = () => setIsOpen(true);
+export default memo(function Card({ post }: Props) {
+  const navigate = useBrowserLocation()[1];
+  const onClick = () => navigate(`/modal/${post.id}`, { state: post });
 
   return (
     <section className="relative flex h-full flex-col rounded-lg bg-slate-100 ring-2 ring-slate-300">
@@ -26,11 +25,6 @@ export default function Card({ post }: Props) {
         <Preview url={post.preview.url} isGif={post.isGif} onClick={onClick} />
       )}
       {post.type === "unknown" && <div className="grid grow place-items-center text-8xl">?</div>}
-      {isOpen && (
-        <Dialog onClose={() => setIsOpen(false)}>
-          <Modal post={post} />
-        </Dialog>
-      )}
     </section>
   );
-}
+});

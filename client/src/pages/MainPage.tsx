@@ -1,5 +1,4 @@
 import Card from "@src/components/Card/Card";
-import Header from "@src/components/Header";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import { Post } from "@src/schema/Post";
 import { useGetSavedContent } from "@src/services/queries";
@@ -11,7 +10,8 @@ const isMaybeMobile = "maxTouchPoints" in navigator && navigator.maxTouchPoints 
 
 export default function MainPage() {
   const isBusyRef = useRef(false);
-  const { data, isPending, isError, error, hasNextPage, fetchNextPage } = useGetSavedContent();
+  const { data, isPending, isError, error, isLoadingError, hasNextPage, fetchNextPage } =
+    useGetSavedContent();
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.posts) ?? [], [data]);
 
@@ -43,6 +43,14 @@ export default function MainPage() {
     }
   }, [hasNextPage, fetchNextPage]);
 
+  if (isLoadingError) {
+    return (
+      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-slate-50 text-slate-800">
+        <div className="text-xl">{error.message}</div>
+      </main>
+    );
+  }
+
   if (isError) {
     console.log("error:", error);
     return <div>{error.message}</div>;
@@ -58,32 +66,29 @@ export default function MainPage() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="pt-16 text-slate-800">
-        <div className="m-auto max-w-screen-2xl px-2 py-5">
-          <VirtualMasonry
-            items={posts}
-            maxLanes={3}
-            maxLaneWidth={350}
-            gap={20}
-            overscan={20}
-            getItemKey={getItemKey}
-            estimateSize={estimateSize}
-            loadMore={loadMore}
-            renderItem={(item) => <Card post={item} />}
-            renderLoader={
-              <div className="grid h-20 place-items-center text-xl">
-                {hasNextPage ? (
-                  <LoaderCircle className="size-14 animate-spin" />
-                ) : (
-                  "Reached the Reddit limit..."
-                )}
-              </div>
-            }
-          />
-        </div>
-      </main>
-    </>
+    <main className="pt-16 text-slate-800">
+      <div className="m-auto max-w-screen-2xl px-2 pt-3">
+        <VirtualMasonry
+          items={posts}
+          maxLanes={3}
+          maxLaneWidth={350}
+          gap={20}
+          overscan={20}
+          getItemKey={getItemKey}
+          estimateSize={estimateSize}
+          loadMore={loadMore}
+          renderItem={(item) => <Card post={item} />}
+          renderLoader={
+            <div className="grid h-24 place-items-center text-xl">
+              {hasNextPage ? (
+                <LoaderCircle className="size-14 animate-spin" />
+              ) : (
+                "Reached the Reddit limit..."
+              )}
+            </div>
+          }
+        />
+      </div>
+    </main>
   );
 }
