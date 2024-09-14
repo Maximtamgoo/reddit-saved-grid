@@ -30,11 +30,9 @@ export default function App() {
 
   return (
     <>
-      {historyState && (
-        <Dialog onClose={() => history.back()}>
-          <Modal post={historyState} />
-        </Dialog>
-      )}
+      <Dialog isOpen={!!historyState} onClose={() => history.back()}>
+        {!!historyState && <Modal post={historyState} />}
+      </Dialog>
       <Header />
       <MainPage />
     </>

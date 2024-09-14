@@ -69,7 +69,7 @@ function Item({ url, isLoaded, addToCache }: ItemProps) {
         />
       )}
       {loading && (
-        <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
+        <div className="absolute inset-0 grid place-items-center">
           <LoaderCircle className="size-14 animate-spin rounded-full" />
         </div>
       )}
