@@ -8,9 +8,10 @@ import LogOut from "@src/svg/log-out.svg?react";
 export default function Header() {
   const { data, isSuccess } = useGetSignedInUser();
   const className =
-    "grid sm:size-12 size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300";
+    "grid size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 hover:ring-2 hover:ring-slate-300 sm:size-12";
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-10 h-16 border-b-2 border-slate-300 bg-slate-50 text-slate-800">
+    <header className="sticky top-0 z-10 h-14 border-b-2 border-slate-300 bg-slate-50 text-slate-800 sm:h-16">
       <div className="m-auto flex h-full max-w-screen-2xl items-center justify-between">
         <Bookmark className="size-10 shrink-0 sm:size-12" />
         <span className="grow truncate text-2xl sm:text-3xl">Reddit Saved Masonry</span>

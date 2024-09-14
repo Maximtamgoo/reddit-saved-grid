@@ -68,7 +68,7 @@ export default function MainPage() {
   }
 
   return (
-    <main className="pt-16 text-slate-800">
+    <main className="text-slate-800">
       <div className="m-auto max-w-screen-2xl px-2 pt-3">
         <VirtualMasonry
           items={posts}
