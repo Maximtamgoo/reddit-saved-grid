@@ -18,7 +18,7 @@ export default function MainPage() {
   const posts = useMemo(() => data?.pages.flatMap((page) => page.posts) ?? [], [data]);
 
   const estimateSize = useCallback((item: Post, width: number) => {
-    const detailsHeight = 96;
+    const detailsHeight = 100;
     const minHeight = 350;
     const maxHeight = isMaybeMobile ? window.outerHeight - 100 : window.innerHeight - 100;
 
@@ -47,7 +47,7 @@ export default function MainPage() {
 
   if (isLoadingError) {
     return (
-      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-slate-50 text-slate-800">
+      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 text-slate-800">
         <div className="text-xl">{error.message}</div>
       </main>
     );
@@ -60,7 +60,7 @@ export default function MainPage() {
 
   if (isPending) {
     return (
-      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-slate-50 text-slate-800">
+      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 text-slate-800">
         <LoaderCircle className="size-14 animate-spin rounded-full" />
         <div className="text-xl">Getting Posts</div>
       </main>
@@ -68,8 +68,8 @@ export default function MainPage() {
   }
 
   return (
-    <main className="text-slate-800">
-      <div className="m-auto max-w-screen-2xl px-2 pt-3">
+    <main className="px-2 pt-2 text-slate-800 2xl:pt-5">
+      <div className="m-auto max-w-screen-2xl">
         <VirtualMasonry
           items={posts}
           maxLanes={3}
@@ -93,11 +93,11 @@ export default function MainPage() {
             if (scrollDirection !== null) showRef.current = scrollDirection === "backward";
             return (
               <button
-                className="fixed bottom-5 right-5 grid size-10 rotate-90 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300"
+                className="fixed bottom-5 right-5 grid size-10 place-items-center rounded-full bg-slate-50 text-slate-800 shadow-slate-300 ring-1 ring-slate-200 hover:bg-slate-200"
                 style={{ visibility: showRef.current ? "visible" : "hidden" }}
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
-                <ChevronLeft />
+                <ChevronLeft className="rotate-90" />
               </button>
             );
           }}

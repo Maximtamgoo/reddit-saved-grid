@@ -8,7 +8,7 @@ export default function LoginPage() {
         Reddit Saved Masonry
       </div>
       <button
-        className="h-12 w-44 shrink-0 rounded-md bg-slate-200 hover:ring-2 hover:ring-slate-300"
+        className="h-12 w-44 shrink-0 rounded-md bg-slate-200 hover:bg-slate-300"
         onClick={() => (window.location.href = "/api/authurl")}
       >
         Login with Reddit

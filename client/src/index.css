@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-50;
+@layer base {
+  body {
+    @apply bg-white;
+  }
 }

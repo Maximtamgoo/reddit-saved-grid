@@ -18,36 +18,38 @@ export default function Details({ post }: Props) {
   const authorLink = `https://www.reddit.com/u/${author}`;
 
   return (
-    <div className="grid h-24 shrink-0 gap-2 p-4">
-      <div className="flex min-w-0">
-        <Link
-          className="size-6 shrink-0 overflow-hidden rounded-full bg-slate-200"
-          href={subredditLink}
-        >
+    <div className="grid gap-2 p-3.5">
+      <div className="flex min-w-0 gap-1">
+        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-slate-100 shadow-slate-300">
           {isSuccess && !isImgError && <img src={icon} onError={() => setIsImgError(true)} />}
-        </Link>
-        <div className="grow truncate text-slate-600">
-          <Link className="hover:text-slate-800 hover:underline" href={subredditLink}>
-            <span className="pl-2 text-sm">r</span>/{subreddit}
+        </div>
+        <div className="flex min-w-0 grow items-center text-slate-600">
+          <Link
+            className="truncate rounded-lg px-1 py-0.5 hover:bg-slate-200 hover:text-slate-800 focus:bg-slate-200 focus:text-slate-800 focus:outline-none"
+            href={subredditLink}
+          >
+            <span className="text-sm">r</span>/{subreddit}
           </Link>
-          <span className="px-1">&bull;</span>
-          <Link className="hover:text-slate-800 hover:underline" href={authorLink}>
+          <span className="px-0.5">&bull;</span>
+          <Link
+            className="truncate rounded-lg px-1 py-0.5 hover:bg-slate-200 hover:text-slate-800 focus:bg-slate-200 focus:text-slate-800 focus:outline-none"
+            href={authorLink}
+          >
             <span className="text-sm">u</span>/{author}
           </Link>
         </div>
-        <div className="relative w-14 shrink-0">
-          <button
-            className="absolute -top-7 size-14"
-            disabled={isPending}
-            onClick={() => mutate({ saved: !post.saved })}
-          >
-            <Bookmark
-              className={`size-full hover:stroke-sky-600 ${!post.saved && "fill-slate-100"}`}
-            />
-          </button>
-        </div>
+        <button
+          className="grid size-8 shrink-0 place-items-center rounded-full hover:bg-sky-200 focus:bg-sky-200 focus:outline-none"
+          disabled={isPending}
+          onClick={() => mutate({ saved: !post.saved })}
+        >
+          <Bookmark className={`stroke-sky-500 ${post.saved && "fill-sky-500"}`} />
+        </button>
       </div>
-      <Link className="truncate text-xl font-medium" href={postLink}>
+      <Link
+        className="max-w-fit truncate rounded-lg px-1 py-0.5 text-xl font-medium text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:outline-none"
+        href={postLink}
+      >
         {post.type === "comment" ? "Comment" : post.title}
       </Link>
     </div>

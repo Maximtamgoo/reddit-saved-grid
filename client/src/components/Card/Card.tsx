@@ -14,7 +14,7 @@ export default memo(function Card({ post }: Props) {
   const onClick = () => navigate(`/modal/${post.id}`, { state: post });
 
   return (
-    <section className="relative flex h-full flex-col rounded-lg bg-slate-100 ring-2 ring-slate-300">
+    <section className="flex h-full flex-col overflow-hidden rounded-lg shadow-md shadow-slate-400 ring-slate-200 focus-within:ring-slate-300 hover:ring-slate-300">
       <Details post={post} />
       {post.type === "text" && <Text text={post.text} />}
       {post.type === "comment" && <Text text={post.comment} />}

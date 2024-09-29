@@ -20,7 +20,7 @@ export function Gallery({ urls }: Props) {
   const ChevronRight = () => <ChevronLeft className="rotate-180" />;
 
   return (
-    <div className="grid h-full grid-rows-1 gap-1 p-1">
+    <div className="grid h-full grid-rows-1 gap-1 p-0.5">
       <Item key={urls[index]} url={urls[index]} isLoaded={isLoaded} addToCache={addToCache} />
       {urls.length > 1 && (
         <div className="m-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200">
