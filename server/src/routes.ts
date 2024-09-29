@@ -57,7 +57,7 @@ router.post("/api/signout", async (req, res, next) => {
   try {
     const refresh_token = string().parse(req.cookies.refresh_token);
     await revokeToken("refresh_token", refresh_token);
-    res.clearCookie("refresh_token", refreshTokenOptions);
+    res.clearCookie("refresh_token");
     res.send();
   } catch (error) {
     next(error);
