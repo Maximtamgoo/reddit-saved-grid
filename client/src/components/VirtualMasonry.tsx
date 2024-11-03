@@ -13,7 +13,6 @@ type Props<Item> = {
   getItemKey: (index: number) => string | number;
   estimateSize: (item: Item, width: number) => number;
   renderItem: (item: Item) => ReactNode;
-  renderScrollTo: (scrollDirection: "backward" | "forward" | null) => ReactNode;
   loadMore: () => void;
 };
 
@@ -27,7 +26,6 @@ export default function VirtualMasonry<Item>({
   getItemKey,
   estimateSize,
   renderItem,
-  renderScrollTo,
   loadMore
 }: Props<Item>) {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -99,7 +97,6 @@ export default function VirtualMasonry<Item>({
             })}
           </div>
           {renderLoader}
-          {renderScrollTo(winVirtualizer.scrollDirection)}
         </>
       )}
     </div>

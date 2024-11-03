@@ -2,7 +2,6 @@ import Card from "@src/components/Card/Card";
 import VirtualMasonry from "@src/components/VirtualMasonry";
 import { RedditItem } from "@src/schema/RedditItem";
 import { useGetSavedContent } from "@src/services/queries";
-import ChevronLeft from "@src/svg/chevron-left.svg?react";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
 import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
 import { useCallback, useMemo, useRef } from "react";
@@ -10,7 +9,6 @@ import { useCallback, useMemo, useRef } from "react";
 const isMaybeMobile = "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
 
 export default function MainPage() {
-  const showRef = useRef(false);
   const isBusyRef = useRef(false);
   const { data, isPending, isError, error, isLoadingError, hasNextPage, fetchNextPage } =
     useGetSavedContent();
@@ -20,7 +18,7 @@ export default function MainPage() {
   const estimateSize = useCallback((item: RedditItem, width: number) => {
     const minHeight = 350;
     const winHeight = isMaybeMobile ? window.outerHeight : window.innerHeight;
-    const maxHeight = winHeight - 85;
+    const maxHeight = winHeight - 40;
     const detailsHeight = 100;
     let totalHeight = detailsHeight;
 
@@ -88,18 +86,6 @@ export default function MainPage() {
               )}
             </div>
           }
-          renderScrollTo={(scrollDirection) => {
-            if (scrollDirection !== null) showRef.current = scrollDirection === "backward";
-            return (
-              <button
-                className="fixed bottom-5 right-5 grid size-10 place-items-center rounded-full bg-slate-50 text-slate-800 shadow-slate-300 ring-1 ring-slate-200 hover:bg-slate-200"
-                style={{ visibility: showRef.current ? "visible" : "hidden" }}
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              >
-                <ChevronLeft className="rotate-90" />
-              </button>
-            );
-          }}
         />
       </div>
     </main>
