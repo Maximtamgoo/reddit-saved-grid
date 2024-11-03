@@ -1,6 +1,6 @@
 import Card from "@src/components/Card/Card";
 import VirtualMasonry from "@src/components/VirtualMasonry";
-import { Post } from "@src/schema/Post";
+import { RedditItem } from "@src/schema/RedditItem";
 import { useGetSavedContent } from "@src/services/queries";
 import ChevronLeft from "@src/svg/chevron-left.svg?react";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
@@ -15,27 +15,26 @@ export default function MainPage() {
   const { data, isPending, isError, error, isLoadingError, hasNextPage, fetchNextPage } =
     useGetSavedContent();
 
-  const posts = useMemo(() => data?.pages.flatMap((page) => page.posts) ?? [], [data]);
+  const redditItems = useMemo(() => data?.pages.flatMap((page) => page.redditItems) ?? [], [data]);
 
-  const estimateSize = useCallback((item: Post, width: number) => {
-    const detailsHeight = 100;
+  const estimateSize = useCallback((item: RedditItem, width: number) => {
     const minHeight = 350;
-    const maxHeight = isMaybeMobile ? window.outerHeight - 100 : window.innerHeight - 100;
+    const winHeight = isMaybeMobile ? window.outerHeight : window.innerHeight;
+    const maxHeight = winHeight - 85;
+    const detailsHeight = 100;
+    let totalHeight = detailsHeight;
 
-    if (item.type === "gallery" || item.type === "image") {
-      const ratioSize = calculateAspectRatioFit(
-        item.preview.width,
-        item.preview.height,
-        width,
-        item.preview.height
-      );
-      const ratioSizeHeight = Math.round(ratioSize.height);
-      return Math.max(minHeight, Math.min(maxHeight, ratioSizeHeight + detailsHeight));
+    if (item.type === "gallery") {
+      const p = item.preview;
+      const h = Math.round(calculateAspectRatioFit(p.x, p.y, width, p.y).height);
+      totalHeight += h;
+    } else if (item.type === "image") {
+      const p = item.preview;
+      totalHeight += Math.round(calculateAspectRatioFit(p.width, p.height, width, p.height).height);
     }
-    return minHeight;
-  }, []);
 
-  const getItemKey = useCallback((index: number) => posts[index].id ?? index, [posts]);
+    return Math.max(minHeight, Math.min(maxHeight, totalHeight));
+  }, []);
 
   const loadMore = useCallback(async () => {
     if (!isBusyRef.current && hasNextPage) {
@@ -68,18 +67,18 @@ export default function MainPage() {
   }
 
   return (
-    <main className="px-2 pt-2 text-slate-800 2xl:pt-5">
+    <main className="p-2 text-slate-800">
       <div className="m-auto max-w-screen-2xl">
         <VirtualMasonry
-          items={posts}
+          items={redditItems}
           maxLanes={3}
           maxLaneWidth={350}
           gap={20}
           overscan={20}
-          getItemKey={getItemKey}
+          getItemKey={(index) => redditItems[index].id ?? index}
           estimateSize={estimateSize}
           loadMore={loadMore}
-          renderItem={(item) => <Card post={item} />}
+          renderItem={(item) => <Card item={item} />}
           renderLoader={
             <div className="grid h-24 place-items-center text-xl">
               {hasNextPage ? (

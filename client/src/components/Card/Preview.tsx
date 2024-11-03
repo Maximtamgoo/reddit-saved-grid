@@ -15,7 +15,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
   return (
     <button
       onClick={onClick}
-      className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden rounded-lg p-2 ring-slate-300 ring-offset-2 focus:outline-none focus:ring-2"
+      className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden"
     >
       <img
         className="absolute size-full object-cover opacity-50 blur-lg"

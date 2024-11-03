@@ -1,7 +1,7 @@
 import { useResizeObserver } from "@src/hooks/useResizeObserver";
 import { useWindowOuterHeight } from "@src/hooks/useWindowOuterHeight";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { ReactNode, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 
 type Props<Item> = {
   items: Item[];
@@ -33,9 +33,7 @@ export default function VirtualMasonry<Item>({
   const parentRef = useRef<HTMLDivElement>(null);
   const parentRect = useResizeObserver(parentRef);
   const parentWidth = parentRect.width;
-  const deferredWidth = useDeferredValue(parentWidth);
   const winHeight = useWindowOuterHeight();
-  const deferredWinHeight = useDeferredValue(winHeight);
 
   const lanes = useMemo(
     () => Math.max(1, Math.min(maxLanes, Math.floor(parentWidth / maxLaneWidth))),
@@ -57,7 +55,11 @@ export default function VirtualMasonry<Item>({
     gap,
     overscan,
     scrollMargin: parentRef.current?.offsetTop ?? 0,
-    getItemKey,
+    getItemKey: useCallback(
+      (index: number) => getItemKey(index),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [getItemKey, parentWidth, winHeight]
+    ),
     estimateSize: (index) => estimateSize(items[index], itemWidth)
   });
 
@@ -67,10 +69,6 @@ export default function VirtualMasonry<Item>({
     const lastItem = virtualItems[virtualItems.length - 1];
     if (lastItem && lastItem.index === items.length - 1) loadMore();
   }, [virtualItems, items.length, loadMore]);
-
-  useLayoutEffect(() => {
-    if (deferredWidth > 0) winVirtualizer.measure();
-  }, [winVirtualizer, deferredWidth, deferredWinHeight]);
 
   return (
     <div ref={parentRef} className="max-w-full">

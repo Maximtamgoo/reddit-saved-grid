@@ -1,27 +1,35 @@
 import {
-  string,
-  object,
-  literal,
-  boolean,
-  number,
   array,
+  boolean,
+  Infer,
+  literal,
+  number,
+  object,
   record,
-  union,
-  Infer
+  string,
+  union
 } from "@badrap/valita";
 
-const source = object({ url: string(), width: number(), height: number() });
+export const ImageData = object({ url: string(), width: number(), height: number() });
+
+export const MediaData = object({
+  x: number(),
+  y: number(),
+  u: string().optional(),
+  gif: string().optional(),
+  mp4: string().optional()
+});
 
 const preview = object({
   images: array(
     object({
       id: string(),
-      resolutions: array(source),
-      source,
+      resolutions: array(ImageData),
+      source: ImageData,
       variants: object({
         gif: object({
-          resolutions: array(source),
-          source
+          resolutions: array(ImageData),
+          source: ImageData
         }).optional()
       })
     })
@@ -41,26 +49,24 @@ const preview = object({
 const gallery_data = object({
   items: array(
     object({
+      caption: string().optional(),
       media_id: string()
     })
   )
 });
 
 const media_metadata = record(
-  object({
-    id: string().optional(),
-    p: array(
-      object({
-        u: string(),
-        x: number(),
-        y: number()
-      }).map(({ u, x, y }) => ({
-        url: u,
-        width: x,
-        height: y
-      }))
-    ).optional()
-  })
+  union(
+    object({
+      status: literal("valid"),
+      id: string(),
+      p: array(MediaData),
+      s: MediaData
+    }),
+    object({
+      status: literal("failed")
+    })
+  )
 );
 
 const secure_media = object({

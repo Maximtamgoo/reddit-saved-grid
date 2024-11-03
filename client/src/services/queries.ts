@@ -1,7 +1,7 @@
 import { ListingItem } from "@src/schema/Listing";
-import { Post } from "@src/schema/Post";
+import { RedditItem } from "@src/schema/RedditItem";
 import { getIconUrlFromLS } from "@src/utils/getIconUrlFromLS";
-import { trimListingItem } from "@src/utils/trimListingItem";
+import { transformRedditItem } from "@src/utils/transformRedditItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useBrowserLocation } from "wouter/use-browser-location";
 import * as api from "./api";
@@ -25,13 +25,14 @@ export function useGetSignedInUser() {
 export function useGetSavedContent() {
   const username = useGetSignedInUser().data?.name;
   return useInfiniteQuery({
-    queryKey: ["posts", username],
+    queryKey: ["redditItems", username],
     retry: 1,
     enabled: !!username,
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {
       const listing = await api.getSavedContent(username ?? "", pageParam);
-      const posts: Post[] = [];
+      console.log("listing:", listing);
+      const redditItems: RedditItem[] = [];
       for (const item of listing.data.children) {
         const listingItemResult = ListingItem.try(item, { mode: "strip" });
         if (!listingItemResult.ok) {
@@ -40,20 +41,20 @@ export function useGetSavedContent() {
           continue;
         }
 
-        const postResult = Post.try(trimListingItem(listingItemResult.value, pageParam));
-        if (!postResult.ok) {
-          console.log("Failed to parse Post:", postResult.message);
-          console.log("Failed Post:", listingItemResult.value);
+        const result = RedditItem.try(transformRedditItem(listingItemResult.value, pageParam));
+        if (!result.ok) {
+          console.log("Failed to parse reddit item:", result.message);
+          console.log("Failed reddit item:", listingItemResult.value);
           continue;
         }
-        if (postResult.value.type === "unknown") console.log("unknown item:", item);
-        posts.push(postResult.value);
+        if (result.value.type === "unknown") console.log("unknown item:", item);
+        redditItems.push(result.value);
       }
 
       return {
         after: listing.data.after,
         before: listing.data.before,
-        posts
+        redditItems
       };
     },
     getNextPageParam: (lastPage) => lastPage.after
@@ -93,7 +94,7 @@ export function useToggleBookmark(id: string, pageParam: string) {
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
-      qc.setQueryData<QueryData>(["posts", username], (oldData) => {
+      qc.setQueryData<QueryData>(["redditItems", username], (oldData) => {
         if (oldData) {
           let found = false;
           const newPages = [];
@@ -101,9 +102,9 @@ export function useToggleBookmark(id: string, pageParam: string) {
             const page = oldData.pages[i];
             if (!found) {
               if (oldData.pageParams[i] === pageParam) {
-                const postIndex = page.posts.findIndex((post) => post.id === id);
+                const postIndex = page.redditItems.findIndex((post) => post.id === id);
                 if (postIndex !== -1) {
-                  page.posts[postIndex].saved = saved;
+                  page.redditItems[postIndex].saved = saved;
                   found = true;
                 }
               }

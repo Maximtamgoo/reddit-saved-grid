@@ -1,4 +1,5 @@
-import { array, boolean, Infer, literal, number, object, string, union } from "@badrap/valita";
+import { array, boolean, Infer, literal, object, string, union } from "@badrap/valita";
+import { ImageData, MediaData } from "./t3_link";
 
 const Base = object({
   id: string(),
@@ -10,14 +11,6 @@ const Base = object({
   pageParam: string()
 });
 
-const ImageData = object({
-  url: string(),
-  width: number(),
-  height: number()
-});
-
-export type ImageData = Infer<typeof ImageData>;
-
 const Image = object({
   type: literal("image"),
   preview: ImageData,
@@ -27,8 +20,8 @@ const Image = object({
 
 const Gallery = object({
   type: literal("gallery"),
-  preview: ImageData,
-  gallery: array(ImageData)
+  preview: MediaData,
+  gallery: array(MediaData)
 }).extend(Base.shape);
 
 const Text = object({
@@ -38,7 +31,7 @@ const Text = object({
 
 const Comment = object({
   type: literal("comment"),
-  comment: string()
+  text: string()
 })
   .extend(Base.shape)
   .omit("title");
@@ -47,6 +40,6 @@ const Unknown = object({
   type: literal("unknown")
 }).extend(Base.shape);
 
-export const Post = union(Image, Gallery, Text, Comment, Unknown);
+export const RedditItem = union(Image, Gallery, Text, Comment, Unknown);
 
-export type Post = Infer<typeof Post>;
+export type RedditItem = Infer<typeof RedditItem>;

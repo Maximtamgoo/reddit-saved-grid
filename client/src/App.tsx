@@ -5,7 +5,7 @@ import Dialog from "./components/Modal/Dialog";
 import Modal from "./components/Modal/Modal";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
-import { Post } from "./schema/Post";
+import { RedditItem } from "./schema/RedditItem";
 import { useGetSignedInUser } from "./services/queries";
 
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
     const isModalRoute = splitStr.length === 3 && splitStr[0] === "" && splitStr[1] === "modal";
     const paramId = isModalRoute ? splitStr[2] : undefined;
     if (!isModalRoute || !paramId) return undefined;
-    const result = Post.try(history.state);
+    const result = RedditItem.try(history.state);
     if (result.ok && result.value.id === paramId) {
       return result.value;
     } else {
@@ -31,7 +31,7 @@ export default function App() {
   return (
     <>
       <Dialog isOpen={!!historyState} onClose={() => history.back()}>
-        {!!historyState && <Modal post={historyState} />}
+        {!!historyState && <Modal item={historyState} />}
       </Dialog>
       <Header />
       <MainPage />
