@@ -12,10 +12,9 @@ export default function Details({ item }: Props) {
   const { data: icon, isSuccess } = useGetSubRedditIcon(item.subreddit);
   const [isImgError, setIsImgError] = useState(false);
   const { mutate, isPending } = useToggleBookmark(item.id, item.pageParam);
-  const { permalink, subreddit, author } = item;
-  const postLink = `https://www.reddit.com${permalink}`;
-  const subredditLink = `https://www.reddit.com/r/${subreddit}`;
-  const authorLink = `https://www.reddit.com/u/${author}`;
+  const postLink = `https://www.reddit.com${item.permalink}`;
+  const subredditLink = `https://www.reddit.com/r/${item.subreddit}`;
+  const authorLink = `https://www.reddit.com/u/${item.author}`;
 
   return (
     <div className="grid gap-2 p-4">
@@ -25,11 +24,11 @@ export default function Details({ item }: Props) {
         </div>
         <div className="flex min-w-0 grow items-center text-slate-600">
           <Link className="truncate hover:text-slate-800 hover:underline" href={subredditLink}>
-            <span className="text-sm">r</span>/{subreddit}
+            {item.subreddit_name_prefixed}
           </Link>
           <span className="px-1">&bull;</span>
           <Link className="truncate hover:text-slate-800 hover:underline" href={authorLink}>
-            <span className="text-sm">u</span>/{author}
+            u/{item.author}
           </Link>
         </div>
         <button

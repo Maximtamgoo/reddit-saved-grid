@@ -1,4 +1,4 @@
-import { string, object, literal, number, Infer } from "@badrap/valita";
+import { Infer, literal, number, object, string } from "@badrap/valita";
 
 export const T1_COMMENT = object({
   kind: literal("t1"),
@@ -7,6 +7,7 @@ export const T1_COMMENT = object({
     name: string(),
     author: string(),
     subreddit: string(),
+    subreddit_name_prefixed: string(),
     permalink: string(),
     created: number(),
     created_utc: number(),

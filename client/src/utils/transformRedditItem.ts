@@ -2,12 +2,13 @@ import { ListingItem } from "@src/schema/Listing";
 import { RedditItem } from "@src/schema/RedditItem";
 
 export function transformRedditItem(item: ListingItem, pageParam: string): RedditItem | undefined {
-  const { name: id, author, subreddit, permalink } = item.data;
+  const { name: id, author, subreddit, subreddit_name_prefixed, permalink } = item.data;
 
   const base = {
     id,
     author,
     subreddit,
+    subreddit_name_prefixed,
     permalink,
     saved: true,
     pageParam

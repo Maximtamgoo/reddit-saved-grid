@@ -6,6 +6,7 @@ const Base = object({
   title: string(),
   author: string(),
   subreddit: string(),
+  subreddit_name_prefixed: string(),
   permalink: string(),
   saved: boolean(),
   pageParam: string()

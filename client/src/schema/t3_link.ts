@@ -107,6 +107,7 @@ const t3_link_data = object({
   name: string(),
   author: string(),
   subreddit: string(),
+  subreddit_name_prefixed: string(),
   permalink: string(),
   created: number(),
   created_utc: number(),
