@@ -5,8 +5,8 @@ import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 
 type Props<Item> = {
   items: Item[];
-  maxLanes: number;
-  maxLaneWidth: number;
+  minLaneWidth: number;
+  maxLanes?: number;
   gap: number;
   overscan: number;
   renderLoader: ReactNode;
@@ -18,8 +18,8 @@ type Props<Item> = {
 
 export default function VirtualMasonry<Item>({
   items,
+  minLaneWidth,
   maxLanes,
-  maxLaneWidth,
   gap,
   overscan,
   renderLoader,
@@ -33,18 +33,15 @@ export default function VirtualMasonry<Item>({
   const parentWidth = parentRect.width;
   const winHeight = useWindowHeight();
 
-  const lanes = useMemo(
-    () => Math.max(1, Math.min(maxLanes, Math.floor(parentWidth / maxLaneWidth))),
-    [parentWidth, maxLanes, maxLaneWidth]
+  const lanes = useMemo(() => {
+    const lanes = Math.floor((parentWidth + gap) / (minLaneWidth + gap));
+    return Math.max(1, Math.min(lanes, maxLanes ?? Infinity));
+  }, [parentWidth, gap, minLaneWidth, maxLanes]);
+
+  const itemWidth = useMemo(
+    () => Math.floor((parentWidth - gap * (lanes - 1)) / lanes),
+    [parentWidth, gap, lanes]
   );
-
-  const itemWidth = useMemo(() => {
-    const numOfGaps = lanes - 1;
-    const gapTotal = numOfGaps * gap;
-    return Math.round((parentWidth - gapTotal) / lanes);
-  }, [parentWidth, lanes, gap]);
-
-  const percent = (100 * itemWidth) / parentWidth;
 
   const winVirtualizer = useWindowVirtualizer({
     enabled: parentWidth > 0,
@@ -86,8 +83,9 @@ export default function VirtualMasonry<Item>({
                   className="absolute top-0"
                   style={{
                     transform: `translateY(${item.start - winVirtualizer.options.scrollMargin}px)`,
-                    left: `calc(${item.lane} * (${percent}% + ${gap}px))`,
-                    width: `${percent}%`,
+                    left: `${item.lane * itemWidth}px`,
+                    width: `${itemWidth}px`,
+                    marginLeft: `${item.lane * gap}px`,
                     height: `${item.size}px`
                   }}
                 >
