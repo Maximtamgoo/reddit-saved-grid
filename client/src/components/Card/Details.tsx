@@ -19,7 +19,7 @@ export default function Details({ item }: Props) {
   return (
     <div className="grid gap-2 p-4">
       <div className="flex min-w-0 gap-2">
-        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-slate-100 shadow-slate-300">
+        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-slate-100">
           {isSuccess && !isImgError && <img src={icon} onError={() => setIsImgError(true)} />}
         </div>
         <div className="flex min-w-0 grow items-center text-slate-600">
@@ -32,7 +32,7 @@ export default function Details({ item }: Props) {
           </Link>
         </div>
         <button
-          className="grid size-8 shrink-0 place-items-center rounded-full hover:bg-sky-200 focus:bg-sky-200 focus:outline-none"
+          className="grid size-8 shrink-0 place-items-center rounded-full bg-sky-100 hover:bg-sky-200 focus:bg-sky-200 focus:outline-none"
           disabled={isPending}
           onClick={() => mutate({ saved: !item.saved })}
         >

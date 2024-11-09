@@ -18,7 +18,7 @@ export default function Card({ item }: Props) {
   const galleryLength = item.type === "gallery" ? item.gallery.length : 0;
 
   return (
-    <section className="flex h-full flex-col overflow-hidden rounded-lg shadow-md shadow-slate-400">
+    <section className="relative flex h-full flex-col overflow-hidden rounded-lg ring-2 ring-slate-200">
       <Details item={item} />
       {(item.type === "text" || item.type === "comment") && <Text text={item.text} />}
       {(item.type === "gallery" || item.type === "image") && previewUrl && (

@@ -60,7 +60,7 @@ export default function MainPage() {
   }
 
   return (
-    <main className="m-auto max-w-screen-2xl p-2">
+    <main className="m-auto max-w-screen-2xl px-2 pt-1">
       <VirtualMasonry
         items={redditItems}
         minLaneWidth={375}
