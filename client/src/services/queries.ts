@@ -26,7 +26,6 @@ export function useGetSavedContent() {
   const username = useGetSignedInUser().data?.name;
   return useInfiniteQuery({
     queryKey: ["redditItems", username],
-    retry: 1,
     enabled: !!username,
     initialPageParam: "",
     queryFn: async ({ pageParam }) => {
@@ -91,6 +90,7 @@ export function useToggleBookmark(id: string, pageParam: string) {
   const username = useGetSignedInUser().data?.name;
   return useMutation({
     mutationKey: ["toggleBookmark", id],
+    retry: 1,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];
