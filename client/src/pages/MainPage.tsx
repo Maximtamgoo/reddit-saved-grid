@@ -10,8 +10,7 @@ const isMaybeMobile = "maxTouchPoints" in navigator && navigator.maxTouchPoints 
 
 export default function MainPage() {
   const isBusyRef = useRef(false);
-  const { data, isPending, isError, error, isLoadingError, hasNextPage, fetchNextPage } =
-    useGetSavedContent();
+  const { data, isPending, isError, error, hasNextPage, fetchNextPage } = useGetSavedContent();
 
   const redditItems = useMemo(() => data?.pages.flatMap((page) => page.redditItems) ?? [], [data]);
 
@@ -42,17 +41,13 @@ export default function MainPage() {
     }
   }, [hasNextPage, fetchNextPage]);
 
-  if (isLoadingError) {
-    return (
-      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 text-slate-800">
-        <div className="text-xl">{error.message}</div>
-      </main>
-    );
-  }
-
   if (isError) {
     console.log("error:", error);
-    return <div>{error.message}</div>;
+    return (
+      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 text-red-500">
+        {error.message}
+      </main>
+    );
   }
 
   if (isPending) {
@@ -65,29 +60,27 @@ export default function MainPage() {
   }
 
   return (
-    <main className="p-2 text-slate-800">
-      <div className="m-auto max-w-screen-2xl">
-        <VirtualMasonry
-          items={redditItems}
-          maxLanes={3}
-          maxLaneWidth={350}
-          gap={20}
-          overscan={20}
-          getItemKey={(index) => redditItems[index].id ?? index}
-          estimateSize={estimateSize}
-          loadMore={loadMore}
-          renderItem={(item) => <Card item={item} />}
-          renderLoader={
-            <div className="grid h-24 place-items-center text-xl">
-              {hasNextPage ? (
-                <LoaderCircle className="size-14 animate-spin" />
-              ) : (
-                "Reached the Reddit limit..."
-              )}
-            </div>
-          }
-        />
-      </div>
+    <main className="m-auto max-w-screen-2xl p-2">
+      <VirtualMasonry
+        items={redditItems}
+        minLaneWidth={375}
+        maxLanes={3}
+        gap={30}
+        overscan={20}
+        getItemKey={(index) => redditItems[index].id ?? index}
+        estimateSize={estimateSize}
+        loadMore={loadMore}
+        renderItem={(item) => <Card item={item} />}
+        renderLoader={
+          <div className="grid h-24 place-items-center text-xl">
+            {hasNextPage ? (
+              <LoaderCircle className="size-14 animate-spin" />
+            ) : (
+              "Reached the Reddit limit..."
+            )}
+          </div>
+        }
+      />
     </main>
   );
 }
