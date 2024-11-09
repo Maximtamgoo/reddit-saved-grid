@@ -18,7 +18,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
       className="relative flex min-h-0 grow cursor-pointer items-center justify-center overflow-hidden"
     >
       <img
-        className="absolute size-full object-cover opacity-50 blur-lg"
+        className="absolute size-full object-cover blur-xl brightness-75"
         src={url}
         onLoad={() => setLoading(false)}
         onError={() => {
@@ -31,7 +31,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
         <div className="text-8xl">?</div>
       ) : (
         <img
-          className="relative max-h-full"
+          className="relative max-h-full shadow-xl shadow-slate-800"
           src={url}
           onLoad={() => setLoading(false)}
           onError={() => {
@@ -48,7 +48,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
       )}
       {loading && (
         <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <LoaderCircle className="size-14 animate-spin rounded-full" />
+          <LoaderCircle className="size-16 animate-spin rounded-full stroke-slate-200" />
         </div>
       )}
     </button>
