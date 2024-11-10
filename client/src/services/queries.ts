@@ -22,6 +22,15 @@ export function useGetSignedInUser() {
   });
 }
 
+export function useSignOut() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationKey: ["signOut"],
+    mutationFn: api.signOut,
+    onSuccess: () => qc.resetQueries({ queryKey: ["userData"], exact: true })
+  });
+}
+
 export function useGetSavedContent() {
   const username = useGetSignedInUser().data?.name;
   return useInfiniteQuery({
@@ -90,7 +99,6 @@ export function useToggleBookmark(id: string, pageParam: string) {
   const username = useGetSignedInUser().data?.name;
   return useMutation({
     mutationKey: ["toggleBookmark", id],
-    retry: 1,
     mutationFn: ({ saved }: { saved: boolean }) => api.toggleBookmark(id, saved),
     onSuccess: (_, { saved }) => {
       type QueryData = ReturnType<typeof useGetSavedContent>["data"];

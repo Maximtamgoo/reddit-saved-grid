@@ -1,12 +1,12 @@
 import Link from "@src/components/Link";
-import { signOut } from "@src/services/api";
-import { useGetSignedInUser } from "@src/services/queries";
+import { useGetSignedInUser, useSignOut } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
 import Github from "@src/svg/github.svg?react";
 import LogOut from "@src/svg/log-out.svg?react";
 
 export default function Header() {
   const { data, isSuccess } = useGetSignedInUser();
+  const { mutate } = useSignOut();
 
   return (
     <header className="m-auto flex h-16 max-w-screen-2xl items-center pl-1 pr-3 text-slate-800">
@@ -27,10 +27,7 @@ export default function Header() {
         </Link>
         <button
           className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"
-          onClick={async () => {
-            await signOut();
-            window.location.reload();
-          }}
+          onClick={() => mutate()}
         >
           <LogOut />
         </button>

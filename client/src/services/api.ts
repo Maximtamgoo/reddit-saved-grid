@@ -62,9 +62,7 @@ export async function getSubRedditIcon(subreddit: string, signal: AbortSignal) {
     })
   })
     .map((obj) => obj.data)
-    .parse(await res.json(), {
-      mode: "strip"
-    });
+    .parse(await res.json(), { mode: "strip" });
 }
 
 export async function toggleBookmark(id: string, state: boolean) {

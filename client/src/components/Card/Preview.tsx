@@ -48,7 +48,7 @@ export default function Preview({ url, galleryLength = 0, isGif = false, onClick
       )}
       {loading && (
         <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <LoaderCircle className="size-16 animate-spin rounded-full stroke-slate-200" />
+          <LoaderCircle className="size-14 animate-spin rounded-full stroke-slate-200" />
         </div>
       )}
     </button>
