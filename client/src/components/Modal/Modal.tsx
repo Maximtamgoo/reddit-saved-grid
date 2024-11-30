@@ -3,26 +3,27 @@ import ArrowLeft from "@src/svg/arrow-left.svg?react";
 import ArrowRedirect from "@src/svg/square-arrow-out-up-right.svg?react";
 import Link from "../Link";
 import { Gallery } from "./Gallery";
+import Image from "./Image";
+import Playable from "./Playable";
 
 type Props = {
   item: RedditItem;
 };
 
 export default function Modal({ item }: Props) {
-  const postLink = `https://www.reddit.com${item.permalink}`;
-
   return (
-    <div className="fixed inset-0 bg-slate-50">
-      {item.type === "gallery" && <Gallery urls={item.gallery.map((e) => e.u ?? "")} />}
-      {item.type === "image" && <Gallery urls={[item.source.url]} />}
+    <div className="fixed inset-0 p-0.5 backdrop-blur backdrop-brightness-50">
       <form method="dialog">
         <button className="absolute left-2 top-2 grid size-10 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300">
           <ArrowLeft />
         </button>
       </form>
+      {item.type === "gallery" && <Gallery items={item.gallery} />}
+      {item.type === "image" && <Image url={item.source.url} />}
+      {item.type === "playable" && <Playable url={item.source.url} poster={item.preview.url} />}
       <Link
         className="absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-slate-200 text-slate-800 hover:ring-2 hover:ring-slate-300"
-        href={postLink}
+        href={`https://www.reddit.com${item.permalink}`}
       >
         <ArrowRedirect />
       </Link>

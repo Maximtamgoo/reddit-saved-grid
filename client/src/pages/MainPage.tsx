@@ -21,16 +21,12 @@ export default function MainPage() {
     const detailsHeight = 100;
     let totalHeight = detailsHeight;
 
-    if (item.type === "gallery") {
+    if (item.type === "gallery" || item.type === "playable" || item.type === "image") {
       const p = item.preview;
-      const h = Math.round(calculateAspectRatioFit(p.x, p.y, width, p.y).height);
-      totalHeight += h;
-    } else if (item.type === "image") {
-      const p = item.preview;
-      totalHeight += Math.round(calculateAspectRatioFit(p.width, p.height, width, p.height).height);
+      totalHeight += calculateAspectRatioFit(p.width, p.height, width, p.height).height;
     }
 
-    return Math.max(minHeight, Math.min(maxHeight, totalHeight));
+    return Math.max(minHeight, Math.min(maxHeight, Math.round(totalHeight)));
   }, []);
 
   const loadMore = useCallback(async () => {

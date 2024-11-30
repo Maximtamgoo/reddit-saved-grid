@@ -10,13 +10,13 @@ import {
   union
 } from "@badrap/valita";
 
-export const ImageData = object({ url: string(), width: number(), height: number() });
+export const Entry = object({ url: string(), width: number(), height: number() });
+export type Entry = Infer<typeof Entry>;
 
-export const MediaData = object({
+const GalleryEntry = object({
   x: number(),
   y: number(),
   u: string().optional(),
-  gif: string().optional(),
   mp4: string().optional()
 });
 
@@ -24,12 +24,16 @@ const preview = object({
   images: array(
     object({
       id: string(),
-      resolutions: array(ImageData),
-      source: ImageData,
+      resolutions: array(Entry),
+      source: Entry,
       variants: object({
         gif: object({
-          resolutions: array(ImageData),
-          source: ImageData
+          resolutions: array(Entry),
+          source: Entry
+        }).optional(),
+        mp4: object({
+          resolutions: array(Entry),
+          source: Entry
         }).optional()
       })
     })
@@ -38,11 +42,11 @@ const preview = object({
     .optional(),
   reddit_video_preview: object({
     fallback_url: string(),
-    scrubber_media_url: string(),
-    dash_url: string(),
-    hls_url: string(),
     duration: number(),
-    is_gif: boolean()
+    hls_url: string(),
+    is_gif: boolean(),
+    height: number(),
+    width: number()
   }).optional()
 });
 
@@ -60,8 +64,8 @@ const media_metadata = record(
     object({
       status: literal("valid"),
       id: string(),
-      p: array(MediaData),
-      s: MediaData
+      p: array(GalleryEntry).optional(),
+      s: GalleryEntry.optional()
     }),
     object({
       status: literal("failed")
@@ -89,18 +93,6 @@ const secure_media_embed = object({
   content: string().optional(),
   media_domain_url: string().optional()
 });
-
-// const media = object({
-//   type: string(),
-//   oembed: object({
-//     html: string()
-//   }),
-//   reddit_video
-// });
-
-// const media_embed = object({
-//   content: string().optional()
-// });
 
 const t3_link_data = object({
   id: string(),
@@ -134,8 +126,6 @@ const t3_link_data = object({
   media_metadata: media_metadata.nullable().optional(),
   secure_media: secure_media.nullable().optional(),
   secure_media_embed: secure_media_embed.optional()
-  // media: media.optional(),
-  // media_embed: media_embed.optional()
 });
 
 export const T3_LINK = object({

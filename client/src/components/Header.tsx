@@ -17,7 +17,7 @@ export default function Header() {
           className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"
           href={`https://www.reddit.com/user/${data?.name}/saved`}
         >
-          {isSuccess && <img src={data.icon_img} />}
+          {isSuccess && <img className="hover:brightness-90" src={data.icon_img} />}
         </Link>
         <Link
           className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"

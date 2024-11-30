@@ -32,7 +32,7 @@ export default function Details({ item }: Props) {
           </Link>
         </div>
         <button
-          className="grid size-8 shrink-0 place-items-center rounded-full bg-sky-100 hover:bg-sky-200 focus:bg-sky-200 focus:outline-none"
+          className="grid size-8 shrink-0 place-items-center rounded-full bg-sky-50 hover:bg-sky-100"
           disabled={isPending}
           onClick={() => mutate({ saved: !item.saved })}
         >

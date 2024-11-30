@@ -1,5 +1,7 @@
 import { RedditItem } from "@src/schema/RedditItem";
-import { useBrowserLocation } from "wouter/use-browser-location";
+import { useState } from "react";
+import Dialog from "../Modal/Dialog";
+import Modal from "../Modal/Modal";
 import Details from "./Details";
 import Preview from "./Preview";
 import Text from "./Text";
@@ -9,22 +11,24 @@ type Props = {
 };
 
 export default function Card({ item }: Props) {
-  const navigate = useBrowserLocation()[1];
-  const onClick = () => navigate(`/modal/${item.id}`, { state: item });
-
-  const previewUrl =
-    item.type === "gallery" ? item.preview.u : item.type === "image" ? item.preview.url : undefined;
-
-  const galleryLength = item.type === "gallery" ? item.gallery.length : 0;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative flex h-full flex-col overflow-hidden rounded-lg ring-2 ring-slate-200">
+    <section className="flex h-full flex-col overflow-hidden rounded-lg ring-2 ring-slate-200">
       <Details item={item} />
       {(item.type === "text" || item.type === "comment") && <Text text={item.text} />}
-      {(item.type === "gallery" || item.type === "image") && previewUrl && (
-        <Preview url={previewUrl} galleryLength={galleryLength} onClick={onClick} />
+      {(item.type === "gallery" || item.type === "image" || item.type === "playable") && (
+        <Preview
+          url={item.preview.url}
+          playable={item.type === "playable"}
+          galleryLength={item.type === "gallery" ? item.gallery.length : 0}
+          onClick={() => setIsOpen(true)}
+        />
       )}
       {item.type === "unknown" && <div className="grid grow place-items-center text-8xl">?</div>}
+      <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal item={item} />
+      </Dialog>
     </section>
   );
 }

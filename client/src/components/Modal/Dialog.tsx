@@ -28,7 +28,12 @@ export default function Dialog({ isOpen, onClose, children }: PropsWithChildren<
   if (!isOpen) return null;
 
   return createPortal(
-    <dialog ref={ref} onClose={onClose} className="size-full max-h-full max-w-full">
+    <dialog
+      ref={ref}
+      onClick={onClose}
+      onClose={onClose}
+      className="size-full max-h-full max-w-full bg-transparent"
+    >
       {children}
     </dialog>,
     document.body
