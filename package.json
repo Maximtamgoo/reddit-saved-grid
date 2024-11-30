@@ -20,8 +20,8 @@
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "3.3.3",
-    "typescript-eslint": "^8.12.2"
+    "prettier": "3.4.1",
+    "typescript-eslint": "^8.16.0"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
