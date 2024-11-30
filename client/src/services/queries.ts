@@ -1,6 +1,7 @@
+import { number, object, string } from "@badrap/valita";
 import { ListingItem } from "@src/schema/Listing";
 import { RedditItem } from "@src/schema/RedditItem";
-import { getIconUrlFromLS } from "@src/utils/getIconUrlFromLS";
+import { getLocalStorage } from "@src/utils/getLocalStorage";
 import { transformRedditItem } from "@src/utils/transformRedditItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useBrowserLocation } from "wouter/use-browser-location";
@@ -75,8 +76,9 @@ export function useGetSubRedditIcon(subreddit: string) {
     refetchOnMount: false,
     queryFn: async ({ queryKey, signal }) => {
       const key = queryKey.join("_");
-      const obj = getIconUrlFromLS(key);
-      if (obj && obj.expires > Date.now()) return obj.url;
+      const schema = object({ expires: number(), url: string() });
+      const icon = getLocalStorage(key, schema);
+      if (icon && icon.expires > Date.now()) return icon.url;
       localStorage.removeItem(key);
       const data = await api.getSubRedditIcon(subreddit, signal);
       let url = "";
