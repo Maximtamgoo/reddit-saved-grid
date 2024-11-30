@@ -4,16 +4,14 @@ import { RedditItem } from "@src/schema/RedditItem";
 import { getLocalStorage } from "@src/utils/getLocalStorage";
 import { transformRedditItem } from "@src/utils/transformRedditItem";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useBrowserLocation } from "wouter/use-browser-location";
 import * as api from "./api";
 
 export function useGetSignedInUser() {
-  const navigate = useBrowserLocation()[1];
   return useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (location.pathname === "/auth_callback") navigate("/", { replace: true });
+      const urlParams = new URLSearchParams(location.search);
+      if (location.pathname === "/auth_callback") history.replaceState(null, "", "/");
       const urlError = urlParams.get("error");
       if (urlError) throw urlError;
       const urlCode = urlParams.get("code");
