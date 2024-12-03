@@ -9,19 +9,18 @@
     "build-server": "npm run build --workspace=server",
     "dev-client": "npm run dev --workspace=client",
     "dev-server": "npm run dev --workspace=server",
-    "staging-client": "npm run build-client",
-    "staging-server": "npm run build-server && NODE_ENV=staging node server/dist/index.js",
-    "typecheck-server": "npm run typecheck --workspace=server"
+    "lint": "eslint ."
   },
   "workspaces": [
     "client",
     "server"
   ],
   "devDependencies": {
-    "eslint": "8.57.1",
-    "eslint-config-prettier": "^9.1.0",
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
     "prettier": "3.4.1",
-    "typescript-eslint": "^8.16.0"
+    "typescript-eslint": "^8.17.0"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"

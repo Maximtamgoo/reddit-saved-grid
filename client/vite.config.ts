@@ -15,7 +15,8 @@ export default defineConfig({
       overlay: { initialIsOpen: false },
       typescript: true,
       eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
+        useFlatConfig: true,
+        lintCommand: "eslint './src/**/*.{ts,tsx}'"
       }
     }),
     !isHostRender && visualizer({ open: true, gzipSize: true, sourcemap: true })
@@ -31,7 +32,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@src": new URL("./src", import.meta.url).pathname
+      "@src": `${import.meta.dirname}/src`
     }
   },
   cacheDir: "../node_modules/.vite"
