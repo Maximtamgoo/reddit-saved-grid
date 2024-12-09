@@ -13,7 +13,7 @@ const defaultState: Rect = {
   right: 0
 };
 
-export function useResizeObserver(ref: RefObject<HTMLElement>) {
+export function useResizeObserver(ref: RefObject<HTMLElement | null>) {
   const [rect, setRect] = useState(defaultState);
 
   useLayoutEffect(() => {
