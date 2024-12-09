@@ -16,14 +16,18 @@ const base64Creds = Buffer.from(`${env.REDDIT_CLIENTID}:${env.REDDIT_CLIENT_SECR
   "base64"
 );
 
+const options = {
+  method: "POST",
+  headers: {
+    "User-Agent": env.REDDIT_USERAGENT,
+    Authorization: `Basic ${base64Creds}`,
+    "Content-Type": "application/x-www-form-urlencoded"
+  }
+};
+
 export async function authorize(code: string) {
   const res = await fetch("https://www.reddit.com/api/v1/access_token", {
-    method: "POST",
-    headers: {
-      "User-Agent": env.REDDIT_USERAGENT,
-      Authorization: `Basic ${base64Creds}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    ...options,
     body: `grant_type=authorization_code&code=${code}&redirect_uri=${env.REDDIT_REDIRECT_URI}`
   });
 
@@ -33,12 +37,7 @@ export async function authorize(code: string) {
 
 export async function getNewAccessToken(refreshToken: string) {
   const res = await fetch("https://www.reddit.com/api/v1/access_token", {
-    method: "POST",
-    headers: {
-      "User-Agent": env.REDDIT_USERAGENT,
-      Authorization: `Basic ${base64Creds}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    ...options,
     body: `grant_type=refresh_token&refresh_token=${refreshToken}&redirect_uri=${env.REDDIT_REDIRECT_URI}`
   });
 
@@ -48,12 +47,7 @@ export async function getNewAccessToken(refreshToken: string) {
 
 export async function revokeToken(tokenHint: "access_token" | "refresh_token", token: string) {
   const res = await fetch("https://www.reddit.com/api/v1/revoke_token", {
-    method: "POST",
-    headers: {
-      "User-Agent": env.REDDIT_USERAGENT,
-      Authorization: `Basic ${base64Creds}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    ...options,
     body: `token=${token}&token_type_hint=${tokenHint}&redirect_uri=${env.REDDIT_REDIRECT_URI}`
   });
 
@@ -63,12 +57,7 @@ export async function revokeToken(tokenHint: "access_token" | "refresh_token", t
 
 export async function toggleBookmark(access_token: string, state: "unsave" | "save", id: string) {
   const res = await fetch(`https://oauth.reddit.com/api/${state}`, {
-    method: "POST",
-    headers: {
-      "User-Agent": env.REDDIT_USERAGENT,
-      Authorization: `Bearer ${access_token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    ...options,
     body: `id=${id}`
   });
 
