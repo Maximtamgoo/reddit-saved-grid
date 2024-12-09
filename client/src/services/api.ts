@@ -41,7 +41,7 @@ export async function getSavedContent(username: string, after: string, limit = 5
   const token = getCookie("access_token");
   if (!token) await getNewAccessToken();
   const res = await fetch(
-    `https://oauth.reddit.com/user/${username}/saved?after=${after}&limit=${limit}&raw_json=1`,
+    `https://oauth.reddit.com/user/${username}/saved?after=${after}&limit=${limit}&sr_detail=1&raw_json=1`,
     {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`
@@ -50,19 +50,6 @@ export async function getSavedContent(username: string, after: string, limit = 5
   );
   if (!res.ok) throw new HttpError(res.status, res.statusText);
   return Listing.parse(await res.json(), { mode: "strip" });
-}
-
-export async function getSubRedditIcon(subreddit: string, signal: AbortSignal) {
-  const res = await fetch(`https://api.reddit.com/r/${subreddit}/about`, { signal });
-  if (!res.ok) throw new HttpError(res.status, res.statusText);
-  return object({
-    data: object({
-      community_icon: string().map((s) => s.split("amp;").join("")),
-      icon_img: string().map((s) => s.split("amp;").join(""))
-    })
-  })
-    .map((obj) => obj.data)
-    .parse(await res.json(), { mode: "strip" });
 }
 
 export async function toggleBookmark(id: string, state: boolean) {

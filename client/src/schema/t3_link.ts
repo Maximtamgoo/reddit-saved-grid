@@ -94,16 +94,24 @@ const secure_media_embed = object({
   media_domain_url: string().optional()
 });
 
+const emptyStringToNull = string().map((s) => (s === "" ? null : s));
+
+const sr_detail = object({
+  community_icon: emptyStringToNull.nullable(),
+  icon_img: emptyStringToNull.nullable()
+});
+
 const t3_link_data = object({
   id: string(),
   name: string(),
   author: string(),
+  sr_detail,
   subreddit: string(),
   subreddit_name_prefixed: string(),
   permalink: string(),
   created: number(),
   created_utc: number(),
-  title: string().default(""),
+  title: string().optional(() => ""),
   url: string().optional(),
   post_hint: union(
     literal("self"),

@@ -19,8 +19,22 @@ export function transformRedditItem(item: ListingItem, pageParam: string): Reddi
   }
 
   if (item.kind === "t3") {
-    const { is_self, selftext, preview, is_gallery, gallery_data, media_metadata, title, url } =
-      item.data;
+    const {
+      is_self,
+      selftext,
+      preview,
+      is_gallery,
+      gallery_data,
+      media_metadata,
+      title,
+      url,
+      sr_detail
+    } = item.data;
+
+    const icon_url = sr_detail.community_icon ?? sr_detail.icon_img ?? undefined;
+
+    const t3_base = { ...base, title, icon_url };
+
     if (is_gallery && gallery_data && media_metadata) {
       const gallery: GalleryItem[] = [];
       for (const item of gallery_data.items) {
@@ -44,9 +58,8 @@ export function transformRedditItem(item: ListingItem, pageParam: string): Reddi
       }
 
       return {
-        ...base,
+        ...t3_base,
         type: "gallery",
-        title,
         preview: gallery[0].preview,
         gallery
       };
@@ -55,8 +68,7 @@ export function transformRedditItem(item: ListingItem, pageParam: string): Reddi
     if (preview && preview.images) {
       const resolutions = preview.images[0].resolutions;
       const redditItem = {
-        ...base,
-        title,
+        ...t3_base,
         preview: resolutions[resolutions.length - 1]
       };
       if (preview.images[0].variants.mp4) {
@@ -82,9 +94,8 @@ export function transformRedditItem(item: ListingItem, pageParam: string): Reddi
       if (["jpeg", "jpg", "png", "gif"].includes(extension)) {
         const imageData = { url, width: 350, height: 350 };
         return {
-          ...base,
+          ...t3_base,
           type: "image",
-          title,
           preview: imageData,
           source: imageData
         };
@@ -92,10 +103,10 @@ export function transformRedditItem(item: ListingItem, pageParam: string): Reddi
     }
 
     if (is_self && selftext) {
-      return { ...base, type: "text", title, text: selftext };
+      return { ...t3_base, type: "text", text: selftext };
     }
 
-    return { ...base, type: "unknown", title };
+    return { ...t3_base, type: "unknown" };
   }
 
   return undefined;

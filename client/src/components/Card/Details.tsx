@@ -1,6 +1,6 @@
 import Link from "@src/components/Link";
 import type { RedditItem } from "@src/schema/RedditItem";
-import { useGetSubRedditIcon, useToggleBookmark } from "@src/services/queries";
+import { useToggleBookmark } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
 import { useState } from "react";
 
@@ -9,18 +9,19 @@ type Props = {
 };
 
 export default function Details({ item }: Props) {
-  const { data: icon, isSuccess } = useGetSubRedditIcon(item.subreddit);
   const [isImgError, setIsImgError] = useState(false);
   const { mutate, isPending } = useToggleBookmark(item.id, item.pageParam);
   const postLink = `https://www.reddit.com${item.permalink}`;
   const subredditLink = `https://www.reddit.com/r/${item.subreddit}`;
   const authorLink = `https://www.reddit.com/u/${item.author}`;
 
+  const icon_url = item.type !== "comment" ? item.icon_url : undefined;
+
   return (
     <div className="grid gap-2 p-4">
       <div className="flex min-w-0 gap-2">
         <div className="size-8 shrink-0 overflow-hidden rounded-full bg-slate-100">
-          {isSuccess && !isImgError && <img src={icon} onError={() => setIsImgError(true)} />}
+          {!isImgError && <img src={icon_url} onError={() => setIsImgError(true)} />}
         </div>
         <div className="flex min-w-0 grow items-center text-slate-600">
           <Link className="truncate hover:text-slate-800 hover:underline" href={subredditLink}>

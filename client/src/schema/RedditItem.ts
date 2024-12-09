@@ -3,6 +3,7 @@ import { Entry } from "./t3_link";
 
 const Base = object({
   id: string(),
+  icon_url: string().optional(),
   title: string(),
   author: string(),
   subreddit: string(),
@@ -52,7 +53,7 @@ export const RedditItem = union(
   Playable.extend(Base.shape),
   Image.extend(Base.shape),
   Text.extend(Base.shape),
-  Comment.extend(Base.shape).omit("title"),
+  Comment.extend(Base.shape).omit("title").omit("icon_url"),
   Unknown.extend(Base.shape)
 );
 
