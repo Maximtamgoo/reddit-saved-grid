@@ -21,7 +21,8 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'", "*.reddit.com"],
-        imgSrc: ["'self'", "*.redd.it", "*.redditstatic.com", "*.redditmedia.com", "*.imgur.com"]
+        imgSrc: ["'self'", "*.redd.it", "*.redditstatic.com", "*.redditmedia.com", "*.imgur.com"],
+        mediaSrc: ["'self'", "*.redd.it", "*.redditstatic.com", "*.redditmedia.com", "*.imgur.com"]
       }
     }
   })
