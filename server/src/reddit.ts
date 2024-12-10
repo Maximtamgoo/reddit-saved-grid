@@ -58,6 +58,10 @@ export async function revokeToken(tokenHint: "access_token" | "refresh_token", t
 export async function toggleBookmark(access_token: string, state: "unsave" | "save", id: string) {
   const res = await fetch(`https://oauth.reddit.com/api/${state}`, {
     ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${access_token}`
+    },
     body: `id=${id}`
   });
 
