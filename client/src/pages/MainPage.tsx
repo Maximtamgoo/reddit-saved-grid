@@ -3,6 +3,7 @@ import VirtualMasonry from "@src/components/VirtualMasonry";
 import { RedditItem } from "@src/schema/RedditItem";
 import { useGetSavedContent } from "@src/services/queries";
 import LoaderCircle from "@src/svg/loader-circle.svg?react";
+import RotateCw from "@src/svg/rotate-cw.svg?react";
 import { calculateAspectRatioFit } from "@src/utils/calculateAspectRatioFit";
 import { useCallback, useMemo, useRef } from "react";
 
@@ -30,20 +31,15 @@ export default function MainPage() {
   }, []);
 
   const loadMore = useCallback(async () => {
-    if (!isBusyRef.current && hasNextPage) {
+    if (!isBusyRef.current && hasNextPage && !isError) {
       isBusyRef.current = true;
       await fetchNextPage();
       isBusyRef.current = false;
     }
-  }, [hasNextPage, fetchNextPage]);
+  }, [hasNextPage, isError, fetchNextPage]);
 
   if (isError) {
     console.log("error:", error);
-    return (
-      <main className="absolute inset-0 grid place-content-center justify-items-center gap-2 text-red-500">
-        {error.message}
-      </main>
-    );
   }
 
   if (isPending) {
@@ -68,8 +64,18 @@ export default function MainPage() {
         loadMore={loadMore}
         renderItem={(item) => <Card item={item} />}
         renderLoader={
-          <div className="grid h-24 place-items-center text-xl">
-            {hasNextPage ? (
+          <div className="flex h-24 flex-col items-center justify-center text-lg">
+            {isError ? (
+              <>
+                Error: {error.message}
+                <button
+                  className="grid size-10 place-items-center rounded-full bg-slate-100 hover:bg-slate-200"
+                  onClick={() => fetchNextPage()}
+                >
+                  <RotateCw />
+                </button>
+              </>
+            ) : hasNextPage ? (
               <LoaderCircle className="size-14 animate-spin" />
             ) : (
               "Reached the Reddit limit..."
