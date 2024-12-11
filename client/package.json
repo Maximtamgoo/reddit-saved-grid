@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "@badrap/valita": "^0.4.2",
-    "@tanstack/react-query": "^5.62.3",
-    "@tanstack/react-virtual": "^3.11.0",
+    "@tanstack/react-query": "^5.62.7",
+    "@tanstack/react-virtual": "^3.11.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.62.1",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "autoprefixer": "^10.4.20",
     "eslint-plugin-react": "^7.37.2",
