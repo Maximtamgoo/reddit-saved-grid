@@ -5,10 +5,10 @@
   "scripts": {
     "start": "node ./server/dist/index.js",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "npm run build --workspace=client",
-    "build-server": "npm run build --workspace=server",
-    "dev-client": "npm run dev --workspace=client",
-    "dev-server": "npm run dev --workspace=server",
+    "build-client": "npm run build -w client",
+    "build-server": "npm run build -w server",
+    "dev-client": "npm run dev -w client",
+    "dev-server": "npm run dev -w server",
     "lint": "eslint ."
   },
   "workspaces": [
