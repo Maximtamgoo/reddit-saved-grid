@@ -20,7 +20,7 @@ export default function Playable({ url, poster }: Props) {
   return (
     <div className="flex h-full items-center justify-center">
       {isError ? (
-        <div className="text-8xl">?</div>
+        <div className="text-8xl text-white">?</div>
       ) : (
         <video
           ref={videoRef}

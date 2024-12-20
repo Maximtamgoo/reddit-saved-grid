@@ -10,7 +10,7 @@ export default function Image({ url }: Props) {
   return (
     <div className="flex h-full items-center justify-center">
       {isError ? (
-        <div className="text-8xl">?</div>
+        <div className="text-8xl text-white">?</div>
       ) : (
         <img
           className="max-h-full"

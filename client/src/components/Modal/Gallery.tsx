@@ -1,6 +1,6 @@
-import useGallery from "@src/hooks/useGallery";
+import { useGallery } from "@src/hooks/useGallery";
 import { GalleryItem } from "@src/schema/RedditItem";
-import ChevronLeft from "@src/svg/chevron-left.svg?react";
+import ArrowBtn from "./ArrowBtn";
 import Image from "./Image";
 import Playable from "./Playable";
 
@@ -10,33 +10,22 @@ type Props = {
 
 export function Gallery({ items }: Props) {
   const { index, prevIndex, nextIndex } = useGallery(items.length);
-
-  const className =
-    "grid place-items-center size-10 shrink-0 rounded-full hover:ring-2 hover:ring-slate-300";
-
-  const ChevronRight = () => <ChevronLeft className="rotate-180" />;
-
   const item = items[index];
 
   return (
-    <div className="grid h-full grid-rows-1 gap-1">
-      {item.type === "image" && <Image url={item.source.url} />}
-      {item.type === "playable" && <Playable url={item.source.url} poster={item.preview.url} />}
+    <div className="h-full">
+      {item.type === "image" && <Image key={item.source.url} url={item.source.url} />}
+      {item.type === "playable" && (
+        <Playable key={item.source.url} url={item.source.url} poster={item.preview.url} />
+      )}
       {items.length > 1 && (
-        <div
-          className="m-auto flex items-center gap-2 rounded-full bg-slate-200 text-slate-800 ring-2 ring-slate-200"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button className={className} onClick={prevIndex}>
-            <ChevronLeft />
-          </button>
-          <div className="mx-auto min-w-16 text-center text-xl">
-            {index + 1}/{items.length}
+        <>
+          {index > 0 && <ArrowBtn direction="left" onClick={prevIndex} />}
+          <div className="absolute bottom-5 left-2/4 grid h-8 min-w-8 -translate-x-2/4 place-items-center rounded-full bg-transparent/90 px-3 font-semibold text-white">
+            {index + 1} / {items.length}
           </div>
-          <button className={className} onClick={nextIndex}>
-            <ChevronRight />
-          </button>
-        </div>
+          {index < items.length - 1 && <ArrowBtn direction="right" onClick={nextIndex} />}
+        </>
       )}
     </div>
   );

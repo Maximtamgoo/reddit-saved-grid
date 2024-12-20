@@ -1,3 +1,4 @@
+import ArrowLeft from "@src/svg/arrow-left.svg?react";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -35,6 +36,12 @@ export default function Dialog({ isOpen, onClose, children }: PropsWithChildren<
       className="size-full max-h-full max-w-full bg-transparent"
     >
       {children}
+      <button
+        className="absolute left-5 top-5 grid size-10 place-items-center rounded-full bg-transparent/80 text-white"
+        onClick={onClose}
+      >
+        <ArrowLeft />
+      </button>
     </dialog>,
     document.body
   );
