@@ -2,13 +2,13 @@ import Link from "@src/components/Link";
 import type { RedditItem } from "@src/schema/RedditItem";
 import { useToggleBookmark } from "@src/services/queries";
 import Bookmark from "@src/svg/bookmark.svg?react";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 type Props = {
   item: RedditItem;
 };
 
-export default function Details({ item }: Props) {
+export default memo(function Details({ item }: Props) {
   const [isImgError, setIsImgError] = useState(false);
   const { mutate, isPending } = useToggleBookmark(item.id, item.pageParam);
   const postLink = `https://www.reddit.com${item.permalink}`;
@@ -20,7 +20,7 @@ export default function Details({ item }: Props) {
   return (
     <div className="grid gap-2 p-4">
       <div className="flex min-w-0 gap-2">
-        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-slate-100">
+        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-sky-50">
           {!isImgError && <img src={icon_url} onError={() => setIsImgError(true)} />}
         </div>
         <div className="flex min-w-0 grow items-center text-slate-600">
@@ -45,4 +45,4 @@ export default function Details({ item }: Props) {
       </Link>
     </div>
   );
-}
+});

@@ -1,5 +1,5 @@
 import { RedditItem } from "@src/schema/RedditItem";
-import { useState } from "react";
+import { memo, useState } from "react";
 import Dialog from "../Modal/Dialog";
 import Modal from "../Modal/Modal";
 import Details from "./Details";
@@ -10,7 +10,7 @@ type Props = {
   item: RedditItem;
 };
 
-export default function Card({ item }: Props) {
+export default memo(function Card({ item }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -31,4 +31,4 @@ export default function Card({ item }: Props) {
       </Dialog>
     </section>
   );
-}
+});
