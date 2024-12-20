@@ -21,21 +21,23 @@ export default function Preview({ url, playable = false, galleryLength = 0, onCl
       {isError ? (
         <div className="text-8xl">?</div>
       ) : (
-        <img
-          className="max-h-full"
-          src={url}
-          onLoad={() => setLoading(false)}
-          onError={() => {
-            setIsError(true);
-            setLoading(false);
-          }}
-          alt="Reddit Content"
-        />
-      )}
-      {!isError && playable && (
-        <button className="absolute grid size-14 place-items-center rounded-full bg-sky-50 shadow-md shadow-slate-800 hover:bg-sky-100">
-          <Play className="size-10 fill-sky-500 stroke-sky-500" />
-        </button>
+        <>
+          <img
+            className="max-h-full"
+            src={url}
+            onLoad={() => setLoading(false)}
+            onError={() => {
+              setIsError(true);
+              setLoading(false);
+            }}
+            alt="Reddit Content"
+          />
+          {!loading && playable && (
+            <button className="absolute grid size-14 place-items-center rounded-full bg-sky-50 shadow-md shadow-slate-800 hover:bg-sky-100">
+              <Play className="size-10 fill-sky-500 stroke-sky-500" />
+            </button>
+          )}
+        </>
       )}
       {galleryLength > 1 && (
         <div className="absolute right-4 top-4 grid h-8 min-w-8 place-items-center rounded-lg bg-transparent/80 px-1.5 font-semibold text-white">
