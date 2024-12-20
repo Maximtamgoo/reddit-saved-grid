@@ -15,7 +15,7 @@ export default function Text({ text }: Props) {
   return (
     <div
       ref={ref}
-      className={`overflow-hidden whitespace-break-spaces break-words px-4`}
+      className="overflow-hidden whitespace-break-spaces break-words px-4"
       style={{
         display: "-webkit-box",
         WebkitBoxOrient: "vertical",
