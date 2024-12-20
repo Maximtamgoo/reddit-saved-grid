@@ -1,4 +1,4 @@
-import LoaderCircle from "@src/svg/loader-circle.svg?react";
+import FileImage from "@src/svg/file-image.svg?react";
 import Play from "@src/svg/play.svg?react";
 import { useState } from "react";
 
@@ -15,8 +15,8 @@ export default function Preview({ url, playable = false, galleryLength = 0, onCl
 
   return (
     <div
+      className="relative flex min-h-0 grow cursor-pointer items-center justify-center bg-slate-50"
       onClick={onClick}
-      className="relative flex min-h-0 grow cursor-pointer items-center justify-center bg-slate-100"
     >
       {isError ? (
         <div className="text-8xl">?</div>
@@ -32,19 +32,21 @@ export default function Preview({ url, playable = false, galleryLength = 0, onCl
           alt="Reddit Content"
         />
       )}
-      {playable && (
-        <button className="absolute z-10 grid size-14 place-items-center rounded-full bg-sky-50 shadow-md shadow-slate-800 hover:bg-sky-100">
+      {!isError && playable && (
+        <button className="absolute grid size-14 place-items-center rounded-full bg-sky-50 shadow-md shadow-slate-800 hover:bg-sky-100">
           <Play className="size-10 fill-sky-500 stroke-sky-500" />
         </button>
       )}
       {galleryLength > 1 && (
-        <div className="absolute right-4 top-2 grid h-7 min-w-8 place-items-center rounded-lg bg-sky-50 px-1.5 font-semibold shadow-inner shadow-slate-700">
+        <div className="absolute right-4 top-4 grid h-8 min-w-8 place-items-center rounded-lg bg-transparent/80 px-1.5 font-semibold text-white">
           {galleryLength}
         </div>
       )}
       {loading && (
-        <div className="absolute inset-0 grid place-items-center backdrop-blur-xl">
-          <LoaderCircle className="size-14 animate-spin rounded-full stroke-slate-200" />
+        <div className="absolute inset-0 grid place-items-center bg-slate-50">
+          <div className="grid size-full animate-pulse place-items-center bg-slate-100">
+            <FileImage className="size-14 stroke-slate-300" />
+          </div>
         </div>
       )}
     </div>
