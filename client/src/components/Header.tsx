@@ -14,19 +14,21 @@ export default function Header() {
       <span className="grow truncate text-3xl">Reddit Saved Masonry</span>
       <nav className="flex gap-2">
         <Link
-          className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"
+          className="grid size-10 place-items-center rounded-full bg-sky-50 hover:bg-sky-100"
           href={`https://www.reddit.com/user/${data?.name}/saved`}
         >
-          {isSuccess && <img className="hover:brightness-90" src={data.icon_img} />}
+          {isSuccess && (
+            <img className="size-8 rounded-full hover:bg-sky-100" src={data.icon_img} />
+          )}
         </Link>
         <Link
-          className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"
+          className="grid size-10 place-items-center rounded-full bg-sky-50 hover:bg-sky-100"
           href="https://github.com/Maximtamgoo/reddit-saved-masonry"
         >
           <Github />
         </Link>
         <button
-          className="grid size-10 place-items-center overflow-hidden rounded-full bg-slate-100 hover:bg-slate-200"
+          className="grid size-10 place-items-center rounded-full bg-sky-50 hover:bg-sky-100"
           onClick={() => mutate()}
         >
           <LogOut />
