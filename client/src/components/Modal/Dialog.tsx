@@ -3,15 +3,14 @@ import { PropsWithChildren, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
-  isOpen: boolean;
   onClose: () => void;
 };
 
-export default function Dialog({ isOpen, onClose, children }: PropsWithChildren<Props>) {
+export default function Dialog({ onClose, children }: PropsWithChildren<Props>) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (isOpen && ref.current) {
+    if (ref.current) {
       const paddingRight = document.body.style.paddingRight;
       const overflowY = document.body.style.overflowY;
       const scrollbarWidth = window.innerWidth - document.body.clientWidth + "px";
@@ -24,9 +23,7 @@ export default function Dialog({ isOpen, onClose, children }: PropsWithChildren<
         document.body.style.overflowY = overflowY;
       };
     }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
+  }, []);
 
   return createPortal(
     <dialog

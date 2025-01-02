@@ -26,9 +26,11 @@ export default memo(function Card({ item }: Props) {
         />
       )}
       {item.type === "unknown" && <div className="grid grow place-items-center text-8xl">?</div>}
-      <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <Modal item={item} />
-      </Dialog>
+      {isOpen && (
+        <Dialog onClose={() => setIsOpen(false)}>
+          <Modal item={item} />
+        </Dialog>
+      )}
     </section>
   );
 });
