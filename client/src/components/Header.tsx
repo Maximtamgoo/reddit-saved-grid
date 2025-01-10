@@ -9,8 +9,8 @@ export default function Header() {
   const { mutate } = useSignOut();
 
   return (
-    <header className="m-auto flex h-16 max-w-screen-2xl items-center pl-1 pr-3 text-slate-800">
-      <Bookmark className="size-10 shrink-0 fill-sky-500 stroke-sky-500" />
+    <header className="flex h-16 items-center text-slate-800">
+      <Bookmark className="-ml-1.5 size-10 shrink-0 fill-sky-500 stroke-sky-500" />
       <span className="grow truncate text-3xl">Reddit Saved Masonry</span>
       <nav className="flex gap-2">
         <Link

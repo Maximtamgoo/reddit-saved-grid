@@ -52,37 +52,35 @@ export default function MainPage() {
   }
 
   return (
-    <main className="m-auto max-w-screen-2xl px-2 pt-1">
-      <VirtualMasonry
-        items={redditItems}
-        minLaneWidth={375}
-        maxLanes={3}
-        gap={30}
-        overscan={20}
-        getItemKey={(index) => redditItems[index].id ?? index}
-        estimateSize={estimateSize}
-        loadMore={loadMore}
-        renderItem={(item) => <Card item={item} />}
-        renderLoader={
-          <div className="flex h-24 flex-col items-center justify-center text-lg">
-            {isError ? (
-              <>
-                Error: {error.message}
-                <button
-                  className="grid size-10 place-items-center rounded-full bg-slate-100 hover:bg-slate-200"
-                  onClick={() => fetchNextPage()}
-                >
-                  <RotateCw />
-                </button>
-              </>
-            ) : hasNextPage ? (
-              <LoaderCircle className="size-14 animate-spin" />
-            ) : (
-              "Reached the Reddit limit..."
-            )}
-          </div>
-        }
-      />
-    </main>
+    <VirtualMasonry
+      items={redditItems}
+      minLaneWidth={375}
+      maxLanes={3}
+      gap={25}
+      overscan={20}
+      getItemKey={(index) => redditItems[index].id ?? index}
+      estimateSize={estimateSize}
+      loadMore={loadMore}
+      renderItem={(item) => <Card item={item} />}
+      renderLoader={
+        <div className="flex h-24 flex-col items-center justify-center text-lg">
+          {isError ? (
+            <>
+              Error: {error.message}
+              <button
+                className="grid size-10 place-items-center rounded-full bg-slate-100 hover:bg-slate-200"
+                onClick={() => fetchNextPage()}
+              >
+                <RotateCw />
+              </button>
+            </>
+          ) : hasNextPage ? (
+            <LoaderCircle className="size-14 animate-spin" />
+          ) : (
+            "Reached the Reddit limit..."
+          )}
+        </div>
+      }
+    />
   );
 }

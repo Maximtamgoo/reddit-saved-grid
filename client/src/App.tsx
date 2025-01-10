@@ -10,9 +10,9 @@ export default function App() {
   if (isError) return <LoginPage />;
 
   return (
-    <>
+    <main className="m-auto max-w-screen-2xl pl-3 pr-3.5">
       <Header />
       <MainPage />
-    </>
+    </main>
   );
 }
