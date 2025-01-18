@@ -20,7 +20,7 @@ export default memo(function Details({ item }: Props) {
   return (
     <div className="grid gap-2 p-4">
       <div className="flex min-w-0 gap-2">
-        <div className="size-8 shrink-0 overflow-hidden rounded-full bg-sky-50">
+        <div className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full bg-sky-50">
           {!isImgError && <img src={icon_url} onError={() => setIsImgError(true)} />}
         </div>
         <div className="flex min-w-0 grow items-center text-slate-600">
